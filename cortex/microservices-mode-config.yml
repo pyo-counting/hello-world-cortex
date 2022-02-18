@@ -1,0 +1,1610 @@
+# Comma-separated list of Cortex modules to load. The alias 'all' can be used in
+# the list to load a number of core modules and will enable single-binary mode.
+# Use '-modules' command line flag to get a list of available modules, and to
+# see which modules are included in 'all'.
+# CLI flag: -target
+target: "distributor,ingester,querier,query-frontend,table-manager"
+
+# Set to false to disable auth.
+# CLI flag: -auth.enabled
+auth_enabled: true
+
+# HTTP path prefix for Cortex API.
+# CLI flag: -http.prefix
+http_prefix: "/api/prom"
+
+api:
+  # Use GZIP compression for API responses. Some endpoints serve large YAML or
+  # JSON blobs which can benefit from compression.
+  # CLI flag: -api.response-compression-enabled
+  response_compression_enabled: false
+  
+  # HTTP URL path under which the Alertmanager ui and api will be served.
+  # CLI flag: -http.alertmanager-http-prefix
+  # alertmanager_http_prefix: "/alertmanager"
+  
+  # HTTP URL path under which the Prometheus api will be served.
+  # CLI flag: -http.prometheus-http-prefix
+  prometheus_http_prefix: "/prometheus"
+  
+# The server_config configures the HTTP and gRPC server of the launched
+# service(s).
+server:
+  # HTTP server listen network, default tcp
+  # CLI flag: -server.http-listen-network
+  http_listen_network: "tcp"
+  
+  # HTTP server listen address.
+  # CLI flag: -server.http-listen-address
+  http_listen_address: ""
+  
+  # HTTP server listen port.
+  # CLI flag: -server.http-listen-port
+  http_listen_port: 9009
+  
+  # Maximum number of simultaneous http connections, <=0 to disable
+  # CLI flag: -server.http-conn-limit
+  http_listen_conn_limit: 0
+  
+  # gRPC server listen network
+  # CLI flag: -server.grpc-listen-network
+  grpc_listen_network: "tcp"
+  
+  # gRPC server listen address.
+  # CLI flag: -server.grpc-listen-address
+  grpc_listen_address: ""
+  
+  # gRPC server listen port.
+  # CLI flag: -server.grpc-listen-port
+  grpc_listen_port: 9095
+  
+  # Maximum number of simultaneous grpc connections, <=0 to disable
+  # CLI flag: -server.grpc-conn-limit
+  grpc_listen_conn_limit: 0
+  
+  # http_tls_config:
+    # HTTP server cert path.
+    # CLI flag: -server.http-tls-cert-path
+    # cert_file: ""
+    
+    # HTTP server key path.
+    # CLI flag: -server.http-tls-key-path
+    # key_file: ""
+    
+    # HTTP TLS Client Auth type.
+    # CLI flag: -server.http-tls-client-auth
+    # client_auth_type: ""
+    
+    # HTTP TLS Client CA path.
+    # CLI flag: -server.http-tls-ca-path
+    # client_ca_file: ""
+    
+  # grpc_tls_config:
+    # GRPC TLS server cert path.
+    # CLI flag: -server.grpc-tls-cert-path
+    # cert_file: ""
+    
+    # GRPC TLS server key path.
+    # CLI flag: -server.grpc-tls-key-path
+    # key_file: ""
+    
+    # GRPC TLS Client Auth type.
+    # CLI flag: -server.grpc-tls-client-auth
+    # client_auth_type: ""
+    
+    # GRPC TLS Client CA path.
+    # CLI flag: -server.grpc-tls-ca-path
+    # client_ca_file: ""
+    
+  # Register the intrumentation handlers (/metrics etc).
+  # CLI flag: -server.register-instrumentation
+  register_instrumentation: true
+  
+  # Timeout for graceful shutdowns
+  # CLI flag: -server.graceful-shutdown-timeout
+  graceful_shutdown_timeout: 30s
+  
+  # Read timeout for HTTP server
+  # CLI flag: -server.http-read-timeout
+  http_server_read_timeout: 30s
+  
+  # Write timeout for HTTP server
+  # CLI flag: -server.http-write-timeout
+  http_server_write_timeout: 30s
+  
+  # Idle timeout for HTTP server
+  # CLI flag: -server.http-idle-timeout
+  http_server_idle_timeout: 2m
+  
+  # Limit on the size of a gRPC message this server can receive (bytes).
+  # CLI flag: -server.grpc-max-recv-msg-size-bytes
+  grpc_server_max_recv_msg_size: 4194304
+  
+  # Limit on the size of a gRPC message this server can send (bytes).
+  # CLI flag: -server.grpc-max-send-msg-size-bytes
+  grpc_server_max_send_msg_size: 4194304
+  
+  # Limit on the number of concurrent streams for gRPC calls (0 = unlimited)
+  # CLI flag: -server.grpc-max-concurrent-streams
+  grpc_server_max_concurrent_streams: 100
+  
+  # The duration after which an idle connection should be closed. Default: infinity
+  # CLI flag: -server.grpc.keepalive.max-connection-idle
+  grpc_server_max_connection_idle: 2562047h47m16.854775807s
+  
+  # The duration for the maximum amount of time a connection may exist before it
+  # will be closed. Default: infinity
+  # CLI flag: -server.grpc.keepalive.max-connection-age
+  grpc_server_max_connection_age: 2562047h47m16.854775807s
+  
+  # An additive period after max-connection-age after which the connection will be
+  # forcibly closed. Default: infinity
+  # CLI flag: -server.grpc.keepalive.max-connection-age-grace
+  grpc_server_max_connection_age_grace: 2562047h47m16.854775807s
+  
+  # Duration after which a keepalive probe is sent in case of no activity over the
+  # connection., Default: 2h
+  # CLI flag: -server.grpc.keepalive.time
+  grpc_server_keepalive_time: 2h
+  
+  # After having pinged for keepalive check, the duration after which an idle
+  # connection should be closed, Default: 20s
+  # CLI flag: -server.grpc.keepalive.timeout
+  grpc_server_keepalive_timeout: 20s
+  
+  # Minimum amount of time a client should wait before sending a keepalive ping.
+  # If client sends keepalive ping more often, server will send GOAWAY and close
+  # the connection.
+  # CLI flag: -server.grpc.keepalive.min-time-between-pings
+  grpc_server_min_time_between_pings: 10s
+  
+  # If true, server allows keepalive pings even when there are no active
+  # streams(RPCs). If false, and client sends ping when there are no active
+  # streams, server will send GOAWAY and close the connection.
+  # CLI flag: -server.grpc.keepalive.ping-without-stream-allowed
+  grpc_server_ping_without_stream_allowed: true
+  
+  # Output log messages in the given format. Valid formats: [logfmt, json]
+  # CLI flag: -log.format
+  log_format: "logfmt"
+  
+  # Only log messages with the given severity or above. Valid levels: [debug,
+  # info, warn, error]
+  # CLI flag: -log.level
+  log_level: "info"
+  
+  # Optionally log the source IPs.
+  # CLI flag: -server.log-source-ips-enabled
+  log_source_ips_enabled: false
+  
+  # Header field storing the source IPs. Only used if
+  # server.log-source-ips-enabled is true. If not set the default Forwarded,
+  # X-Real-IP and X-Forwarded-For headers are used
+  # CLI flag: -server.log-source-ips-header
+  # log_source_ips_header: ""
+  
+  # Regex for matching the source IPs. Only used if server.log-source-ips-enabled
+  # is true. If not set the default Forwarded, X-Real-IP and X-Forwarded-For
+  # headers are used
+  # CLI flag: -server.log-source-ips-regex
+  # log_source_ips_regex: ""
+  
+  # Base path to serve all API routes from (e.g. /v1/)
+  # CLI flag: -server.path-prefix
+  http_path_prefix: ""
+  
+# The distributor_config configures the Cortex distributor.
+distributor:
+  pool:
+    # How frequently to clean up clients for ingesters that have gone away.
+    # CLI flag: -distributor.client-cleanup-period
+    client_cleanup_period: 10s
+    
+    # Run a health check on each ingester client during periodic cleanup.
+    # CLI flag: -distributor.health-check-ingesters
+    health_check_ingesters: true
+    
+  ha_tracker:
+    # Enable the distributors HA tracker so that it can accept samples from
+    # Prometheus HA replicas gracefully (requires labels).
+    # CLI flag: -distributor.ha-tracker.enable
+    enable_ha_tracker: true
+    
+    # Update the timestamp in the KV store for a given cluster/replica only after
+    # this amount of time has passed since the current stored timestamp.
+    # CLI flag: -distributor.ha-tracker.update-timeout
+    ha_tracker_update_timeout: 10s
+    
+    # Maximum jitter applied to the update timeout, in order to spread the HA
+    # heartbeats over time.
+    # CLI flag: -distributor.ha-tracker.update-timeout-jitter-max
+    ha_tracker_update_timeout_jitter_max: 5s
+    
+    # If we don't receive any samples from the accepted replica for a cluster in
+    # this amount of time we will failover to the next replica we receive a sample
+    # from. This value must be greater than the update timeout
+    # CLI flag: -distributor.ha-tracker.failover-timeout
+    ha_tracker_failover_timeout: 30s
+    
+    # Backend storage to use for the ring. Please be aware that memberlist is not
+    # supported by the HA tracker since gossip propagation is too slow for HA
+    # purposes.
+    kvstore:
+      # Backend storage to use for the ring. Supported values are: consul, etcd,
+      # inmemory, memberlist, multi.
+      # CLI flag: -distributor.ha-tracker.store
+      store: "consul"
+      
+      # The prefix for the keys in the store. Should end with a /.
+      # CLI flag: -distributor.ha-tracker.prefix
+      prefix: "ha-tracker/"
+      
+      # The consul_config configures the consul client.
+      # The CLI flags prefix for this block config is: distributor.ha-tracker
+      consul:
+        # Hostname and port of Consul.
+        # CLI flag: -<prefix>.consul.hostname
+        host: "monitoring_stack_consul:8500"
+        
+        # ACL Token used to interact with Consul.
+        # CLI flag: -<prefix>.consul.acl-token
+        acl_token: ""
+        
+        # HTTP timeout when talking to Consul
+        # CLI flag: -<prefix>.consul.client-timeout
+        http_client_timeout: 15s
+        
+        # Enable consistent reads to Consul.
+        # CLI flag: -<prefix>.consul.consistent-reads
+        consistent_reads: false
+        
+        # Rate limit when watching key or prefix in Consul, in requests per second. 0
+        # disables the rate limit.
+        # CLI flag: -<prefix>.consul.watch-rate-limit
+        watch_rate_limit: 1
+        
+        # Burst size used in rate limit. Values less than 1 are treated as 1.
+        # CLI flag: -<prefix>.consul.watch-burst-size
+        watch_burst_size: 1
+        
+  # remote_write API max receive message size (bytes).
+  # CLI flag: -distributor.max-recv-msg-size
+  max_recv_msg_size: 104857600
+  
+  # Timeout for downstream ingesters.
+  # CLI flag: -distributor.remote-timeout
+  remote_timeout: 2s
+  
+  # Time to wait before sending more than the minimum successful query requests.
+  # CLI flag: -distributor.extra-query-delay
+  extra_queue_delay: 0s
+  
+  # The sharding strategy to use. Supported values are: default, shuffle-sharding.
+  # CLI flag: -distributor.sharding-strategy
+  sharding_strategy: "default"
+  
+  # Distribute samples based on all labels, as opposed to solely by user and
+  # metric name.
+  # CLI flag: -distributor.shard-by-all-labels
+  shard_by_all_labels: true
+  
+  # Try writing to an additional ingester in the presence of an ingester not in
+  # the ACTIVE state. It is useful to disable this along with
+  # -ingester.unregister-on-shutdown=false in order to not spread samples to extra
+  # ingesters during rolling restarts with consistent naming.
+  # CLI flag: -distributor.extend-writes
+  extend_writes: false
+  
+  ring:
+    kvstore:
+      # Backend storage to use for the ring. Supported values are: consul, etcd,
+      # inmemory, memberlist, multi.
+      # CLI flag: -distributor.ring.store
+      store: "consul"
+      
+      # The prefix for the keys in the store. Should end with a /.
+      # CLI flag: -distributor.ring.prefix
+      prefix: "collectors/"
+      
+      # The consul_config configures the consul client.
+      # The CLI flags prefix for this block config is: distributor.ring
+      consul:
+        # Hostname and port of Consul.
+        # CLI flag: -<prefix>.consul.hostname
+        host: "monitoring_stack_consul:8500"
+        
+        # ACL Token used to interact with Consul.
+        # CLI flag: -<prefix>.consul.acl-token
+        acl_token: ""
+        
+        # HTTP timeout when talking to Consul
+        # CLI flag: -<prefix>.consul.client-timeout
+        http_client_timeout: 15s
+        
+        # Enable consistent reads to Consul.
+        # CLI flag: -<prefix>.consul.consistent-reads
+        consistent_reads: false
+        
+        # Rate limit when watching key or prefix in Consul, in requests per second. 0
+        # disables the rate limit.
+        # CLI flag: -<prefix>.consul.watch-rate-limit
+        watch_rate_limit: 1
+        
+        # Burst size used in rate limit. Values less than 1 are treated as 1.
+        # CLI flag: -<prefix>.consul.watch-burst-size
+        watch_burst_size: 1
+        
+    # Period at which to heartbeat to the ring. 0 = disabled.
+    # CLI flag: -distributor.ring.heartbeat-period
+    heartbeat_period: 5s
+    
+    # The heartbeat timeout after which distributors are considered unhealthy
+    # within the ring. 0 = never (timeout disabled).
+    # CLI flag: -distributor.ring.heartbeat-timeout
+    heartbeat_timeout: 20s
+    
+    # Name of network interface to read address from.
+    # CLI flag: -distributor.ring.instance-interface-names
+    instance_interface_names: [eth1]
+    
+  instance_limits:
+    # Max ingestion rate (samples/sec) that this distributor will accept. This
+    # limit is per-distributor, not per-tenant. Additional push requests will be
+    # rejected. Current ingestion rate is computed as exponentially weighted
+    # moving average, updated every second. 0 = unlimited.
+    # CLI flag: -distributor.instance-limits.max-ingestion-rate
+    max_ingestion_rate: 0
+    
+    # Max inflight push requests that this distributor can handle. This limit is
+    # per-distributor, not per-tenant. Additional requests will be rejected. 0 =
+    # unlimited.
+    # CLI flag: -distributor.instance-limits.max-inflight-push-requests
+    max_inflight_push_requests: 0
+    
+# The querier_config configures the Cortex querier.
+querier:
+  # The maximum number of concurrent queries.
+  # CLI flag: -querier.max-concurrent
+  max_concurrent: 20
+  
+  # The timeout for a query.
+  # CLI flag: -querier.timeout
+  timeout: 1m
+  
+  # Use iterators to execute query, as opposed to fully materialising the series
+  # in memory.
+  # CLI flag: -querier.iterators
+  iterators: true
+  
+  # Use batch iterators to execute query, as opposed to fully materialising the
+  # series in memory.  Takes precedent over the -querier.iterators flag.
+  # CLI flag: -querier.batch-iterators
+  batch_iterators: true
+  
+  # Use streaming RPCs to query ingester.
+  # CLI flag: -querier.ingester-streaming
+  ingester_streaming: true
+  
+  # Maximum number of samples a single query can load into memory.
+  # CLI flag: -querier.max-samples
+  max_samples: 5000000
+  
+  # Maximum lookback beyond which queries are not sent to ingester. 0 means all
+  # queries are sent to ingester.
+  # CLI flag: -querier.query-ingesters-within
+  query_ingesters_within: 12h
+  
+  # Enable the @ modifier in PromQL.
+  # CLI flag: -querier.at-modifier-enabled
+  at_modifier_enabled: false
+  
+  # The time after which a metric should be queried from storage and not just
+  # ingesters. 0 means all queries are sent to store. When running the blocks
+  # storage, if this option is enabled, the time range of the query sent to the
+  # store will be manipulated to ensure the query end is not more recent than 'now
+  # - query-store-after'.
+  # CLI flag: -querier.query-store-after
+  query_store_after: 0s
+  
+  # Maximum duration into the future you can query. 0 to disable.
+  # CLI flag: -querier.max-query-into-future
+  max_query_into_future: 10m
+  
+  # The default evaluation interval or step size for subqueries.
+  # CLI flag: -querier.default-evaluation-interval
+  default_evaluation_interval: 1m
+  
+  # Active query tracker monitors active queries, and writes them to the file in
+  # given directory. If Cortex discovers any queries in this log during startup,
+  # it will log them to the log file. Setting to empty value disables active query
+  # tracker, which also disables -querier.max-concurrent option.
+  # CLI flag: -querier.active-query-tracker-dir
+  active_query_tracker_dir: "./active-query-tracker"
+  
+  # Time since the last sample after which a time series is considered stale and
+  # ignored by expression evaluations.
+  # CLI flag: -querier.lookback-delta
+  lookback_delta: 5m
+  
+  # Second store engine to use for querying. Empty = disabled.
+  # CLI flag: -querier.second-store-engine
+  # second_store_engine: ""
+  
+  # If specified, second store is only used for queries before this timestamp.
+  # Default value 0 means secondary store is always queried.
+  # CLI flag: -querier.use-second-store-before-time
+  # [use_second_store_before_time: <time> | default = 0]
+  
+  # When distributor's sharding strategy is shuffle-sharding and this setting is >
+  # 0, queriers fetch in-memory series from the minimum set of required ingesters,
+  # selecting only ingesters which may have received series since 'now - lookback
+  # period'. The lookback period should be greater or equal than the configured
+  # 'query store after' and 'query ingesters within'. If this setting is 0,
+  # queriers always query all ingesters (ingesters shuffle sharding on read path
+  # is disabled).
+  # CLI flag: -querier.shuffle-sharding-ingesters-lookback-period
+  # [shuffle_sharding_ingesters_lookback_period: <duration> | default = 0s]
+  
+# The ingester_client_config configures how the Cortex distributors connect to
+# the ingesters.
+ingester_client:
+  grpc_client_config:
+    # gRPC client max receive message size (bytes).
+    # CLI flag: -ingester.client.grpc-max-recv-msg-size
+    max_recv_msg_size: 104857600
+    
+    # gRPC client max send message size (bytes).
+    # CLI flag: -ingester.client.grpc-max-send-msg-size
+    max_send_msg_size: 16777216
+    
+    # Use compression when sending messages. Supported values are: 'gzip',
+    # 'snappy' and '' (disable compression)
+    # CLI flag: -ingester.client.grpc-compression
+    grpc_compression: ""
+    
+    # Rate limit for gRPC client; 0 means disabled.
+    # CLI flag: -ingester.client.grpc-client-rate-limit
+    rate_limit: 0
+    
+    # Rate limit burst for gRPC client.
+    # CLI flag: -ingester.client.grpc-client-rate-limit-burst
+    rate_limit_burst: 0
+    
+    # Enable backoff and retry when we hit ratelimits.
+    # CLI flag: -ingester.client.backoff-on-ratelimits
+    backoff_on_ratelimits: false
+    
+    # backoff_config:
+      # Minimum delay when backing off.
+      # CLI flag: -ingester.client.backoff-min-period
+      # [min_period: <duration> | default = 100ms]
+      
+      # Maximum delay when backing off.
+      # CLI flag: -ingester.client.backoff-max-period
+      # [max_period: <duration> | default = 10s]
+      
+      # Number of times to backoff and retry before failing.
+      # CLI flag: -ingester.client.backoff-retries
+      # [max_retries: <int> | default = 10]
+      
+    # Enable TLS in the GRPC client. This flag needs to be enabled when any other
+    # TLS flag is set. If set to false, insecure connection to gRPC server will be
+    # used.
+    # CLI flag: -ingester.client.tls-enabled
+    tls_enabled: false
+    
+    # Path to the client certificate file, which will be used for authenticating
+    # with the server. Also requires the key path to be configured.
+    # CLI flag: -ingester.client.tls-cert-path
+    # tls_cert_path: ""
+    
+    # Path to the key file for the client certificate. Also requires the client
+    # certificate to be configured.
+    # CLI flag: -ingester.client.tls-key-path
+    # tls_key_path: ""
+    
+    # Path to the CA certificates file to validate server certificate against. If
+    # not set, the host's root CA certificates are used.
+    # CLI flag: -ingester.client.tls-ca-path
+    # tls_ca_path: ""
+    
+    # Override the expected name on the server certificate.
+    # CLI flag: -ingester.client.tls-server-name
+    # tls_server_name: ""
+    
+    # Skip validating server certificate.
+    # CLI flag: -ingester.client.tls-insecure-skip-verify
+    # tls_insecure_skip_verify: false
+    
+# The ingester_config configures the Cortex ingester.
+ingester:
+  # Configures the Write-Ahead Log (WAL) for the Cortex chunks storage. This
+  # config is ignored when running the Cortex blocks storage.
+  walconfig:
+    # Enable writing of ingested data into WAL.
+    # CLI flag: -ingester.wal-enabled
+    wal_enabled: false
+    
+    # Enable checkpointing of in-memory chunks. It should always be true when
+    # using normally. Set it to false iff you are doing some small tests as there
+    # is no mechanism to delete the old WAL yet if checkpoint is disabled.
+    # CLI flag: -ingester.checkpoint-enabled
+    # checkpoint_enabled: true
+    
+    # Recover data from existing WAL irrespective of WAL enabled/disabled.
+    # CLI flag: -ingester.recover-from-wal
+    # recover_from_wal: false
+    
+    # Directory to store the WAL and/or recover from WAL.
+    # CLI flag: -ingester.wal-dir
+    # wal_dir: "wal"
+    
+    # Interval at which checkpoints should be created.
+    # CLI flag: -ingester.checkpoint-duration
+    # checkpoint_duration: 30m
+    
+    # When WAL is enabled, should chunks be flushed to long-term storage on
+    # shutdown. Useful eg. for migration to blocks engine.
+    # CLI flag: -ingester.flush-on-shutdown-with-wal-enabled
+    # flush_on_shutdown_with_wal_enabled: false
+  
+  lifecycler:
+    ring:
+      kvstore:
+        # Backend storage to use for the ring. Supported values are: consul, etcd,
+        # inmemory, memberlist, multi.
+        # CLI flag: -ring.store
+        store: "consul"
+        
+        # The prefix for the keys in the store. Should end with a /.
+        # CLI flag: -ring.prefix
+        prefix: "collectors/"
+        
+        # The consul_config configures the consul client.
+        consul:
+          # Hostname and port of Consul.
+          # CLI flag: -<prefix>.consul.hostname
+          host: "monitoring_stack_consul:8500"
+          
+          # ACL Token used to interact with Consul.
+          # CLI flag: -<prefix>.consul.acl-token
+          acl_token: ""
+          
+          # HTTP timeout when talking to Consul
+          # CLI flag: -<prefix>.consul.client-timeout
+          http_client_timeout: 15s
+          
+          # Enable consistent reads to Consul.
+          # CLI flag: -<prefix>.consul.consistent-reads
+          consistent_reads: false
+          
+          # Rate limit when watching key or prefix in Consul, in requests per second. 0
+          # disables the rate limit.
+          # CLI flag: -<prefix>.consul.watch-rate-limit
+          watch_rate_limit: 1
+          
+          # Burst size used in rate limit. Values less than 1 are treated as 1.
+          # CLI flag: -<prefix>.consul.watch-burst-size
+          watch_burst_size: 1
+          
+      # The heartbeat timeout after which ingesters are skipped for reads/writes.
+      # 0 = never (timeout disabled).
+      # CLI flag: -ring.heartbeat-timeout
+      heartbeat_timeout: 20s
+      
+      # The number of ingesters to write to and read from.
+      # CLI flag: -distributor.replication-factor
+      replication_factor: 2
+  
+      # True to enable the zone-awareness and replicate ingested samples across
+      # different availability zones.
+      # CLI flag: -distributor.zone-awareness-enabled
+      zone_awareness_enabled: false
+      
+      # Comma-separated list of zones to exclude from the ring. Instances in
+      # excluded zones will be filtered out from the ring.
+      # CLI flag: -distributor.excluded-zones
+      # excluded_zones: ""
+      
+    # Number of tokens for each ingester.
+    # CLI flag: -ingester.num-tokens
+    num_tokens: 128
+    
+    # Period at which to heartbeat to consul. 0 = disabled.
+    # CLI flag: -ingester.heartbeat-period
+    heartbeat_period: 5s
+    
+    # Observe tokens after generating to resolve collisions. Useful when using
+    # gossiping ring.
+    # CLI flag: -ingester.observe-period
+    # observe_period: 0s
+    
+    # Period to wait for a claim from another member; will join automatically
+    # after this.
+    # CLI flag: -ingester.join-after
+    join_after: 0s
+    
+    # Minimum duration to wait after the internal readiness checks have passed but
+    # before succeeding the readiness endpoint. This is used to slowdown
+    # deployment controllers (eg. Kubernetes) after an instance is ready and
+    # before they proceed with a rolling update, to give the rest of the cluster
+    # instances enough time to receive ring updates.
+    # CLI flag: -ingester.min-ready-duration
+    min_ready_duration: 15s
+    
+    # Name of network interface to read address from.
+    # CLI flag: -ingester.lifecycler.interface
+    interface_names: [eth1]
+  
+    # Duration to sleep for before exiting, to ensure metrics are scraped.
+    # CLI flag: -ingester.final-sleep
+    final_sleep: 30s
+    
+    # File path where tokens are stored. If empty, tokens are not stored at
+    # shutdown and restored at startup.
+    # CLI flag: -ingester.tokens-file-path
+    tokens_file_path: ""
+    
+    # The availability zone where this instance is running.
+    # CLI flag: -ingester.availability-zone
+    # availability_zone: ""
+    
+    # Unregister from the ring upon clean shutdown. It can be useful to disable
+    # for rolling restarts with consistent naming in conjunction with
+    # -distributor.extend-writes=false.
+    # CLI flag: -ingester.unregister-on-shutdown
+    unregister_on_shutdown: true
+    
+    # When enabled the readiness probe succeeds only after all instances are
+    # ACTIVE and healthy in the ring, otherwise only the instance itself is
+    # checked. This option should be disabled if in your cluster multiple
+    # instances can be rolled out simultaneously, otherwise rolling updates may be
+    # slowed down.
+    # CLI flag: -ingester.readiness-check-ring-health
+    # readiness_check_ring_health: true
+    
+  # Number of times to try and transfer chunks before falling back to flushing.
+  # Negative value or zero disables hand-over. This feature is supported only by
+  # the chunks storage.
+  # CLI flag: -ingester.max-transfer-retries
+  max_transfer_retries: 0
+  
+  # Period with which to attempt to flush chunks.
+  # CLI flag: -ingester.flush-period
+  flush_period: 1m
+  
+  # Period chunks will remain in memory after flushing.
+  # CLI flag: -ingester.retain-period
+  retain_period: 5m
+  
+  # Maximum chunk idle time before flushing.
+  # CLI flag: -ingester.max-chunk-idle
+  max_chunk_idle_time: 5m
+  
+  # Maximum chunk idle time for chunks terminating in stale markers before
+  # flushing. 0 disables it and a stale series is not flushed until the
+  # max-chunk-idle timeout is reached.
+  # CLI flag: -ingester.max-stale-chunk-idle
+  max_stale_chunk_idle_time: 2m
+  
+  # Timeout for individual flush operations.
+  # CLI flag: -ingester.flush-op-timeout
+  flush_op_timeout: 1m
+  
+  # Maximum chunk age before flushing.
+  # CLI flag: -ingester.max-chunk-age
+  max_chunk_age: 12h
+  
+  # Range of time to subtract from -ingester.max-chunk-age to spread out flushes
+  # CLI flag: -ingester.chunk-age-jitter
+  chunk_age_jitter: 0s
+  
+  # Number of concurrent goroutines flushing to dynamodb.
+  # CLI flag: -ingester.concurrent-flushes
+  concurrent_flushes: 50
+  
+  # If true, spread series flushes across the whole period of
+  # -ingester.max-chunk-age.
+  # CLI flag: -ingester.spread-flushes
+  spread_flushes: true
+  
+  # Period at which metadata we have not seen will remain in memory before being
+  # deleted.
+  # CLI flag: -ingester.metadata-retain-period
+  metadata_retain_period: 10m
+  
+  # Period with which to update the per-user ingestion rates.
+  # CLI flag: -ingester.rate-update-period
+  rate_update_period: 15s
+  
+  # Enable tracking of active series and export them as metrics.
+  # CLI flag: -ingester.active-series-metrics-enabled
+  active_series_metrics_enabled: true
+  
+  # How often to update active series metrics.
+  # CLI flag: -ingester.active-series-metrics-update-period
+  active_series_metrics_update_period: 1m
+  
+  # After what time a series is considered to be inactive.
+  # CLI flag: -ingester.active-series-metrics-idle-timeout
+  active_series_metrics_idle_timeout: 10m
+  
+  instance_limits:
+    # Max ingestion rate (samples/sec) that ingester will accept. This limit is
+    # per-ingester, not per-tenant. Additional push requests will be rejected.
+    # Current ingestion rate is computed as exponentially weighted moving average,
+    # updated every second. This limit only works when using blocks engine. 0 =
+    # unlimited.
+    # CLI flag: -ingester.instance-limits.max-ingestion-rate
+    max_ingestion_rate: 0
+    
+    # Max users that this ingester can hold. Requests from additional users will
+    # be rejected. This limit only works when using blocks engine. 0 = unlimited.
+    # CLI flag: -ingester.instance-limits.max-tenants
+    max_tenants: 0
+    
+    # Max series that this ingester can hold (across all tenants). Requests to
+    # create additional series will be rejected. This limit only works when using
+    # blocks engine. 0 = unlimited.
+    # CLI flag: -ingester.instance-limits.max-series
+    max_series: 0
+    
+    # Max inflight push requests that this ingester can handle (across all
+    # tenants). Additional requests will be rejected. 0 = unlimited.
+    # CLI flag: -ingester.instance-limits.max-inflight-push-requests
+    max_inflight_push_requests: 0
+    
+  # Comma-separated list of metric names, for which
+  # -ingester.max-series-per-metric and -ingester.max-global-series-per-metric
+  # limits will be ignored. Does not affect max-series-per-user or
+  # max-global-series-per-metric limits.
+  # CLI flag: -ingester.ignore-series-limit-for-metric-names
+  ignore_series_limit_for_metric_names: ""
+  
+# The flusher_config configures the WAL flusher target, used to manually run
+# one-time flushes when scaling down ingesters.
+# flusher:
+  # Directory to read WAL from (chunks storage engine only).
+  # CLI flag: -flusher.wal-dir
+  # wal_dir: "wal"
+  
+  # Number of concurrent goroutines flushing to storage (chunks storage engine
+  # only).
+  # CLI flag: -flusher.concurrent-flushes
+  # concurrent_flushes: 50
+  
+  # Timeout for individual flush operations (chunks storage engine only).
+  # CLI flag: -flusher.flush-op-timeout
+  # flush_op_timeout: 2m
+  
+  # Stop Cortex after flush has finished. If false, Cortex process will keep
+  # running, doing nothing.
+  # CLI flag: -flusher.exit-after-flush
+  # exit_after_flush: true
+  
+# The storage_config configures where Cortex stores the data (chunks storage
+# engine).
+storage:
+  # The storage engine to use: chunks (deprecated) or blocks.
+  # CLI flag: -store.engine
+  engine: "chunks"
+  
+  cassandra:
+    # Comma-separated hostnames or IPs of Cassandra instances.
+    # CLI flag: -cassandra.addresses
+    addresses: "monitoring_stack_cassandra"
+    
+    # Port that Cassandra is running on
+    # CLI flag: -cassandra.port
+    port: 9042
+    
+    # Keyspace to use in Cassandra.
+    # CLI flag: -cassandra.keyspace
+    keyspace: "cortex"
+    
+    # Consistency level for Cassandra.
+    # CLI flag: -cassandra.consistency
+    consistency: "QUORUM"
+    
+    # Replication factor to use in Cassandra.
+    # CLI flag: -cassandra.replication-factor
+    replication_factor: 1
+    
+    # Instruct the cassandra driver to not attempt to get host info from the
+    # system.peers table.
+    # CLI flag: -cassandra.disable-initial-host-lookup
+    disable_initial_host_lookup: false
+    
+    # Use SSL when connecting to cassandra instances.
+    # CLI flag: -cassandra.ssl
+    SSL: false
+    
+    # Require SSL certificate validation.
+    # CLI flag: -cassandra.host-verification
+    # host_verification: true
+    
+    # Policy for selecting Cassandra host. Supported values are: round-robin,
+    # token-aware.
+    # CLI flag: -cassandra.host-selection-policy
+    host_selection_policy: "round-robin"
+    
+    # Path to certificate file to verify the peer.
+    # CLI flag: -cassandra.ca-path
+    # CA_path: ""
+    
+    # Path to certificate file used by TLS.
+    # CLI flag: -cassandra.tls-cert-path
+    # tls_cert_path: ""
+    
+    # Path to private key file used by TLS.
+    # CLI flag: -cassandra.tls-key-path
+    # tls_key_path: ""
+    
+    # Enable password authentication when connecting to cassandra.
+    # CLI flag: -cassandra.auth
+    auth: false
+    
+    # Username to use when connecting to cassandra.
+    # CLI flag: -cassandra.username
+    username: ""
+    
+    # Password to use when connecting to cassandra.
+    # CLI flag: -cassandra.password
+    password: ""
+    
+    # File containing password to use when connecting to cassandra.
+    # CLI flag: -cassandra.password-file
+    password_file: ""
+    
+    # If set, when authenticating with cassandra a custom authenticator will be
+    # expected during the handshake. This flag can be set multiple times.
+    # CLI flag: -cassandra.custom-authenticator
+    custom_authenticators: []
+    
+    # Timeout when connecting to cassandra.
+    # CLI flag: -cassandra.timeout
+    timeout: 5s
+    
+    # Initial connection timeout, used during initial dial to server.
+    # CLI flag: -cassandra.connect-timeout
+    connect_timeout: 5s
+    
+    # Interval to retry connecting to cassandra nodes marked as DOWN.
+    # CLI flag: -cassandra.reconnent-interval
+    reconnect_interval: 1s
+    
+    # Number of retries to perform on a request. Set to 0 to disable retries.
+    # CLI flag: -cassandra.max-retries
+    max_retries: 10
+    
+    # Maximum time to wait before retrying a failed request.
+    # CLI flag: -cassandra.retry-max-backoff
+    retry_max_backoff: 10s
+    
+    # Minimum time to wait before retrying a failed request.
+    # CLI flag: -cassandra.retry-min-backoff
+    retry_min_backoff: 100ms
+    
+    # Limit number of concurrent queries to Cassandra. Set to 0 to disable the
+    # limit.
+    # CLI flag: -cassandra.query-concurrency
+    query_concurrency: 0
+    
+    # Number of TCP connections per host.
+    # CLI flag: -cassandra.num-connections
+    num_connections: 2
+    
+    # Convict hosts of being down on failure.
+    # CLI flag: -cassandra.convict-hosts-on-failure
+    convict_hosts_on_failure: true
+    
+    # Table options used to create index or chunk tables. This value is used as
+    # plain text in the table `WITH` like this, "CREATE TABLE
+    # <generated_by_cortex> (...) WITH <cassandra.table-options>". For details,
+    # see https://cortexmetrics.io/docs/production/cassandra. By default it will
+    # use the default table options of your Cassandra cluster.
+    # CLI flag: -cassandra.table-options
+    table_options: ""
+    
+  # Cache validity for active index entries. Should be no higher than
+  # -ingester.max-chunk-idle.
+  # CLI flag: -store.index-cache-validity
+  index_cache_validity: 5m
+  
+  index_queries_cache_config:
+    # Cache config for index entry reading. Enable in-memory cache.
+    # CLI flag: -store.index-cache-read.cache.enable-fifocache
+    enable_fifocache: false
+    
+    # Cache config for index entry reading. The default validity of entries for
+    # caches unless overridden.
+    # CLI flag: -store.index-cache-read.default-validity
+    default_validity: 0s
+    
+    background:
+      # Cache config for index entry reading. At what concurrency to write back to
+      # cache.
+      # CLI flag: -store.index-cache-read.background.write-back-concurrency
+      writeback_goroutines: 10
+      
+      # Cache config for index entry reading. How many key batches to buffer for
+      # CLI flag: -store.index-cache-read.background.write-back-buffer
+      # background write-back.
+      writeback_buffer: 10000
+      
+  delete_store:
+    # Store for keeping delete request
+    # CLI flag: -deletes.store
+    store: "cassandra"
+  
+    # Name of the table which stores delete requests
+    # CLI flag: -deletes.requests-table-name
+    requests_table_name: "delete_requests"
+    
+# The chunk_store_config configures how Cortex stores the data (chunks storage
+# engine).
+# chunk_store:
+
+# The limits_config configures default and per-tenant limits imposed by Cortex
+# services (ie. distributor, ingester, ...).
+limits:
+  # Per-user ingestion rate limit in samples per second.
+  # CLI flag: -distributor.ingestion-rate-limit
+  ingestion_rate: 25000
+  
+  # Whether the ingestion rate limit should be applied individually to each
+  # distributor instance (local), or evenly shared across the cluster (global).
+  # CLI flag: -distributor.ingestion-rate-limit-strategy
+  ingestion_rate_strategy: "local"
+  
+  # Per-user allowed ingestion burst size (in number of samples).
+  # CLI flag: -distributor.ingestion-burst-size
+  ingestion_burst_size: 50000
+  
+  # Flag to enable, for all users, handling of samples with external labels
+  # identifying replicas in an HA Prometheus setup.
+  # CLI flag: -distributor.ha-tracker.enable-for-all-users
+  accept_ha_samples: true
+  
+  # Prometheus label to look for in samples to identify a Prometheus HA cluster.
+  # CLI flag: -distributor.ha-tracker.cluster
+  ha_cluster_label: "cluster"
+  
+  # Prometheus label to look for in samples to identify a Prometheus HA replica.
+  # CLI flag: -distributor.ha-tracker.replica
+  ha_replica_label: "__replica__"
+  
+  # Maximum number of clusters that HA tracker will keep track of for single user.
+  # 0 to disable the limit.
+  # CLI flag: -distributor.ha-tracker.max-clusters
+  ha_max_clusters: 0
+  
+  # This flag can be used to specify label names that to drop during sample
+  # ingestion within the distributor and can be repeated in order to drop multiple
+  # labels.
+  # CLI flag: -distributor.drop-label
+  drop_labels: []
+  
+  # Maximum length accepted for label names
+  # CLI flag: -validation.max-length-label-name
+  max_label_name_length: 1024
+  
+  # Maximum length accepted for label value. This setting also applies to the
+  # metric name
+  # CLI flag: -validation.max-length-label-value
+  max_label_value_length: 2048
+  
+  # Maximum number of label names per series.
+  # CLI flag: -validation.max-label-names-per-series
+  max_label_names_per_series: 30
+  
+  # Maximum length accepted for metric metadata. Metadata refers to Metric Name,
+  # HELP and UNIT.
+  # CLI flag: -validation.max-metadata-length
+  max_metadata_length: 1024
+  
+  # Reject old samples.
+  # CLI flag: -validation.reject-old-samples
+  reject_old_samples: false
+  
+  # Maximum accepted sample age before rejecting.
+  # CLI flag: -validation.reject-old-samples.max-age
+  reject_old_samples_max_age: 2w
+  
+  # Duration which table will be created/deleted before/after it's needed; we
+  # won't accept sample from before this time.
+  # CLI flag: -validation.create-grace-period
+  creation_grace_period: 20m
+  
+  # Enforce every metadata has a metric name.
+  # CLI flag: -validation.enforce-metadata-metric-name
+  enforce_metadata_metric_name: true
+  
+  # Enforce every sample has a metric name.
+  # CLI flag: -validation.enforce-metric-name
+  enforce_metric_name: true
+  
+  # The default tenant's shard size when the shuffle-sharding strategy is used.
+  # Must be set both on ingesters and distributors. When this setting is specified
+  # in the per-tenant overrides, a value of 0 disables shuffle sharding for the
+  # tenant.
+  # CLI flag: -distributor.ingestion-tenant-shard-size
+  ingestion_tenant_shard_size: 0
+  
+  # List of metric relabel configurations. Note that in most situations, it is
+  # more effective to use metrics relabeling directly in the Prometheus server,
+  # e.g. remote_write.write_relabel_configs.
+  metric_relabel_configs:
+  
+  # The maximum number of series for which a query can fetch samples from each
+  # ingester. This limit is enforced only in the ingesters (when querying samples
+  # not flushed to the storage yet) and it's a per-instance limit. This limit is
+  # ignored when running the Cortex blocks storage. When running Cortex with
+  # blocks storage use -querier.max-fetched-series-per-query limit instead.
+  # CLI flag: -ingester.max-series-per-query
+  max_series_per_query: 100000
+  
+  # The maximum number of samples that a query can return. This limit only applies
+  # when running the Cortex chunks storage with -querier.ingester-streaming=false.
+  # CLI flag: -ingester.max-samples-per-query
+  max_samples_per_query: 1000000
+  
+  # The maximum number of active series per user, per ingester. 0 to disable.
+  # CLI flag: -ingester.max-series-per-user
+  max_series_per_user: 5000000
+  
+  # The maximum number of active series per metric name, per ingester. 0 to
+  # disable.
+  # CLI flag: -ingester.max-series-per-metric
+  max_series_per_metric: 50000
+  
+  # The maximum number of active series per user, across the cluster before
+  # replication. 0 to disable. Supported only if -distributor.shard-by-all-labels
+  # is true.
+  # CLI flag: -ingester.max-global-series-per-user
+  max_global_series_per_user: 0
+  
+  # The maximum number of active series per metric name, across the cluster before
+  # replication. 0 to disable.
+  # CLI flag: -ingester.max-global-series-per-metric
+  max_global_series_per_metric: 0
+  
+  # Minimum number of samples in an idle chunk to flush it to the store. Use with
+  # care, if chunks are less than this size they will be discarded. This option is
+  # ignored when running the Cortex blocks storage. 0 to disable.
+  # CLI flag: -ingester.min-chunk-length
+  min_chunk_length: 0
+  
+  # The maximum number of active metrics with metadata per user, per ingester. 0
+  # to disable.
+  # CLI flag: -ingester.max-metadata-per-user
+  max_metadata_per_user: 8000
+  
+  # The maximum number of metadata per metric, per ingester. 0 to disable.
+  # CLI flag: -ingester.max-metadata-per-metric
+  max_metadata_per_metric: 10
+  
+  # The maximum number of active metrics with metadata per user, across the
+  # cluster. 0 to disable. Supported only if -distributor.shard-by-all-labels is
+  # true.
+  # CLI flag: -ingester.max-global-metadata-per-user
+  max_global_metadata_per_user: 0
+  
+  # The maximum number of metadata per metric, across the cluster. 0 to disable.
+  # CLI flag: -ingester.max-global-metadata-per-metric
+  max_global_metadata_per_metric: 0
+  
+  # Deprecated. Use -querier.max-fetched-chunks-per-query CLI flag and its
+  # respective YAML config option instead. Maximum number of chunks that can be
+  # fetched in a single query. This limit is enforced when fetching chunks from
+  # the long-term storage only. When running the Cortex chunks storage, this limit
+  # is enforced in the querier and ruler, while when running the Cortex blocks
+  # storage this limit is enforced in the querier, ruler and store-gateway. 0 to
+  # disable.
+  # CLI flag: -store.query-chunk-limit
+  max_chunks_per_query: 2000000
+  
+  # Maximum number of chunks that can be fetched in a single query from ingesters
+  # and long-term storage. This limit is enforced in the querier, ruler and
+  # store-gateway. Takes precedence over the deprecated -store.query-chunk-limit.
+  # 0 to disable.
+  # CLI flag: -querier.max-fetched-chunks-per-query
+  max_fetched_chunks_per_query: 0
+  
+  # The maximum number of unique series for which a query can fetch samples from
+  # each ingesters and blocks storage. This limit is enforced in the querier only
+  # when running Cortex with blocks storage. 0 to disable
+  # CLI flag: -querier.max-fetched-series-per-query
+  max_fetched_series_per_query: 0
+  
+  # The maximum size of all chunks in bytes that a query can fetch from each
+  # ingester and storage. This limit is enforced in the querier and ruler only
+  # when running Cortex with blocks storage. 0 to disable.
+  # CLI flag: -querier.max-fetched-chunk-bytes-per-query
+  max_fetched_chunk_bytes_per_query: 0
+  
+  # Limit how long back data (series and metadata) can be queried, up until
+  # <lookback> duration ago. This limit is enforced in the query-frontend, querier
+  # and ruler. If the requested time range is outside the allowed range, the
+  # request will not fail but will be manipulated to only query data within the
+  # allowed time range. 0 to disable.
+  # CLI flag: -querier.max-query-lookback
+  max_query_lookback: 0s
+  
+  # Limit the query time range (end - start time). This limit is enforced in the
+  # query-frontend (on the received query), in the querier (on the query possibly
+  # split by the query-frontend) and in the chunks storage. 0 to disable.
+  # CLI flag: -store.max-query-length
+  max_query_length: 0s
+  
+  # Maximum number of split queries will be scheduled in parallel by the frontend.
+  # CLI flag: -querier.max-query-parallelism
+  max_query_parallelism: 14
+  
+  # Cardinality limit for index queries. This limit is ignored when running the
+  # Cortex blocks storage. 0 to disable.
+  # CLI flag: -store.cardinality-limit
+  cardinality_limit: 100000
+  
+  # Most recent allowed cacheable result per-tenant, to prevent caching very
+  # recent results that might still be in flux.
+  # CLI flag: -frontend.max-cache-freshness
+  max_cache_freshness: 1m
+  
+  # Maximum number of queriers that can handle requests for a single tenant. If
+  # set to 0 or value higher than number of available queriers, *all* queriers
+  # will handle requests for the tenant. Each frontend (or query-scheduler, if
+  # used) will select the same set of queriers for the same tenant (given that all
+  # queriers are connected to all frontends / query-schedulers). This option only
+  # works with queriers connecting to the query-frontend / query-scheduler, not
+  # when using downstream URL.
+  # CLI flag: -frontend.max-queriers-per-tenant
+  max_queriers_per_tenant: 0
+  
+  # Duration to delay the evaluation of rules to ensure the underlying metrics
+  # have been pushed to Cortex.
+  # CLI flag: -ruler.evaluation-delay-duration
+  # [ruler_evaluation_delay_duration: <duration> | default = 0s]
+  
+  # The default tenant's shard size when the shuffle-sharding strategy is used by
+  # ruler. When this setting is specified in the per-tenant overrides, a value of
+  # 0 disables shuffle sharding for the tenant.
+  # CLI flag: -ruler.tenant-shard-size
+  # [ruler_tenant_shard_size: <int> | default = 0]
+  
+  # Maximum number of rules per rule group per-tenant. 0 to disable.
+  # CLI flag: -ruler.max-rules-per-rule-group
+  # [ruler_max_rules_per_rule_group: <int> | default = 0]
+  
+  # Maximum number of rule groups per-tenant. 0 to disable.
+  # CLI flag: -ruler.max-rule-groups-per-tenant
+  # [ruler_max_rule_groups_per_tenant: <int> | default = 0]
+  
+  # Comma-separated list of network CIDRs to block in Alertmanager receiver
+  # integrations.
+  # CLI flag: -alertmanager.receivers-firewall-block-cidr-networks
+  # [alertmanager_receivers_firewall_block_cidr_networks: <string> | default = ""]
+  
+  # True to block private and local addresses in Alertmanager receiver
+  # integrations. It blocks private addresses defined by  RFC 1918 (IPv4
+  # addresses) and RFC 4193 (IPv6 addresses), as well as loopback, local unicast
+  # and local multicast addresses.
+  # CLI flag: -alertmanager.receivers-firewall-block-private-addresses
+  # [alertmanager_receivers_firewall_block_private_addresses: <boolean> | default = false]
+  
+  # Per-user rate limit for sending notifications from Alertmanager in
+  # notifications/sec. 0 = rate limit disabled. Negative value = no notifications
+  # are allowed.
+  # CLI flag: -alertmanager.notification-rate-limit
+  # [alertmanager_notification_rate_limit: <float> | default = 0]
+  
+  # Per-integration notification rate limits. Value is a map, where each key is
+  # integration name and value is a rate-limit (float). On command line, this map
+  # is given in JSON format. Rate limit has the same meaning as
+  # -alertmanager.notification-rate-limit, but only applies for specific
+  # integration. Allowed integration names: webhook, email, pagerduty, opsgenie,
+  # wechat, slack, victorops, pushover, sns.
+  # CLI flag: -alertmanager.notification-rate-limit-per-integration
+  # [alertmanager_notification_rate_limit_per_integration: <map of string to float64> | default = {}]
+  
+  # Maximum size of configuration file for Alertmanager that tenant can upload via
+  # Alertmanager API. 0 = no limit.
+  # CLI flag: -alertmanager.max-config-size-bytes
+  # [alertmanager_max_config_size_bytes: <int> | default = 0]
+  
+  # Maximum number of templates in tenant's Alertmanager configuration uploaded
+  # via Alertmanager API. 0 = no limit.
+  # CLI flag: -alertmanager.max-templates-count
+  # [alertmanager_max_templates_count: <int> | default = 0]
+  
+  # Maximum size of single template in tenant's Alertmanager configuration
+  # uploaded via Alertmanager API. 0 = no limit.
+  # CLI flag: -alertmanager.max-template-size-bytes
+  # [alertmanager_max_template_size_bytes: <int> | default = 0]
+  
+  # Maximum number of aggregation groups in Alertmanager's dispatcher that a
+  # tenant can have. Each active aggregation group uses single goroutine. When the
+  # limit is reached, dispatcher will not dispatch alerts that belong to
+  # additional aggregation groups, but existing groups will keep working properly.
+  # 0 = no limit.
+  # CLI flag: -alertmanager.max-dispatcher-aggregation-groups
+  # [alertmanager_max_dispatcher_aggregation_groups: <int> | default = 0]
+  
+  # Maximum number of alerts that a single user can have. Inserting more alerts
+  # will fail with a log message and metric increment. 0 = no limit.
+  # CLI flag: -alertmanager.max-alerts-count
+  # [alertmanager_max_alerts_count: <int> | default = 0]
+  
+  # Maximum total size of alerts that a single user can have, alert size is the
+  # sum of the bytes of its labels, annotations and generatorURL. Inserting more
+  # alerts will fail with a log message and metric increment. 0 = no limit.
+  # CLI flag: -alertmanager.max-alerts-size-bytes
+  # [alertmanager_max_alerts_size_bytes: <int> | default = 0]
+  
+# The frontend_worker_config configures the worker - running within the Cortex
+# querier - picking up and executing queries enqueued by the query-frontend or
+# query-scheduler.
+frontend_worker:
+  # Address of query frontend service, in host:port format. If
+  # -querier.scheduler-address is set as well, querier will use scheduler instead.
+  # Only one of -querier.frontend-address or -querier.scheduler-address can be
+  # set. If neither is set, queries are only received via HTTP endpoint.
+  # CLI flag: -querier.frontend-address
+  frontend_address: "tasks.monitoring_stack_cortex:9095"
+  
+  # Hostname (and port) of scheduler that querier will periodically resolve,
+  # connect to and receive queries from. Only one of -querier.frontend-address or
+  # -querier.scheduler-address can be set. If neither is set, queries are only
+  # received via HTTP endpoint.
+  # CLI flag: -querier.scheduler-address
+  # [scheduler_address: <string> | default = ""]
+  
+  # How often to query DNS for query-frontend or query-scheduler address.
+  # CLI flag: -querier.dns-lookup-period
+  dns_lookup_duration: 10s
+  
+  # Number of simultaneous queries to process per query-frontend or
+  # query-scheduler.
+  # CLI flag: -querier.worker-parallelism
+  # [parallelism: <int> | default = 10]
+  
+  # Force worker concurrency to match the -querier.max-concurrent option.
+  # Overrides querier.worker-parallelism.
+  # CLI flag: -querier.worker-match-max-concurrent
+  match_max_concurrent: true
+  
+  # Querier ID, sent to frontend service to identify requests from the same
+  # querier. Defaults to hostname.
+  # CLI flag: -querier.id
+  id: ""
+  
+  grpc_client_config:
+    # gRPC client max receive message size (bytes).
+    # CLI flag: -querier.frontend-client.grpc-max-recv-msg-size
+    max_recv_msg_size: 104857600
+    
+    # gRPC client max send message size (bytes).
+    # CLI flag: -querier.frontend-client.grpc-max-send-msg-size
+    max_send_msg_size: 16777216
+    
+    # Use compression when sending messages. Supported values are: 'gzip',
+    # 'snappy' and '' (disable compression)
+    # CLI flag: -querier.frontend-client.grpc-compression
+    grpc_compression: ""
+    
+    # Rate limit for gRPC client; 0 means disabled.
+    # CLI flag: -querier.frontend-client.grpc-client-rate-limit
+    rate_limit: 0
+    
+    # Rate limit burst for gRPC client.
+    # CLI flag: -querier.frontend-client.grpc-client-rate-limit-burst
+    rate_limit_burst: 0
+    
+    # Enable backoff and retry when we hit ratelimits.
+    # CLI flag: -querier.frontend-client.backoff-on-ratelimits
+    backoff_on_ratelimits: false
+    
+    # backoff_config:
+      # Minimum delay when backing off.
+      # CLI flag: -querier.frontend-client.backoff-min-period
+      # [min_period: <duration> | default = 100ms]
+  
+      # Maximum delay when backing off.
+      # CLI flag: -querier.frontend-client.backoff-max-period
+      # [max_period: <duration> | default = 10s]
+  
+      # Number of times to backoff and retry before failing.
+      # CLI flag: -querier.frontend-client.backoff-retries
+      # [max_retries: <int> | default = 10]
+  
+    # Enable TLS in the GRPC client. This flag needs to be enabled when any other
+    # TLS flag is set. If set to false, insecure connection to gRPC server will be
+    # used.
+    # CLI flag: -querier.frontend-client.tls-enabled
+    tls_enabled: false
+  
+    # Path to the client certificate file, which will be used for authenticating
+    # with the server. Also requires the key path to be configured.
+    # CLI flag: -querier.frontend-client.tls-cert-path
+    # [tls_cert_path: <string> | default = ""]
+  
+    # Path to the key file for the client certificate. Also requires the client
+    # certificate to be configured.
+    # CLI flag: -querier.frontend-client.tls-key-path
+    # [tls_key_path: <string> | default = ""]
+  
+    # Path to the CA certificates file to validate server certificate against. If
+    # not set, the host's root CA certificates are used.
+    # CLI flag: -querier.frontend-client.tls-ca-path
+    # [tls_ca_path: <string> | default = ""]
+  
+    # Override the expected name on the server certificate.
+    # CLI flag: -querier.frontend-client.tls-server-name
+    # [tls_server_name: <string> | default = ""]
+  
+    # Skip validating server certificate.
+    # CLI flag: -querier.frontend-client.tls-insecure-skip-verify
+    # [tls_insecure_skip_verify: <boolean> | default = false]
+    
+# The query_frontend_config configures the Cortex query-frontend.
+frontend:
+  # Log queries that are slower than the specified duration. Set to 0 to disable.
+  # Set to < 0 to enable on all queries.
+  # CLI flag: -frontend.log-queries-longer-than
+  log_queries_longer_than: 1m
+  
+  # Max body size for downstream prometheus.
+  # CLI flag: -frontend.max-body-size
+  # max_body_size: 10485760
+  
+  # True to enable query statistics tracking. When enabled, a message with some
+  # statistics is logged for every query.
+  # CLI flag: -frontend.query-stats-enabled
+  query_stats_enabled: true
+  
+  # Maximum number of outstanding requests per tenant per frontend; requests
+  # beyond this error with HTTP 429.
+  # CLI flag: -querier.max-outstanding-requests-per-tenant
+  max_outstanding_per_tenant: 100
+  
+  # If a querier disconnects without sending notification about graceful shutdown,
+  # the query-frontend will keep the querier in the tenant's shard until the
+  # forget delay has passed. This feature is useful to reduce the blast radius
+  # when shuffle-sharding is enabled.
+  # CLI flag: -query-frontend.querier-forget-delay
+  # querier_forget_delay: 0s
+  
+  # DNS hostname used for finding query-schedulers.
+  # CLI flag: -frontend.scheduler-address
+  # [scheduler_address: <string> | default = ""]
+  
+  # How often to resolve the scheduler-address, in order to look for new
+  # query-scheduler instances.
+  # CLI flag: -frontend.scheduler-dns-lookup-period
+  # [scheduler_dns_lookup_period: <duration> | default = 10s]
+  
+  # Number of concurrent workers forwarding queries to single query-scheduler.
+  # CLI flag: -frontend.scheduler-worker-concurrency
+  # [scheduler_worker_concurrency: <int> | default = 5]
+  
+  grpc_client_config:
+    # gRPC client max receive message size (bytes).
+    # CLI flag: -frontend.grpc-client-config.grpc-max-recv-msg-size
+    max_recv_msg_size: 104857600
+    
+    # gRPC client max send message size (bytes).
+    # CLI flag: -frontend.grpc-client-config.grpc-max-send-msg-size
+    max_send_msg_size: 16777216
+  
+    # Use compression when sending messages. Supported values are: 'gzip',
+    # 'snappy' and '' (disable compression)
+    # CLI flag: -frontend.grpc-client-config.grpc-compression
+    grpc_compression: ""
+    
+    # Rate limit for gRPC client; 0 means disabled.
+    # CLI flag: -frontend.grpc-client-config.grpc-client-rate-limit
+    rate_limit: 0
+    
+    # Rate limit burst for gRPC client.
+    # CLI flag: -frontend.grpc-client-config.grpc-client-rate-limit-burst
+    rate_limit_burst: 0
+    
+    # Enable backoff and retry when we hit ratelimits.
+    # CLI flag: -frontend.grpc-client-config.backoff-on-ratelimits
+    backoff_on_ratelimits: false
+    
+    # backoff_config:
+      # Minimum delay when backing off.
+      # CLI flag: -frontend.grpc-client-config.backoff-min-period
+      # min_period: 100ms
+      
+      # Maximum delay when backing off.
+      # CLI flag: -frontend.grpc-client-config.backoff-max-period
+      # max_period: 10s
+      
+      # Number of times to backoff and retry before failing.
+      # CLI flag: -frontend.grpc-client-config.backoff-retries
+      # max_retries: 10
+      
+    # Enable TLS in the GRPC client. This flag needs to be enabled when any other
+    # TLS flag is set. If set to false, insecure connection to gRPC server will be
+    # used.
+    # CLI flag: -frontend.grpc-client-config.tls-enabled
+    tls_enabled: false
+  
+    # Path to the client certificate file, which will be used for authenticating
+    # with the server. Also requires the key path to be configured.
+    # CLI flag: -frontend.grpc-client-config.tls-cert-path
+    # [tls_cert_path: <string> | default = ""]
+  
+    # Path to the key file for the client certificate. Also requires the client
+    # certificate to be configured.
+    # CLI flag: -frontend.grpc-client-config.tls-key-path
+    # [tls_key_path: <string> | default = ""]
+  
+    # Path to the CA certificates file to validate server certificate against. If
+    # not set, the host's root CA certificates are used.
+    # CLI flag: -frontend.grpc-client-config.tls-ca-path
+    # [tls_ca_path: <string> | default = ""]
+  
+    # Override the expected name on the server certificate.
+    # CLI flag: -frontend.grpc-client-config.tls-server-name
+    # [tls_server_name: <string> | default = ""]
+  
+    # Skip validating server certificate.
+    # CLI flag: -frontend.grpc-client-config.tls-insecure-skip-verify
+    # [tls_insecure_skip_verify: <boolean> | default = false]
+  
+  # Name of network interface to read address from. This address is sent to
+  # query-scheduler and querier, which uses it to send the query response back to
+  # query-frontend.
+  # CLI flag: -frontend.instance-interface-names
+  instance_interface_names: [eth1]
+  
+  # URL of downstream Prometheus.
+  # CLI flag: -frontend.downstream-url
+  # [downstream_url: <string> | default = ""]
+  
+# The query_range_config configures the query splitting and caching in the
+# Cortex query-frontend.
+query_range:
+  # Split queries by an interval and execute in parallel, 0 disables it. You
+  # should use an a multiple of 24 hours (same as the storage bucketing scheme),
+  # to avoid queriers downloading and processing the same chunks. This also
+  # determines how cache keys are chosen when result caching is enabled
+  # CLI flag: -querier.split-queries-by-interval
+  split_queries_by_interval: 24h
+  
+  # Mutate incoming queries to align their start and end with their step.
+  # CLI flag: -querier.align-querier-with-step
+  align_queries_with_step: false
+  
+  results_cache:
+    cache:
+      # Enable in-memory cache.
+      # CLI flag: -frontend.cache.enable-fifocache
+      enable_fifocache: false
+  
+      # The default validity of entries for caches unless overridden.
+      # CLI flag: -frontend.default-validity
+      default_validity: 0s
+            
+    # Use compression in results cache. Supported values are: 'snappy' and ''
+    # (disable compression).
+    # CLI flag: -frontend.compression
+    compression: ""
+  
+  # Cache query results.
+  # CLI flag: -querier.cache-results
+  cache_results: false
+  
+  # Maximum number of retries for a single request; beyond this, the downstream
+  # error is returned.
+  # CLI flag: -querier.max-retries-per-request
+  max_retries: 2
+  
+  # Perform query parallelisations based on storage sharding configuration and
+  # query ASTs. This feature is supported only by the chunks storage engine.
+  # CLI flag: -querier.parallelise-shardable-queries
+  parallelise_shardable_queries: false
+  
+  # List of headers forwarded by the query Frontend to downstream querier.
+  # CLI flag: -frontend.forward-headers-list
+  # forward_headers_list: []
+  
+# The table_manager_config configures the Cortex table-manager.
+table_manager:
+  # If true, disable all changes to DB capacity
+  # CLI flag: -table-manager.throughput-updates-disabled
+  throughput_updates_disabled: false
+  
+  # If true, enables retention deletes of DB tables
+  # CLI flag: -table-manager.retention-deletes-enabled
+  retention_deletes_enabled: true
+  
+  # Tables older than this retention period are deleted. Must be either 0
+  # (disabled) or a multiple of 24h. When enabled, be aware this setting is
+  # destructive to data!
+  # CLI flag: -table-manager.retention-period
+  retention_period: 4w
+  
+  # How frequently to poll backend to learn our capacity.
+  # CLI flag: -table-manager.poll-interval
+  poll_interval: 2m
+  
+  # Periodic tables grace period (duration which table will be created/deleted
+  # before/after it's needed).
+  # CLI flag: -table-manager.periodic-table.grace-period
+  creation_grace_period: 20m
+  
+schema:
+  configs:
+      # The starting date in YYYY-MM-DD format (eg. 2020-03-01).
+    - from: "1993-07-29"
+      
+      # The key-value store to use for the index. Supported values are:
+      # aws-dynamo, bigtable, bigtable-hashed, cassandra, boltdb.
+      store: cassandra
+      
+      # The object store to use for the chunks. Supported values are:
+      # s3, aws-dynamo, bigtable, bigtable-hashed, gcs, cassandra, filesystem.
+      # If none is specified, "store" is used for storing chunks as well.
+      object_store: cassandra
+      
+      # The schema version to use. Supported versions are: v1, v2, v3, v4, v5,
+      # v6, v9, v10, v11. We recommended v9 for most use cases, alternatively
+      # v10 if you expect to have very high cardinality metrics.
+      schema: v9
+      
+      index:
+        # The prefix to use for the table names.
+        prefix: index_
+        
+        # The duration for each table. A new table is created every "period", which also
+        # represents the granularity with which retention is enforced. Typically this value
+        # is set to 1w (1 week). Must be a multiple of 24h.
+        period: 1w
+        
+        # The tags to be set on the created table.
+        # tags: <map[string]string>
+      chunks:
+        # The prefix to use for the table names.
+        prefix: chunk_
+        
+        # The duration for each table. A new table is created every "period", which also
+        # represents the granularity with which retention is enforced. Typically this value
+        # is set to 1w (1 week). Must be a multiple of 24h.
+        period: 1w
+        
+        # The tags to be set on the created table.
+        # tags: <map[string]string>
+        
+# The purger_config configures the purger which takes care of delete requests.
+# [purger: <purger_config>]
+
+tenant_federation:
+  # If enabled on all Cortex services, queries can be federated across multiple
+  # tenants. The tenant IDs involved need to be specified separated by a `|`
+  # character in the `X-Scope-OrgID` header (experimental).
+  # CLI flag: -tenant-federation.enabled
+  enabled: true
+  
+# The ruler_config configures the Cortex ruler.
+# [ruler: <ruler_config>]
+
+# The ruler_storage_config configures the Cortex ruler storage backend.
+# [ruler_storage: <ruler_storage_config>]
+
+# The configs_config configures the Cortex Configs DB and API.
+# [configs: <configs_config>]
+
+# The alertmanager_config configures the Cortex alertmanager.
+# [alertmanager: <alertmanager_config>]
+
+# The alertmanager_storage_config configures the Cortex alertmanager storage
+# backend.
+# [alertmanager_storage: <alertmanager_storage_config>]
+
+# runtime_config:
+
+# query_scheduler:

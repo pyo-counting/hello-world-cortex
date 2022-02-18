@@ -1,0 +1,328 @@
+version: '3.8'
+
+services:
+  cadvisor:
+    image: harbor.danal.co.kr/docker_hub/library/docker:20.10.12
+    networks:
+      - overlay
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
+      - VERSION=v0.37.5
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      exec docker run -i --rm --network host --log-driver none \
+      --mount type=bind,src=/,dst=/rootfs,ro \
+      --mount type=bind,src=/var/run,dst=/var/run \
+      --mount type=bind,src=/sys,dst=/sys,ro \
+      --mount type=bind,src=/var/lib/docker,dst=/var/lib/docker,ro \
+      --name $${CHILD_NAME} \
+      --privileged \
+      harbor.danal.co.kr/google_gcr/cadvisor:$${VERSION} \
+      --housekeeping_interval=10s \
+      --docker_only=true \
+      --store_container_labels=false \
+      --enable_load_reader=true \
+      --logtostderr=true \
+      --log_cadvisor_usage=true \
+      --v=0
+      
+  node_exporter:
+    image: harbor.danal.co.kr/docker_hub/library/docker:20.10.12
+    networks:
+      - overlay
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
+      - VERSION=v1.3.1
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      exec docker run -i --rm --network host --pid host --log-driver none \
+      --mount type=bind,src=/,dst=/host,ro,bind-propagation=rslave \
+      --name $${CHILD_NAME} \
+      harbor.danal.co.kr/quay_io/prometheus/node-exporter:$${VERSION} \
+      --path.rootfs=/host
+      
+  cortex:
+    image: harbor.danal.co.kr/quay_io/cortexproject/cortex:v1.11.0
+    networks:
+      - overlay
+    ports:
+      - '9009:9009'
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.monitoring_stack.cortex.deployable == true'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    configs:
+      - source: cortex_config
+        target: /etc/cortex/microservices-mode-config.yml
+    command:
+      - -config.file=/etc/cortex/microservices-mode-config.yml
+      
+  consul:
+    image: harbor.danal.co.kr/docker_hub/library/consul:1.10.4
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.monitoring_stack.cortex.deployable == true'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+
+  cassandra:
+    image: harbor.danal.co.kr/docker_hub/library/cassandra:3.11.11
+    networks:
+      - overlay
+    ports:
+      - '9042:9042'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.monitoring_stack.cassandra.deployable == true'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    configs:
+      - source: cassandra_init_shell
+        target: /cassandra-init.sh
+        mode: 0544
+    volumes:
+      - cassandra:/var/lib/cassandra
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    entrypoint: ["./cassandra-init.sh"] 
+    
+  prometheus:
+    image: harbor.danal.co.kr/docker_hub/prom/prometheus:v2.32.0
+    networks:
+      - overlay
+    ports:
+      - target: 9090
+        published: 9090
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.monitoring_stack.prometheus.deployable == true'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    environment:
+      SWARM_NODE_NAME: '{{.Node.Hostname}}'
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_cadvisor
+        target: /etc/prometheus/sd_configs/file/cadvisor.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_node_exporter
+        target: /etc/prometheus/sd_configs/file/node_exporter.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_prometheus
+        target: /etc/prometheus/sd_configs/file/prometheus.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_spring_actuator
+        target: /etc/prometheus/sd_configs/file/spring_actuator.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+    volumes:
+      - prometheus:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.size=10GB
+      - --enable-feature=expand-external-labels
+#      - --log.level=debug
+      
+  grafana:
+    image: harbor.danal.co.kr/docker_hub/grafana/grafana-oss:8.3.3
+    networks:
+      - overlay
+    ports:
+      - '3000:3000'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.monitoring_stack.grafana.deployable == true'
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    environment:
+      GF_INSTALL_PLUGINS: grafana-clock-panel,mxswat-separator-panel
+      # default environment defined in image
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_PATHS_DATA: /var/lib/grafana
+      GF_PATHS_HOME: /usr/share/grafana
+      GF_PATHS_LOGS: /var/log/grafana
+      GF_PATHS_PLUGINS: /var/lib/grafana/plugins
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+    configs:
+      - source: grafana_config
+        target: /etc/grafana/grafana.ini
+      - source: grafana_provisioning_dashboard_config
+        target: /etc/grafana/provisioning/dashboards/dashboards.yml
+      - source: grafana_provisioning_dashboard_container
+        target: /etc/grafana/provisioning/dashboards/default/container.json
+      - source: grafana_provisioning_dashboard_cpu
+        target: /etc/grafana/provisioning/dashboards/default/cpu.json
+      - source: grafana_provisioning_dashboard_memory
+        target: /etc/grafana/provisioning/dashboards/default/memory.json
+      - source: grafana_provisioning_dashboard_overview
+        target: /etc/grafana/provisioning/dashboards/default/overview.json
+      - source: grafana_provisioning_dashboard_spring
+        target: /etc/grafana/provisioning/dashboards/default/spring.json
+      - source: grafana_provisioning_dashboard_home
+        target: /usr/share/grafana/public/dashboards/home.json
+      - source: grafana_provisioning_datasource_config
+        target: /etc/grafana/provisioning/datasources/datasources.yml
+      - source: grafana_cert
+        target: /etc/grafana/cert/pyoseyeol_co_kr.crt
+      - source: grafana_cert_key
+        target: /etc/grafana/cert/pyoseyeol_co_kr.key
+    volumes:
+      - grafana:/var/lib/grafana
+      
+networks:
+  overlay:
+    driver: overlay
+
+volumes:
+  prometheus:
+  cassandra:
+  grafana:
+
+configs:
+  # cortex
+  cortex_config:
+    file: ./cortex/microservices-mode-config.yml
+  # cassandra
+  cassandra_init_shell:
+    file: ./cassandra/init.sh
+  # prometheus
+  prometheus_config:
+    file: ./prometheus/prometheus.yml
+  prometheus_file_sd_cadvisor:
+    file: ./prometheus/sd_configs/file/cadvisor.yml
+  prometheus_file_sd_node_exporter:
+    file: ./prometheus/sd_configs/file/node_exporter.yml
+  prometheus_file_sd_prometheus:
+    file: ./prometheus/sd_configs/file/prometheus.yml
+  prometheus_file_sd_spring_actuator:
+    file: ./prometheus/sd_configs/file/spring_actuator.yml
+  # grafana
+  grafana_config:
+    file: ./grafana/grafana.ini
+  grafana_provisioning_dashboard_config:
+    file: ./grafana/provisioning/dashboards/dashboards.yml
+  grafana_provisioning_dashboard_container:
+    file: ./grafana/provisioning/dashboards/default/container.json
+  grafana_provisioning_dashboard_cpu:
+    file: ./grafana/provisioning/dashboards/default/cpu.json
+  grafana_provisioning_dashboard_memory:
+    file: ./grafana/provisioning/dashboards/default/memory.json
+  grafana_provisioning_dashboard_overview:
+    file: ./grafana/provisioning/dashboards/default/overview.json
+  grafana_provisioning_dashboard_spring:
+    file: ./grafana/provisioning/dashboards/default/spring.json
+  grafana_provisioning_dashboard_home:
+    file: ./grafana/home.json
+  grafana_provisioning_datasource_config:
+    file: ./grafana/provisioning/datasources/datasources.yml
+  grafana_cert:
+    file: ./grafana/cert/pyoseyeol_co_kr.crt
+  grafana_cert_key:
+    file: ./grafana/cert/pyoseyeol_co_kr.key

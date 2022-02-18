@@ -1,0 +1,151 @@
+global:
+  scrape_interval: 10s
+  scrape_timeout: 5s
+  external_labels:
+    cluster: pyeongcheon_dev
+    __replica__: ${SWARM_NODE_NAME}
+#  evaluation_interval: 5s
+#  query_log_file: /prometheus/query.log
+
+#rule_files:
+#  - rule_files/alerting/*.yml
+#  - rule_files/recording/*.yml
+
+scrape_configs:
+# prometheus
+  - job_name: prometheus
+    file_sd_configs:
+      - files:
+        - sd_configs/file/prometheus.yml
+        refresh_interval: 5m
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port label from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+      
+# cadvisor
+  - job_name: cadvisor
+    file_sd_configs:
+      - files:
+        - sd_configs/file/cadvisor.yml
+        refresh_interval: 5m
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+    metric_relabel_configs:
+        # replace root cgroup's 'id' label with 'name' label
+      - action:         replace
+        source_labels:  [id]
+        target_label:   name
+        regex:          ^/$
+        replacement:    ${0}
+        # drop all 'id', 'image' label
+      - action:         labeldrop
+        regex:          (^id$|^image$)
+
+# node_exporter
+  - job_name: node_exporter
+    file_sd_configs:
+      - files:
+        - sd_configs/file/node_exporter.yml
+        refresh_interval: 5m
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+#   params:
+#      collect[]: ['cpu']
+
+# spring_actuator
+  - job_name: spring_actuator
+    metrics_path: /actuator/prometheus
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
+    file_sd_configs:
+      - files:
+        - sd_configs/file/spring_actuator.yml
+        refresh_interval: 5m
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+
+# harbor
+#  - job_name: harbor_exporter
+#    static_configs:
+#      - targets: ['localhost:9091']
+#  - job_name: harbor_core
+#    static_configs:
+#      - targets: ['localhost:9091']
+#    params:
+#      comp: ['core']
+#  - job_name: harbor_registry
+#    static_configs:
+#      - targets: ['localhost:9091']
+#    params:
+#      comp: ['registry']
+
+# Alerting specifies settings related to the Alertmanager
+#alerting:
+#  alertmanagers:
+#    - static_configs:
+#        - targets: ['192.168.136.61:9093']
+
+remote_write:
+  - url: http://monitoring_stack_cortex:9009/api/v1/push
+    remote_timeout: 15s
+    headers:
+      X-Scope-OrgID: fs-solution
+    name: cortex
+    send_exemplars: false
+    queue_config:
+      capacity: 2500
+      max_shards: 200
+      min_shards: 1
+      max_samples_per_send: 500
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 5s
+      retry_on_http_429: false
+    metadata_config:
+      send: true
+      send_interval: 1m
+      max_samples_per_send: 500

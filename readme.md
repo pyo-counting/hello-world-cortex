@@ -9,7 +9,14 @@ Cortex는 Prometheus를 위해 horizontally scalable, high available, multi-tena
 Prometheus와 관련된 기초는 [hello-world-prometheus](https://github.com/pyo-counting/hello-world-prometheus) 프로젝트를 참고한다.
 
 ## 1. Architecture overview
-이 프로젝트는 여러 node로 구성된 swarm cluster에서 동작한다. 단일 machine에서 배포할 경우 Cortex를 실행하는 방법은 [Getting started with chunks storage] 페이지를 참고한다.
+이 프로젝트는 여러 node로 구성된 Docker Swarm cluster에서 동작한다. 단일 machine에서 배포할 경우 Cortex를 실행하는 방법은 [Getting started with chunks storage](https://cortexmetrics.io/docs/chunks-storage/getting-started-chunks-storage/) 페이지를 참고한다.
+
+### 1.1 Consideration
+- Cortex 인스턴스의 개수: Cortex는 cluster 내 여러 node에서 동작하며 실제로 Prometheus로부터 인입되는 시계열을 실시간으로 backend storage에 저장하지 않는다. 대신 ingester가 in-memory에 시계열을 저장하며, 주기적으로 backend storage에 flush한다. 이 때 ingester가 정상적으로 shutdown 되지 않을 경우를 in-memory 내 데이터가 유실될 수도 있기 때문에 Cortex는 WAL(Write-Ahead Log), replication 두 가지 기능을 제공한다. 해당 프로젝트에서는 replication 기능(replication factor=2이므로 적어도 2개의 Cortex ingester가 보장)을 사용한다.
+  - replication의 경우 in-memory 데이터 유실을 막기 위해 동일한 데이터를 다른 ingester에도 복제(replication)한다. 이는 Cortex 설정 파일에 설정 가능(ingester.lifecycler.ring.kvstore.replication_factor)하며, Cortex startup 시 적절한 Cortex ingester 개수가 없으면 오류가 발생할 수 있다.
+  - WAL의 경우 ingester가 데이터를 in-memory가 아닌 노드의 물리 저장 장치에 저장하기 때문에 ingester가 비정상 종료 시에도 데이터가 유실되지 않는다. 대신, 새로운 ingester가 해당 데이터를 사용할 수 있도록 마운트 될 수 있도록 보장해야 한다.
+- backend storage: 현재 Cortex에서 지원하는 storage는 chunks storage(deprecated), blcoks storage가 있다. 지원하는 blocks storage의 경우 모두 cloud 환경이기 때문에 이러한 환경이 제한된 경우에는 chunks storage를 사용해야 한다. 이 프로젝트에서도 기본적으로 chunks storage인 Cassandra를 사용한다.
+
 
 ## 2. Configuration
 정상 설치 및 실행하기 위해 사용자 환경에 따라 기본적으로 변경되어야 하는 설정은 다음과 같다.
@@ -98,9 +105,9 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 - [Node-exporter](https://github.com/prometheus/node_exporter)
 - [Grafana](https://grafana.com/docs/grafana/latest/)
 - [SpringBoot](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
-- [Cortex]
-- [Consul]
-- [Cassandra]
+- [Cortex](https://cortexmetrics.io/docs/)
+- [Consul](https://www.consul.io/docs)
+- [Cassandra](https://cassandra.apache.org/doc/latest/)
 
 ## 5. Etc
 - Architecture overview은 [draw.io](https://www.draw.io)를 통해 작성

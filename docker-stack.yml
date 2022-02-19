@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   cadvisor:
-    image: harbor.danal.co.kr/docker_hub/library/docker:20.10.12
+    image: docker:20.10.12
     networks:
       - overlay
     deploy:
@@ -34,7 +34,7 @@ services:
       --mount type=bind,src=/var/lib/docker,dst=/var/lib/docker,ro \
       --name $${CHILD_NAME} \
       --privileged \
-      harbor.danal.co.kr/google_gcr/cadvisor:$${VERSION} \
+      gcr.io/cadvisor/cadvisor:$${VERSION} \
       --housekeeping_interval=10s \
       --docker_only=true \
       --store_container_labels=false \
@@ -44,7 +44,7 @@ services:
       --v=0
       
   node_exporter:
-    image: harbor.danal.co.kr/docker_hub/library/docker:20.10.12
+    image: docker:20.10.12
     networks:
       - overlay
     deploy:
@@ -72,11 +72,11 @@ services:
       exec docker run -i --rm --network host --pid host --log-driver none \
       --mount type=bind,src=/,dst=/host,ro,bind-propagation=rslave \
       --name $${CHILD_NAME} \
-      harbor.danal.co.kr/quay_io/prometheus/node-exporter:$${VERSION} \
+      quay.io/prometheus/node-exporter:$${VERSION} \
       --path.rootfs=/host
       
   cortex:
-    image: harbor.danal.co.kr/quay_io/cortexproject/cortex:v1.11.0
+    image: quay.io/cortexproject/cortex:v1.11.0
     networks:
       - overlay
     ports:
@@ -128,7 +128,7 @@ services:
         max-file: '5'
 
   cassandra:
-    image: harbor.danal.co.kr/docker_hub/library/cassandra:3.11.11
+    image: cassandra:3.11.11
     networks:
       - overlay
     ports:
@@ -158,7 +158,7 @@ services:
     entrypoint: ["./cassandra-init.sh"] 
     
   prometheus:
-    image: harbor.danal.co.kr/docker_hub/prom/prometheus:v2.32.0
+    image: prom/prometheus:v2.32.0
     networks:
       - overlay
     ports:
@@ -219,7 +219,7 @@ services:
 #      - --log.level=debug
       
   grafana:
-    image: harbor.danal.co.kr/docker_hub/grafana/grafana-oss:8.3.3
+    image: grafana/grafana-oss:8.3.3
     networks:
       - overlay
     ports:

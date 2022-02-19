@@ -17,6 +17,8 @@ Prometheus와 관련된 기초는 [hello-world-prometheus](https://github.com/py
   - WAL의 경우 ingester가 데이터를 in-memory가 아닌 노드의 물리 저장 장치에 저장하기 때문에 ingester가 비정상 종료 시에도 데이터가 유실되지 않는다. 대신, 새로운 ingester가 해당 데이터를 사용할 수 있도록 마운트 될 수 있도록 보장해야 한다.
 - backend storage: 현재 Cortex에서 지원하는 storage는 chunks storage(deprecated), blcoks storage가 있다. 지원하는 blocks storage의 경우 모두 cloud 환경이기 때문에 이러한 환경이 제한된 경우에는 chunks storage를 사용해야 한다. 이 프로젝트에서도 기본적으로 chunks storage인 Cassandra를 사용한다.
 
+### 1.2 Limitation
+- Cadvisor, Node Exporter를 Docker Swarm에 배포 시 몇 가지 제한 사항이 있어 sidecar docker container를 실행 및 해당 container에서 다시 Cadvisor, Node Exporter standalone container를 실행하도록 구성했다([running sidecar container](https://github.com/google/cadvisor/issues/2150#issuecomment-797788353)). Cadvisor의 경우 일부 기능을 위해 호스트의 /dev 디렉토리에 접근해야 하지만 docker swarm 환경에서 이를 지원하지 않으며 Node Exporter의 경우 일부 기능을 위해 호스트의 PID namepsace를 사용해야 하지만 이 기능이 제한된다. 이러한 구조를 원치 않을 경우 따로 각 모니터링 대상 호스트에 Cadvisor, Node Exporter를 standalone container 환경에서 실행하도록 구성해도 무방하다.
 
 ## 2. Configuration
 정상 설치 및 실행하기 위해 사용자 환경에 따라 기본적으로 변경되어야 하는 설정은 다음과 같다.

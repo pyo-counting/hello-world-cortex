@@ -375,7 +375,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "instant": false,
           "interval": "",
           "legendFormat": "usage rate",
@@ -387,7 +387,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "usage duration",
@@ -399,7 +399,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "acquire rate",
@@ -411,7 +411,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "acquire duration",
@@ -1642,7 +1642,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1656,7 +1656,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1768,7 +1768,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1782,7 +1782,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1894,7 +1894,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1908,7 +1908,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2020,7 +2020,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2034,7 +2034,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2146,7 +2146,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2160,7 +2160,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2272,7 +2272,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2286,7 +2286,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval])) / sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2418,7 +2418,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2432,7 +2432,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_pending{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_pending{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "pending",
@@ -2444,7 +2444,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_active{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_active{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "active",
@@ -2456,7 +2456,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_idle{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_idle{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "idle",
@@ -2468,7 +2468,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_max{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2480,7 +2480,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_min{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_min{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "min",
@@ -2577,7 +2577,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_timeout_total{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_timeout_total{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2677,7 +2677,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2777,7 +2777,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2877,7 +2877,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2977,7 +2977,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2991,7 +2991,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_usage_seconds_max{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_usage_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3089,7 +3089,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -3103,7 +3103,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_acquire_seconds_max{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_acquire_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3201,7 +3201,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -3215,7 +3215,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_creation_seconds_max{instance=\"$instance\", application=\"open-banking-api\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_creation_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",

@@ -21,8 +21,8 @@
   "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 2,
-  "id": 6,
-  "iteration": 1643801450297,
+  "id": 5,
+  "iteration": 1648880815832,
   "links": [
     {
       "asDropdown": true,
@@ -366,6 +366,10 @@
           "endCountdownTime": "2021-08-04T02:40:10+09:00",
           "endText": "00:00:00"
         },
+        "countupSettings": {
+          "beginCountupTime": "2022-04-02T21:26:55+09:00",
+          "beginText": "00:00:00"
+        },
         "dateSettings": {
           "dateFormat": "YYYY-MM-DD",
           "fontSize": "30px",
@@ -387,7 +391,7 @@
           "zoneFormat": "name"
         }
       },
-      "pluginVersion": "1.2.0",
+      "pluginVersion": "1.3.0",
       "type": "grafana-clock-panel"
     },
     {
@@ -1081,6 +1085,125 @@
         "x": 0,
         "y": 19
       },
+      "id": 688,
+      "panels": [
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 726,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "process_resident_memory_bytes{instance=\"$instance\", application=~\".+\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "{{application}}",
+              "refId": "B"
+            }
+          ],
+          "title": "RSS Usage by JVM (stack)",
+          "transformations": [
+            {
+              "id": "renameByRegex",
+              "options": {
+                "regex": "(.{0,40})(.{0,100})",
+                "renamePattern": "$1"
+              }
+            }
+          ],
+          "type": "timeseries"
+        }
+      ],
+      "repeat": "spring_application",
+      "title": "JVM",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
       "id": 30,
       "panels": [
         {
@@ -1105,8 +1228,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1176,8 +1298,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1250,8 +1371,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1327,8 +1447,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1425,8 +1544,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1543,8 +1661,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1637,8 +1754,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1695,125 +1811,6 @@
       "repeat": "container",
       "title": "CGROUPS ($container)",
       "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 24
-      },
-      "id": 688,
-      "panels": [
-        {
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 12,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 2,
-                "pointSize": 3,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "normal"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "bytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 24,
-            "x": 0,
-            "y": 25
-          },
-          "id": 726,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "max",
-                "mean",
-                "last"
-              ],
-              "displayMode": "table",
-              "placement": "right",
-              "sortBy": "Last",
-              "sortDesc": true
-            },
-            "tooltip": {
-              "mode": "multi"
-            }
-          },
-          "pluginVersion": "8.3.3",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "cortex_datasource"
-              },
-              "exemplar": false,
-              "expr": "sum by (application) (jvm_memory_used_bytes{instance=\"$instance\", application=\"${spring_application:raw}\"})",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "{{application}}",
-              "refId": "B"
-            }
-          ],
-          "title": "Usage",
-          "transformations": [
-            {
-              "id": "renameByRegex",
-              "options": {
-                "regex": "(.{0,40})(.{0,100})",
-                "renamePattern": "$1"
-              }
-            }
-          ],
-          "type": "timeseries"
-        }
-      ],
-      "repeat": "spring_application",
-      "title": "Spring Application ($spring_application)",
-      "type": "row"
     }
   ],
   "refresh": "",
@@ -1822,8 +1819,7 @@
   "tags": [
     "default",
     "host",
-    "cgroup",
-    "spring"
+    "cgroup"
   ],
   "templating": {
     "list": [
@@ -1874,33 +1870,6 @@
         },
         "refresh": 1,
         "regex": "/[^\\/]$/",
-        "skipUrlSync": false,
-        "sort": 1,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": true,
-          "text": [
-            ""
-          ],
-          "value": [
-            ""
-          ]
-        },
-        "definition": "label_values(jvm_memory_used_bytes{instance=\"$instance\"}, application)",
-        "description": "spring application",
-        "hide": 0,
-        "includeAll": true,
-        "multi": true,
-        "name": "spring_application",
-        "options": [],
-        "query": {
-          "query": "label_values(jvm_memory_used_bytes{instance=\"$instance\"}, application)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"

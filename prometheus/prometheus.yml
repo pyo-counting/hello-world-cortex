@@ -85,14 +85,54 @@ scrape_configs:
 #      collect[]: ['cpu']
 
 # spring_actuator
-  - job_name: spring_actuator
+  - job_name: spring_actuator_https
     metrics_path: /actuator/prometheus
     scheme: https
     tls_config:
       insecure_skip_verify: true
     file_sd_configs:
       - files:
-        - sd_configs/file/spring_actuator.yml
+        - sd_configs/file/spring_actuator_https.yml
+        refresh_interval: 5m
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+
+  - job_name: spring_actuator_http
+    metrics_path: /actuator/prometheus
+    scheme: http
+    file_sd_configs:
+      - files:
+        - sd_configs/file/spring_actuator_http.yml
+    relabel_configs:
+        # add port label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   port
+        regex:          ^(.*):(\d{1,5})$
+        replacement:    ${2}
+        # delete port from instance label
+      - action:         replace
+        source_labels:  [__address__]
+        target_label:   instance
+        regex:          ^(.*)(:\d{1,5})$
+        replacement:    ${1}
+        
+# jmx_exporter
+  - job_name: jmx_exporter
+    file_sd_configs:
+      - files:
+        - sd_configs/file/jmx_exporter_*.yml
         refresh_interval: 5m
     relabel_configs:
         # add port label

@@ -21,8 +21,8 @@
   "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 5,
-  "iteration": 1643799381130,
+  "id": 2,
+  "iteration": 1648879948941,
   "links": [
     {
       "asDropdown": true,
@@ -282,7 +282,7 @@
           "zoneFormat": "name"
         }
       },
-      "pluginVersion": "1.2.0",
+      "pluginVersion": "1.3.0",
       "type": "grafana-clock-panel"
     },
     {
@@ -1198,13 +1198,14 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_cpu_usage{instance=\"$instance\"}",
+          "expr": "rate(process_cpu_seconds_total{instance=\"$instance\", application=~\".+\"}[$__rate_interval])",
+          "hide": false,
           "interval": "",
           "legendFormat": "{{application}}",
           "refId": "A"
         }
       ],
-      "title": "Usage by Spring (stack)",
+      "title": "Usage by JVM (stack)",
       "transformations": [
         {
           "id": "renameByRegex",
@@ -1734,14 +1735,14 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum by (application) (jvm_memory_used_bytes{instance=\"$instance\"})",
+          "expr": "process_resident_memory_bytes{instance=\"$instance\", application=~\".+\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{application}}",
           "refId": "B"
         }
       ],
-      "title": "Usage by Spring (stack)",
+      "title": "RSS Usage by JVM (stack)",
       "transformations": [
         {
           "id": "renameByRegex",

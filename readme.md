@@ -75,6 +75,7 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 - Prometheus: [v2.32.0](https://github.com/prometheus/prometheus/releases/tag/v2.32.0)
 - Cadvisor: [v0.37.5](https://github.com/google/cadvisor/releases/tag/v0.37.5)
 - Node-exporter: [v1.3.1](https://github.com/prometheus/node_exporter/releases/tag/v1.3.1)
+- JMX-exporter: [0.16.1](https://github.com/prometheus/jmx_exporter/releases/tag/parent-0.16.1)
 - Grafana: [8.3.3](https://github.com/grafana/grafana/releases/tag/v8.3.3)
 - SpringBoot (maven dependency):
     - spring-boot-starter-parent: [2.3.1.RELEASE](https://github.com/spring-projects/spring-boot/releases/tag/v2.3.1.RELEASE)
@@ -109,6 +110,7 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 - [Prometheus](https://prometheus.io/docs/introduction/overview/)
 - [Cadvisor](https://github.com/google/cadvisor)
 - [Node-exporter](https://github.com/prometheus/node_exporter)
+- [JMX-exporter](https://github.com/prometheus/jmx_exporter)
 - [Grafana](https://grafana.com/docs/grafana/latest/)
 - [SpringBoot](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
 - [Cortex](https://cortexmetrics.io/docs/)

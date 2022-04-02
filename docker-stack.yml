@@ -203,8 +203,23 @@ services:
         # nobody(UID=65534), nobody(GID=65534)
         uid: '65534'
         gid: '65534'
-      - source: prometheus_file_sd_spring_actuator
-        target: /etc/prometheus/sd_configs/file/spring_actuator.yml
+      - source: prometheus_file_sd_spring_actuator_https
+        target: /etc/prometheus/sd_configs/file/spring_actuator_https.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_spring_actuator_http
+        target: /etc/prometheus/sd_configs/file/spring_actuator_http.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_jmx_exporter_vangw-server
+        target: /etc/prometheus/sd_configs/file/jmx_exporter_vangw-server.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
+      - source: prometheus_file_sd_jmx_exporter_tomcat
+        target: /etc/prometheus/sd_configs/file/jmx_exporter_tomcat.yml
         # nobody(UID=65534), nobody(GID=65534)
         uid: '65534'
         gid: '65534'
@@ -259,10 +274,12 @@ services:
         target: /etc/grafana/provisioning/dashboards/default/cpu.json
       - source: grafana_provisioning_dashboard_memory
         target: /etc/grafana/provisioning/dashboards/default/memory.json
-      - source: grafana_provisioning_dashboard_overview
-        target: /etc/grafana/provisioning/dashboards/default/overview.json
-      - source: grafana_provisioning_dashboard_spring
-        target: /etc/grafana/provisioning/dashboards/default/spring.json
+      - source: grafana_provisioning_dashboard_host
+        target: /etc/grafana/provisioning/dashboards/default/host.json
+      - source: grafana_provisioning_dashboard_java_spring
+        target: /etc/grafana/provisioning/dashboards/default/java_spring.json
+      - source: grafana_provisioning_dashboard_java_non_spring
+        target: /etc/grafana/provisioning/dashboards/default/java.json
       - source: grafana_provisioning_dashboard_home
         target: /usr/share/grafana/public/dashboards/home.json
       - source: grafana_provisioning_datasource_config
@@ -299,8 +316,15 @@ configs:
     file: ./prometheus/sd_configs/file/node_exporter.yml
   prometheus_file_sd_prometheus:
     file: ./prometheus/sd_configs/file/prometheus.yml
-  prometheus_file_sd_spring_actuator:
-    file: ./prometheus/sd_configs/file/spring_actuator.yml
+  prometheus_file_sd_spring_actuator_https:
+    file: ./prometheus/sd_configs/file/spring_actuator_https.yml
+  prometheus_file_sd_spring_actuator_http:
+    file: ./prometheus/sd_configs/file/spring_actuator_http.yml
+  prometheus_file_sd_jmx_exporter_vangw-server:
+    file: ./prometheus/sd_configs/file/jmx_exporter_vangw-server.yml
+  prometheus_file_sd_jmx_exporter_tomcat:
+    file: ./prometheus/sd_configs/file/jmx_exporter_tomcat.yml
+    
   # grafana
   grafana_config:
     file: ./grafana/grafana.ini
@@ -312,10 +336,12 @@ configs:
     file: ./grafana/provisioning/dashboards/default/cpu.json
   grafana_provisioning_dashboard_memory:
     file: ./grafana/provisioning/dashboards/default/memory.json
-  grafana_provisioning_dashboard_overview:
-    file: ./grafana/provisioning/dashboards/default/overview.json
-  grafana_provisioning_dashboard_spring:
-    file: ./grafana/provisioning/dashboards/default/spring.json
+  grafana_provisioning_dashboard_host:
+    file: ./grafana/provisioning/dashboards/default/host.json
+  grafana_provisioning_dashboard_java_spring:
+    file: ./grafana/provisioning/dashboards/default/java_spring.json
+  grafana_provisioning_dashboard_java_non_spring:
+    file: ./grafana/provisioning/dashboards/default/java.json
   grafana_provisioning_dashboard_home:
     file: ./grafana/home.json
   grafana_provisioning_datasource_config:

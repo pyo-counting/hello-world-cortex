@@ -1,0 +1,4351 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 4,
+  "iteration": 1648875929429,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "default"
+      ],
+      "targetBlank": false,
+      "title": "Dashboard List",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 20,
+      "panels": [],
+      "title": "Overview",
+      "type": "row"
+    },
+    {
+      "description": "Start time of the JVM",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dateTimeAsIso"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Start time$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "process_start_time_seconds{instance=\"$instance\", application=\"$application\"} * 1000",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Start time",
+          "refId": "A"
+        }
+      ],
+      "title": "Start Time",
+      "type": "stat"
+    },
+    {
+      "description": "Uptime of the JVM",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 4,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^Uptime$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "timestamp(process_start_time_seconds{instance=\"$instance\", application=\"$application\"}) - process_start_time_seconds{instance=\"$instance\", application=\"$application\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Uptime",
+          "refId": "A"
+        }
+      ],
+      "title": "Uptime",
+      "type": "stat"
+    },
+    {
+      "description": "Usable maximum file descriptor count",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 1
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^limit$/",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "process_max_fds{instance=\"$instance\", application=\"$application\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "limit",
+          "refId": "A"
+        }
+      ],
+      "title": "File Descriptor Limit",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "label"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 94
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 17,
+        "y": 1
+      },
+      "id": 14,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false,
+        "sortBy": []
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_info{instance=\"$instance\", application=\"$application\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "JVM Info",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "keepLabels": [
+              "vendor",
+              "runtime",
+              "version"
+            ],
+            "mode": "rows"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "bgColor": "transparent",
+        "clockType": "24 hour",
+        "countdownSettings": {
+          "endCountdownTime": "2021-08-04T02:40:10+09:00",
+          "endText": "00:00:00"
+        },
+        "countupSettings": {
+          "beginCountupTime": "2022-03-05T05:05:26+09:00",
+          "beginText": "00:00:00"
+        },
+        "dateSettings": {
+          "dateFormat": "YYYY-MM-DD",
+          "fontSize": "30px",
+          "fontWeight": "bold",
+          "locale": "",
+          "showDate": true
+        },
+        "mode": "time",
+        "refresh": "sec",
+        "timeSettings": {
+          "fontSize": "25px",
+          "fontWeight": "bold"
+        },
+        "timezone": "",
+        "timezoneSettings": {
+          "fontSize": "15px",
+          "fontWeight": "normal",
+          "showTimezone": true,
+          "zoneFormat": "name"
+        }
+      },
+      "pluginVersion": "1.3.0",
+      "type": "grafana-clock-panel"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 17,
+        "x": 0,
+        "y": 4
+      },
+      "id": 31,
+      "transparent": true,
+      "type": "mxswat-separator-panel"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 5
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_classes_loaded{instance=\"$instance\", application=\"$application\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "loaded",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_classes_unloaded_total{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "unloaded",
+          "refId": "C"
+        }
+      ],
+      "title": "ClassLoader",
+      "type": "stat"
+    },
+    {
+      "description": "Opend file descriptor count",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 4,
+        "y": 5
+      },
+      "id": 49,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "process_open_fds{instance=\"$instance\", application=\"$application\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "File Descriptor Used",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 5
+      },
+      "id": 51,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "process_virtual_memory_bytes{instance=\"$instance\", application=\"$application\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Process Virtual Memory",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 5
+      },
+      "id": 50,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "process_resident_memory_bytes{instance=\"$instance\", application=\"$application\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Process RSS",
+      "type": "stat"
+    },
+    {
+      "description": "The \"recent cpu usage\" for the JVM process",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 5
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(process_cpu_seconds_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Used",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 5
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "java_lang_operatingsystem_processcpuload{instance=\"$instance\", application=\"$application\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Load Avg",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 9
+      },
+      "id": 47,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_buffer_pool_used_buffers{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{pool}}",
+          "refId": "D"
+        }
+      ],
+      "title": "BufferPool",
+      "type": "stat"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 9
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "sum(jvm_memory_bytes_used{instance=\"$instance\", application=\"$application\"})",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "JVM",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": true,
+          "expr": "sum(jvm_buffer_pool_used_bytes{instance=\"$instance\", application=\"$application\"})",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "non-JVM",
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Used",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 3,
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 9
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(jvm_gc_collection_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{gc}}",
+          "refId": "D"
+        }
+      ],
+      "title": "GC duration avg",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 3,
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "cps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 9
+      },
+      "id": 54,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{gc}}",
+          "refId": "D"
+        }
+      ],
+      "title": "GC rate",
+      "type": "stat"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 72,
+      "panels": [
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "c/s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 14
+          },
+          "id": 74,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "request",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": true,
+              "expr": "rate(tomcat_errorcount_total {instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "error",
+              "refId": "B"
+            }
+          ],
+          "title": "Req rate",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byFrameRefID",
+                  "options": "B"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 14
+          },
+          "id": 77,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "rate(tomcat_processingtime_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "req duration",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "tomcat_maxtime_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "req duration (max)",
+              "refId": "B"
+            }
+          ],
+          "title": "Req duration",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 14
+          },
+          "id": 75,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "rate(tomcat_bytessent_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "req size",
+              "refId": "A"
+            }
+          ],
+          "title": "Req size mean",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 22
+          },
+          "id": 79,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "tomcat_threadpool_pollerthreadcount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "poller",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": true,
+              "expr": "tomcat_threadpool_currentthreadcount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "total",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": true,
+              "expr": "tomcat_threadpool_currentthreadsbusy{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "busy",
+              "refId": "C"
+            }
+          ],
+          "title": "Thread state",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 22
+          },
+          "id": 80,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "tomcat_threadpool_connectioncount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "connection",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": true,
+              "expr": "tomcat_threadpool_currentthreadsbusy{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "busy",
+              "refId": "B"
+            }
+          ],
+          "title": "Connection state",
+          "type": "timeseries"
+        }
+      ],
+      "repeat": "port",
+      "title": "Tomcat connector ($port / $protocol)",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 29,
+      "panels": [],
+      "title": "JVM GC",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 63,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "java_lang_garbagecollector_lastgcinfo_duration{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Last GC duration",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 70,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(jvm_gc_collection_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{gc}}",
+          "refId": "A"
+        }
+      ],
+      "title": "GC duration avg",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "cps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 65,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{gc}}",
+          "refId": "A"
+        }
+      ],
+      "title": "GC rate",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 22,
+      "panels": [],
+      "title": "JVM Memory",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "id": 69,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_memory_bytes_used{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{area}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Used",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 24
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool!~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{pool}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Heap Used",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 24
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{pool}}",
+          "refId": "A"
+        }
+      ],
+      "title": "non-Heap Used",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 39,
+      "panels": [
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 32
+          },
+          "id": 33,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_committed{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_init{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_used{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_max{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "Heap Status",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 32
+          },
+          "id": 34,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_committed{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_init{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_used{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_bytes_max{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "non-Heap Status",
+          "type": "timeseries"
+        },
+        {
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 32
+          },
+          "id": 42,
+          "transparent": true,
+          "type": "mxswat-separator-panel"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 40
+          },
+          "id": 37,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "G1 Eden Space",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 40
+          },
+          "id": 40,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "G1 Survivor Space",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 40
+          },
+          "id": 43,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "G1 Old Gen",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 48
+          },
+          "id": 44,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "Metaspace or PermGen",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 48
+          },
+          "id": 45,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "Code Cache",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 2,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "-1": {
+                      "index": 0,
+                      "text": "no-limit"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 48
+          },
+          "id": 46,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean",
+                "last"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "sortBy": "Last",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "8.3.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "committed",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "java_lang_memorypool_usage_init{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "init",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "java_lang_memorypool_usage_used{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "used",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "cortex_datasource"
+              },
+              "exemplar": false,
+              "expr": "java_lang_memorypool_usage_max{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "max",
+              "refId": "D"
+            }
+          ],
+          "title": "Compressed Class Space",
+          "type": "timeseries"
+        }
+      ],
+      "title": "JVM MemoryPool Stat",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 67,
+      "panels": [],
+      "title": "BufferPool (non-JVM Memory)",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 34
+      },
+      "id": 55,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_buffer_pool_used_bytes{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{pool}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Used",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 34
+      },
+      "id": 68,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_buffer_pool_used_buffers{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{pool}}",
+          "refId": "A"
+        }
+      ],
+      "title": "BufferPool count",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "id": 53,
+      "panels": [],
+      "title": "JVM CPU",
+      "type": "row"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 43
+      },
+      "id": 56,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "rate(process_cpu_seconds_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "JVM",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Used",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 3,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 43
+      },
+      "id": 57,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "java_lang_operatingsystem_systemcpuload{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "system",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "java_lang_operatingsystem_processcpuload{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "JVM",
+          "refId": "B"
+        }
+      ],
+      "title": "Load Avg",
+      "type": "timeseries"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 43
+      },
+      "id": 61,
+      "transparent": true,
+      "type": "mxswat-separator-panel"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 51
+      },
+      "id": 58,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_current{instance=\"$instance\", application=\"$application\"} - jvm_threads_daemon{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "non-daemon",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_daemon{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "daemon",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_peak{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "max",
+          "refId": "C"
+        }
+      ],
+      "title": "Number of Threads",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 51
+      },
+      "id": 59,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_state{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{state}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Number of Threads by State",
+      "type": "timeseries"
+    },
+    {
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 51
+      },
+      "id": 62,
+      "options": {
+        "legend": {
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "last"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "sortBy": "Last",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_deadlocked_monitor{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "object monitors",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cortex_datasource"
+          },
+          "exemplar": false,
+          "expr": "jvm_threads_deadlocked{instance=\"$instance\", application=\"$application\"}",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "ownable synchronizers",
+          "refId": "B"
+        }
+      ],
+      "title": "Deadlocked Threads",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [
+    "default",
+    "jvm"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "definition": "label_values(up, instance)",
+        "description": "Host IP",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "query": "label_values(up, instance)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "definition": "label_values(jvm_info{instance=\"$instance\"}, application)",
+        "description": "application",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "application",
+        "options": [],
+        "query": {
+          "query": "label_values(jvm_info{instance=\"$instance\"}, application)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            ""
+          ],
+          "value": [
+            ""
+          ]
+        },
+        "definition": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\"}, exported_port)",
+        "description": "Port",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "port",
+        "options": [],
+        "query": {
+          "query": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\"}, exported_port)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "definition": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}, protocol)",
+        "description": "Protocol",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "protocol",
+        "options": [],
+        "query": {
+          "query": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}, protocol)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "JVM(non-Spring)",
+  "uid": "non-spring_dashboard",
+  "version": 1,
+  "weekStart": ""
+}

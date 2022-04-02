@@ -181,66 +181,6 @@
       "type": "stat"
     },
     {
-      "description": "Number of processors available to the JVM",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 2,
-        "x": 6,
-        "y": 1
-      },
-      "id": 2,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "/^total$/",
-          "values": false
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cortex_datasource"
-          },
-          "exemplar": false,
-          "expr": "system_cpu_count{instance=\"$instance\"}",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "total",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU Cores",
-      "type": "stat"
-    },
-    {
       "description": "Usable maximum file descriptor count",
       "fieldConfig": {
         "defaults": {
@@ -264,7 +204,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 8,
+        "x": 6,
         "y": 1
       },
       "id": 4,
@@ -4742,7 +4682,7 @@
   "style": "dark",
   "tags": [
     "default",
-    "spring"
+    "jvm"
   ],
   "templating": {
     "list": [
@@ -4866,7 +4806,7 @@
     ]
   },
   "timezone": "",
-  "title": "Spring",
+  "title": "JVM(Spring)",
   "uid": "spring_dashboard",
   "version": 1,
   "weekStart": ""

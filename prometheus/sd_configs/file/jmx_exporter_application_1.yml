@@ -1,4 +1,0 @@
-- targets:
-  - 192.168.136.10:9404
-  labels:
-    application: application_1

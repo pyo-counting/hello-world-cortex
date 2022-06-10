@@ -2,8 +2,8 @@ global:
   scrape_interval: 10s
   scrape_timeout: 5s
   external_labels:
-    cluster: pyeongcheon_dev
-    __replica__: ${SWARM_NODE_NAME}
+    cluster: ${cluster}
+    __replica__: ${HOSTNAME}
 #  evaluation_interval: 5s
 #  query_log_file: /prometheus/query.log
 
@@ -12,143 +12,122 @@ global:
 #  - rule_files/recording/*.yml
 
 scrape_configs:
-# prometheus
+  # prometheus
   - job_name: prometheus
-    file_sd_configs:
-      - files:
-        - sd_configs/file/prometheus.yml
+    consul_sd_configs:
+      - server: "cortex_stack_consul:8500"
+        scheme: http
+        services: [prometheus]
         refresh_interval: 5m
+        follow_redirects: true
     relabel_configs:
-        # add port label
       - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port label from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
+        source_labels:  [__meta_consul_service_metadata_hostname]
+        target_label:   hostname
+        regex:          ^(.*)$
         replacement:    ${1}
+#      # add port label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   port
+#        regex:          ^(.*):(\d{1,5})$
+#        replacement:    ${2}
+#      # delete port label from instance label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   instance
+#        regex:          ^(.*)(:\d{1,5})$
+#        replacement:    ${1}
       
-# cadvisor
+  # cadvisor
   - job_name: cadvisor
-    file_sd_configs:
-      - files:
-        - sd_configs/file/cadvisor.yml
+    consul_sd_configs:
+      - server: "cortex_stack_consul:8500"
+        scheme: http
+        services: [cadvisor]
         refresh_interval: 5m
+        follow_redirects: true
     relabel_configs:
-        # add port label
       - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
+        source_labels:  [__meta_consul_service_metadata_hostname]
+        target_label:   hostname
+        regex:          ^(.*)$
         replacement:    ${1}
+#      # add port label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   port
+#        regex:          ^(.*):(\d{1,5})$
+#        replacement:    ${2}
+#      # delete port from instance label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   instance
+#        regex:          ^(.*)(:\d{1,5})$
+#        replacement:    ${1}
     metric_relabel_configs:
-        # replace root cgroup's 'id' label with 'name' label
+      # replace root cgroup's 'id' label with 'name' label
       - action:         replace
         source_labels:  [id]
         target_label:   name
         regex:          ^/$
         replacement:    ${0}
-        # drop all 'id', 'image' label
+      # drop all 'id', 'image' label
       - action:         labeldrop
         regex:          (^id$|^image$)
-
-# node_exporter
+        
+  # node_exporter
   - job_name: node_exporter
-    file_sd_configs:
-      - files:
-        - sd_configs/file/node_exporter.yml
+    consul_sd_configs:
+      - server: "cortex_stack_consul:8500"
+        scheme: http
+        services: [node-exporter]
         refresh_interval: 5m
+        follow_redirects: true
     relabel_configs:
-        # add port label
       - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
+        source_labels:  [__meta_consul_service_metadata_hostname]
+        target_label:   hostname
+        regex:          ^(.*)$
         replacement:    ${1}
+#      # add port label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   port
+#        regex:          ^(.*):(\d{1,5})$
+#        replacement:    ${2}
+#      # delete port from instance label
+#      - action:         replace
+#        source_labels:  [__address__]
+#        target_label:   instance
+#        regex:          ^(.*)(:\d{1,5})$
+#        replacement:    ${1}
 #   params:
 #      collect[]: ['cpu']
-
-# spring_actuator
-  - job_name: spring_actuator_https
-    metrics_path: /actuator/prometheus
-    scheme: https
-    tls_config:
-      insecure_skip_verify: true
-    file_sd_configs:
-      - files:
-        - sd_configs/file/spring_actuator_https.yml
+        
+  # application
+  - job_name: application
+    consul_sd_configs:
+      - server: "cortex_stack_consul:8500"
+        scheme: http
+        services: [application]
         refresh_interval: 5m
+        follow_redirects: true
     relabel_configs:
-        # add port label
+      # add hostname label
       - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
+        source_labels:  [__meta_consul_service_metadata_hostname]
+        target_label:   hostname
+        regex:          ^(.*)$
         replacement:    ${1}
-
-  - job_name: spring_actuator_http
-    metrics_path: /actuator/prometheus
-    scheme: http
-    file_sd_configs:
-      - files:
-        - sd_configs/file/spring_actuator_http.yml
-    relabel_configs:
-        # add port label
+      # add application label
       - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
+        source_labels:  [__meta_consul_service_metadata_application]
+        target_label:   application
+        regex:          ^(.*)$
         replacement:    ${1}
         
-# jmx_exporter
-  - job_name: jmx_exporter
-    file_sd_configs:
-      - files:
-        - sd_configs/file/jmx_exporter_*.yml
-        refresh_interval: 5m
-    relabel_configs:
-        # add port label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   port
-        regex:          ^(.*):(\d{1,5})$
-        replacement:    ${2}
-        # delete port from instance label
-      - action:         replace
-        source_labels:  [__address__]
-        target_label:   instance
-        regex:          ^(.*)(:\d{1,5})$
-        replacement:    ${1}
-
-# harbor
+  # harbor
 #  - job_name: harbor_exporter
 #    static_configs:
 #      - targets: ['localhost:9091']
@@ -170,7 +149,7 @@ scrape_configs:
 #        - targets: ['192.168.136.61:9093']
 
 remote_write:
-  - url: http://monitoring_stack_cortex:9009/api/v1/push
+  - url: http://cortex_stack_cortex_distributor:9009/api/v1/push
     remote_timeout: 15s
     headers:
       X-Scope-OrgID: fs-solution

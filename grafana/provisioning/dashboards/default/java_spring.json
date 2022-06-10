@@ -109,7 +109,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_start_time_seconds{instance=\"$instance\", application=\"$application\"} * 1000",
+          "expr": "process_start_time_seconds{hostname=\"$hostname\", application=\"$application\"} * 1000",
           "instant": true,
           "interval": "",
           "legendFormat": "Start time",
@@ -170,7 +170,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_uptime_seconds{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_uptime_seconds{hostname=\"$hostname\", application=\"$application\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "Uptime",
@@ -230,7 +230,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_files_max_files{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_files_max_files{hostname=\"$hostname\", application=\"$application\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "limit",
@@ -315,7 +315,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "instant": false,
           "interval": "",
           "legendFormat": "usage rate",
@@ -327,7 +327,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "usage duration",
@@ -339,7 +339,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "acquire rate",
@@ -351,7 +351,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "acquire duration",
@@ -451,7 +451,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_classes_loaded_classes{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_classes_loaded_classes{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -512,7 +512,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_files_open_files{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_files_open_files{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -573,7 +573,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\"})",
+          "expr": "sum(jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -634,7 +634,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_cpu_usage{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_cpu_usage{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -731,7 +731,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "instant": false,
           "interval": "",
           "legendFormat": "req rate",
@@ -743,7 +743,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(http_server_requests_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "req duration",
@@ -755,7 +755,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "success rate",
@@ -880,7 +880,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum by (uri) (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum by (uri) (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "refId": "A"
@@ -891,7 +891,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1003,7 +1003,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum by (uri) (rate(http_server_requests_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum by (uri) (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum by (uri) (rate(http_server_requests_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum by (uri) (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "refId": "A"
@@ -1014,7 +1014,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum (rate(http_server_requests_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum (rate(http_server_requests_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1127,7 +1127,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum by (uri) (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum by (uri) (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum by (uri) (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum by (uri) (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "{{uri}}",
           "refId": "A"
@@ -1138,7 +1138,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", status=~\"2..\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1246,7 +1246,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
+              "expr": "sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
               "interval": "",
               "legendFormat": "rate",
               "refId": "A"
@@ -1343,7 +1343,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "sum by (status) (rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
+              "expr": "sum by (status) (rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
               "interval": "",
               "legendFormat": "{{status}}",
               "refId": "A"
@@ -1440,7 +1440,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "sum(rate(http_server_requests_seconds_sum{instance=\"$instance\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
+              "expr": "sum(rate(http_server_requests_seconds_sum{hostname=\"$hostname\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval])) / sum(rate(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\", uri=\"${uri:raw}\"}[$__rate_interval]))",
               "hide": false,
               "interval": "",
               "legendFormat": "avg",
@@ -1452,7 +1452,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "max(http_server_requests_seconds_max{instance=\"$instance\", application=\"$application\", uri=\"${uri:raw}\"})",
+              "expr": "max(http_server_requests_seconds_max{hostname=\"$hostname\", application=\"$application\", uri=\"${uri:raw}\"})",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -1582,7 +1582,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1596,7 +1596,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1708,7 +1708,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1722,7 +1722,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1834,7 +1834,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1848,7 +1848,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -1960,7 +1960,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_usage_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1974,7 +1974,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_usage_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2086,7 +2086,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_acquire_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2100,7 +2100,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_acquire_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2212,7 +2212,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(hikaricp_connections_creation_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -2226,7 +2226,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval]))",
+          "expr": "sum(rate(hikaricp_connections_creation_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])) / sum(rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]))",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -2358,7 +2358,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2372,7 +2372,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_pending{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_pending{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "pending",
@@ -2384,7 +2384,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_active{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_active{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "active",
@@ -2396,7 +2396,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_idle{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_idle{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "idle",
@@ -2408,7 +2408,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_max{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2420,7 +2420,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_min{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_min{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "min",
@@ -2517,7 +2517,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_timeout_total{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_timeout_total{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2617,7 +2617,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2717,7 +2717,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2817,7 +2817,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2917,7 +2917,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_usage_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_usage_seconds_sum{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_usage_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -2931,7 +2931,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_usage_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_usage_seconds_max{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3029,7 +3029,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_acquire_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_acquire_seconds_sum{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_acquire_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -3043,7 +3043,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_acquire_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_acquire_seconds_max{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3141,7 +3141,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(hikaricp_connections_creation_seconds_sum{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
+              "expr": "rate(hikaricp_connections_creation_seconds_sum{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval]) / rate(hikaricp_connections_creation_seconds_count{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "instant": false,
@@ -3155,7 +3155,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "hikaricp_connections_creation_seconds_max{instance=\"$instance\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
+              "expr": "hikaricp_connections_creation_seconds_max{hostname=\"$hostname\", application=\"$application\", pool=\"${hikari_cp:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3284,7 +3284,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "tomcat_sessions_active_current_sessions{instance=\"$instance\", application=\"$application\"}",
+          "expr": "tomcat_sessions_active_current_sessions{hostname=\"$hostname\", application=\"$application\"}",
           "interval": "",
           "legendFormat": "active",
           "refId": "A"
@@ -3295,7 +3295,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "tomcat_sessions_active_max_sessions{instance=\"$instance\", application=\"$application\"}",
+          "expr": "tomcat_sessions_active_max_sessions{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "max",
@@ -3394,7 +3394,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(tomcat_sessions_created_sessions_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(tomcat_sessions_created_sessions_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "interval": "",
           "legendFormat": "created",
           "refId": "A"
@@ -3405,7 +3405,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(tomcat_sessions_expired_sessions_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(tomcat_sessions_expired_sessions_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "expired",
@@ -3417,7 +3417,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(tomcat_sessions_rejected_sessions_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(tomcat_sessions_rejected_sessions_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "rejected",
@@ -3529,7 +3529,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_cpu_usage{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_cpu_usage{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{application}}",
@@ -3541,7 +3541,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "system_cpu_usage{instance=\"$instance\", application=\"$application\"}",
+          "expr": "system_cpu_usage{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "host",
@@ -3639,7 +3639,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_states_threads{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_states_threads{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3751,7 +3751,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_daemon_threads{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_daemon_threads{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "daemon",
@@ -3763,7 +3763,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_live_threads{instance=\"$instance\", application=\"$application\"} - jvm_threads_daemon_threads{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_live_threads{hostname=\"$hostname\", application=\"$application\"} - jvm_threads_daemon_threads{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "non-daemon",
@@ -3775,7 +3775,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_peak_threads{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_peak_threads{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "max",
@@ -3886,7 +3886,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\", area=\"heap\"})",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3899,7 +3899,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\", area=\"nonheap\"})",
+          "expr": "sum(jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\", area=\"nonheap\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "non-heap",
@@ -3911,7 +3911,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\"})",
+          "expr": "sum(jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "total",
@@ -4009,7 +4009,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\", area=\"heap\"}",
+          "expr": "jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\", area=\"heap\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{id}}",
@@ -4107,7 +4107,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_memory_used_bytes{instance=\"$instance\", application=\"$application\", area=\"nonheap\"}",
+          "expr": "jvm_memory_used_bytes{hostname=\"$hostname\", application=\"$application\", area=\"nonheap\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{id}}",
@@ -4219,7 +4219,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_pause_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_pause_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -4319,7 +4319,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_pause_seconds_sum{application=\"$application\", instance=\"$instance\"}[$__rate_interval])/rate(jvm_gc_pause_seconds_count{application=\"$application\", instance=\"$instance\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_pause_seconds_sum{application=\"$application\", hostname=\"$hostname\"}[$__rate_interval])/rate(jvm_gc_pause_seconds_count{application=\"$application\", hostname=\"$hostname\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4333,7 +4333,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_gc_pause_seconds_max{application=\"$application\", instance=\"$instance\"}",
+          "expr": "jvm_gc_pause_seconds_max{application=\"$application\", hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{action}} ({{cause}}) max",
@@ -4432,7 +4432,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_memory_allocated_bytes_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_memory_allocated_bytes_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4446,7 +4446,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_memory_promoted_bytes_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_memory_promoted_bytes_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "promoted",
@@ -4571,7 +4571,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(log4j2_events_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(log4j2_events_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "{{level}}",
@@ -4666,7 +4666,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_files_open_files{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_files_open_files{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "opend",
@@ -4692,15 +4692,15 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(up, instance)",
-        "description": "Host IP",
+        "definition": "label_values(up, hostname)",
+        "description": "Hostname",
         "hide": 0,
         "includeAll": false,
         "multi": false,
-        "name": "instance",
+        "name": "hostname",
         "options": [],
         "query": {
-          "query": "label_values(up, instance)",
+          "query": "label_values(up, hostname)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4715,7 +4715,7 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(jvm_memory_used_bytes{instance=\"$instance\"}, application)",
+        "definition": "label_values(jvm_memory_used_bytes{hostname=\"$hostname\"}, application)",
         "description": "application",
         "hide": 0,
         "includeAll": false,
@@ -4723,7 +4723,7 @@
         "name": "application",
         "options": [],
         "query": {
-          "query": "label_values(jvm_memory_used_bytes{instance=\"$instance\"}, application)",
+          "query": "label_values(jvm_memory_used_bytes{hostname=\"$hostname\"}, application)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4742,7 +4742,7 @@
             ""
           ]
         },
-        "definition": "label_values(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}, uri)",
+        "definition": "label_values(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}, uri)",
         "description": "uri",
         "hide": 0,
         "includeAll": true,
@@ -4750,7 +4750,7 @@
         "name": "uri",
         "options": [],
         "query": {
-          "query": "label_values(http_server_requests_seconds_count{instance=\"$instance\", application=\"$application\"}, uri)",
+          "query": "label_values(http_server_requests_seconds_count{hostname=\"$hostname\", application=\"$application\"}, uri)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4769,7 +4769,7 @@
             ""
           ]
         },
-        "definition": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
+        "definition": "label_values(hikaricp_connections{hostname=\"$hostname\", application=\"$application\"}, pool)",
         "description": "hikari connection pool",
         "hide": 0,
         "includeAll": true,
@@ -4777,7 +4777,7 @@
         "name": "hikari_cp",
         "options": [],
         "query": {
-          "query": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
+          "query": "label_values(hikaricp_connections{hostname=\"$hostname\", application=\"$application\"}, pool)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

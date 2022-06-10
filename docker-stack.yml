@@ -1,92 +1,25 @@
 version: '3.8'
 
 services:
-  cadvisor:
-    image: docker:20.10.12
-    networks:
-      - overlay
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - 'node.platform.os == linux'
-      restart_policy:
-        condition: any
-        delay: 1m
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '100m'
-        max-file: '5'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
-      - VERSION=v0.37.5
-    entrypoint: ["/bin/sh","-c"]
-    command:
-    - |
-      exec docker run -i --rm --network host --log-driver none \
-      --mount type=bind,src=/,dst=/rootfs,ro \
-      --mount type=bind,src=/var/run,dst=/var/run \
-      --mount type=bind,src=/sys,dst=/sys,ro \
-      --mount type=bind,src=/var/lib/docker,dst=/var/lib/docker,ro \
-      --name $${CHILD_NAME} \
-      --privileged \
-      gcr.io/cadvisor/cadvisor:$${VERSION} \
-      --housekeeping_interval=10s \
-      --docker_only=true \
-      --store_container_labels=false \
-      --enable_load_reader=true \
-      --logtostderr=true \
-      --log_cadvisor_usage=true \
-      --v=0
-      
-  node_exporter:
-    image: docker:20.10.12
-    networks:
-      - overlay
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - 'node.platform.os == linux'
-      restart_policy:
-        condition: any
-        delay: 1m
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '100m'
-        max-file: '5'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
-      - VERSION=v1.3.1
-    entrypoint: ["/bin/sh","-c"]
-    command:
-    - |
-      exec docker run -i --rm --network host --pid host --log-driver none \
-      --mount type=bind,src=/,dst=/host,ro,bind-propagation=rslave \
-      --name $${CHILD_NAME} \
-      quay.io/prometheus/node-exporter:$${VERSION} \
-      --path.rootfs=/host
-      
-  cortex:
+  cortex_distributor:
     image: quay.io/cortexproject/cortex:v1.11.0
+    environment:
+      - TARGET=distributor
     networks:
       - overlay
     ports:
       - '9009:9009'
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: ${CORTEX_DISTRIBUTOR_REPLICAS}
       placement:
-        max_replicas_per_node: 1
         constraints:
           - 'node.platform.os == linux'
-          - 'node.labels.monitoring_stack.cortex.deployable == true'
+          - 'node.labels.cortex_stack.cortex_distributor.deployable == true'
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: ${CORTEX_DISTRIBUTOR_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -96,25 +29,40 @@ services:
       options:
         max-size: '100m'
         max-file: '5'
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
     configs:
       - source: cortex_config
-        target: /etc/cortex/microservices-mode-config.yml
+        target: /etc/cortex/cortex.yml
     command:
-      - -config.file=/etc/cortex/microservices-mode-config.yml
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
       
-  consul:
-    image: harbor.danal.co.kr/docker_hub/library/consul:1.10.4
+  cortex_ingester:
+    image: quay.io/cortexproject/cortex:v1.11.0
     environment:
-      CONSUL_BIND_INTERFACE: eth0
+      - TARGET=ingester
     networks:
       - overlay
+    #ports:
+      #- '9008:9009'
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: ${CORTEX_INGESTER_REPLICAS}
       placement:
         constraints:
           - 'node.platform.os == linux'
-          - 'node.labels.monitoring_stack.cortex.deployable == true'
+          - 'node.labels.cortex_stack.cortex_ingester.deployable == true'
+      resources:
+        limits:
+          cpus: ${CORTEX_INGESTER_RESOURCES_LIMITS_CPUS}
+          memory: ${CORTEX_INGESTER_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -124,37 +72,193 @@ services:
       options:
         max-size: '100m'
         max-file: '5'
-
-  cassandra:
-    image: cassandra:3.11.11
-    networks:
-      - overlay
-    ports:
-      - '9042:9042'
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - 'node.platform.os == linux'
-          - 'node.labels.monitoring_stack.cassandra.deployable == true'
-      restart_policy:
-        condition: any
-        delay: 30s
-        max_attempts: 5
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
     configs:
-      - source: cassandra_init_shell
-        target: /cassandra-init.sh
-        mode: 0544
-    volumes:
-      - cassandra:/var/lib/cassandra
+      - source: cortex_config
+        target: /etc/cortex/cortex.yml
+    command:
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
+      
+  cortex_querier:
+    image: quay.io/cortexproject/cortex:v1.11.0
+    environment:
+      - TARGET=querier
+    networks:
+      - overlay
+    #ports:
+      #- '9007:9009'
+    deploy:
+      mode: replicated
+      replicas: ${CORTEX_QUERIER_REPLICAS}
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cortex_querier.deployable == true'
+      resources:
+        limits:
+          cpus: ${CORTEX_QUERIER_RESOURCES_LIMITS_CPUS}
+          memory: ${CORTEX_QUERIER_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
     logging:
       driver: 'json-file'
       options:
         max-size: '100m'
         max-file: '5'
-    entrypoint: ["./cassandra-init.sh"] 
-    
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
+    configs:
+      - source: cortex_config
+        target: /etc/cortex/cortex.yml
+    command:
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
+      
+  cortex_query_frontend:
+    image: quay.io/cortexproject/cortex:v1.11.0
+    environment:
+      - TARGET=query-frontend
+    networks:
+      - overlay
+    #ports:
+      #- '9008:9009'
+    deploy:
+      mode: replicated
+      replicas: ${CORTEX_QUERY_FRONTEND_REPLICAS}
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cortex_query_frontend.deployable == true'
+      resources:
+        limits:
+          cpus: ${CORTEX_QUERY_FRONTEND_RESOURCES_LIMITS_CPUS}
+          memory: ${CORTEX_QUERY_FRONTEND_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
+    configs:
+      - source: cortex_config
+        target: /etc/cortex/cortex.yml
+    command:
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
+      
+  cortex_query_scheduler:
+    image: quay.io/cortexproject/cortex:v1.11.0
+    environment:
+      - TARGET=query-scheduler
+    networks:
+      - overlay
+    #ports:
+      #- '9006:9009'
+    deploy:
+      mode: replicated
+      replicas: ${CORTEX_QUERY_SCHEDULER_REPLICAS}
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cortex_query_scheduler.deployable == true'
+      resources:
+        limits:
+          cpus: ${CORTEX_QUERY_SCHEDULER_RESOURCES_LIMITS_CPUS}
+          memory: ${CORTEX_QUERY_SCHEDULER_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
+    configs:
+      - source: cortex_config
+        target: /etc/cortex/cortex.yml
+    command:
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
+      
+  cortex_table_manager:
+    image: quay.io/cortexproject/cortex:v1.11.0
+    environment:
+      - TARGET=table-manager
+    networks:
+      - overlay
+    #ports:
+      #- '9005:9009'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cortex_table_manager.deployable == true'
+      resources:
+        limits:
+          cpus: ${CORTEX_TABLE_MANAGER_RESOURCES_LIMITS_CPUS}
+          memory: ${CORTEX_TABLE_MANAGER_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
+    env_file: ./cortex/${ENV_FILE}
+    configs:
+      - source: cortex_config
+        target: /etc/cortex/cortex.yml
+    command:
+      # Configuration file to load.
+      - -config.file=/etc/cortex/cortex.yml
+      # Expands ${var} or $var in config according to the values of the environment variables.
+      - -config.expand-env=true
+      # Print the config and exit.
+      #- -print.config
+      # List available values that can be used as target.
+      #- -modules
+      
   prometheus:
     image: prom/prometheus:v2.32.0
     networks:
@@ -165,12 +269,16 @@ services:
         mode: host
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: ${PROMETHEUS_REPLICAS}
       placement:
         max_replicas_per_node: 1
         constraints:
           - 'node.platform.os == linux'
-          - 'node.labels.monitoring_stack.prometheus.deployable == true'
+          - 'node.labels.cortex_stack.prometheus.deployable == true'
+      resources:
+        limits:
+          cpus: ${PROMETHEUS_RESOURCES_LIMITS_CPUS}
+          memory: ${PROMETHEUS_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -180,71 +288,46 @@ services:
       options:
         max-size: '100m'
         max-file: '5'
-    environment:
-      SWARM_NODE_NAME: '{{.Node.Hostname}}'
+    hostname: '{{.Node.Hostname}}'
+    env_file: ./prometheus/${ENV_FILE}
     configs:
       - source: prometheus_config
         target: /etc/prometheus/prometheus.yml
         # nobody(UID=65534), nobody(GID=65534)
         uid: '65534'
         gid: '65534'
-      - source: prometheus_file_sd_cadvisor
-        target: /etc/prometheus/sd_configs/file/cadvisor.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_node_exporter
-        target: /etc/prometheus/sd_configs/file/node_exporter.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_prometheus
-        target: /etc/prometheus/sd_configs/file/prometheus.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_spring_actuator_https
-        target: /etc/prometheus/sd_configs/file/spring_actuator_https.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_spring_actuator_http
-        target: /etc/prometheus/sd_configs/file/spring_actuator_http.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_jmx_exporter_vangw-server
-        target: /etc/prometheus/sd_configs/file/jmx_exporter_vangw-server.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
-      - source: prometheus_file_sd_jmx_exporter_tomcat
-        target: /etc/prometheus/sd_configs/file/jmx_exporter_tomcat.yml
-        # nobody(UID=65534), nobody(GID=65534)
-        uid: '65534'
-        gid: '65534'
     volumes:
       - prometheus:/prometheus
     command:
+      # Prometheus configuration file path.
       - --config.file=/etc/prometheus/prometheus.yml
+      # Maximum number of bytes that can be stored for blocks. A unit is required, supported units: B, KB, MB, GB, TB, PB, EB. Ex: "512MB". Use with server mode only.
       - --storage.tsdb.retention.size=10GB
+      # Comma separated feature names to enable. Valid options: agent, exemplar-storage, expand-external-labels, memory-snapshot-on-shutdown, promql-at-modifier, promql-negative-offset,
+      # remote-write-receiver, extra-scrape-metrics, new-service-discovery-manager. See https://prometheus.io/docs/prometheus/latest/feature_flags/ for more details.
       - --enable-feature=expand-external-labels
-#      - --log.level=debug
+      # Only log messages with the given severity or above. One of: [debug, info, warn, error]
+      - --log.level=${PROMETHEUS_LOG_LEVEL}
       
   grafana:
     image: grafana/grafana-oss:8.3.3
     networks:
       - overlay
     ports:
-      - '3000:3000'
+      - target: 3000
+        published: 3000
+        mode: host
     deploy:
       mode: replicated
       replicas: 1
       placement:
-        max_replicas_per_node: 1
         constraints:
           - 'node.platform.os == linux'
-          - 'node.labels.monitoring_stack.grafana.deployable == true'
+          - 'node.labels.cortex_stack.grafana.deployable == true'
+      resources:
+        limits:
+          cpus: ${GRAFANA_RESOURCES_LIMITS_CPUS}
+          memory: ${GRAFANA_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -263,6 +346,8 @@ services:
       GF_PATHS_LOGS: /var/log/grafana
       GF_PATHS_PLUGINS: /var/lib/grafana/plugins
       GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+    hostname: '{{.Node.Hostname}}'
+    env_file: ./grafana/${ENV_FILE}
     configs:
       - source: grafana_config
         target: /etc/grafana/grafana.ini
@@ -291,6 +376,184 @@ services:
     volumes:
       - grafana:/var/lib/grafana
       
+  cadvisor:
+    image: docker:20.10.12
+    networks:
+      - overlay
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 50MB
+      restart_policy:
+        condition: any
+        delay: 1m
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
+      - VERSION=v0.37.5
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      exec docker run -i --rm --network host --log-driver none \
+      --mount type=bind,src=/,dst=/rootfs,ro \
+      --mount type=bind,src=/var/run,dst=/var/run \
+      --mount type=bind,src=/sys,dst=/sys,ro \
+      --mount type=bind,src=/var/lib/docker,dst=/var/lib/docker,ro \
+      --name $${CHILD_NAME} \
+      --privileged \
+      --cpus ${CADVISOR_RESOURCES_LIMITS_CPUS} \
+      --memory ${CADVISOR_RESOURCES_LIMITS_MEMORY} \
+      gcr.io/cadvisor:$${VERSION} \
+      --housekeeping_interval=10s \
+      --docker_only=true \
+      --store_container_labels=false \
+      --enable_load_reader=true \
+      --logtostderr=true \
+      --log_cadvisor_usage=true \
+      --v=0
+      
+  node_exporter:
+    image: docker:20.10.12
+    networks:
+      - overlay
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 50MB
+      restart_policy:
+        condition: any
+        delay: 1m
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - CHILD_NAME={{.Service.Name}}.sidecar.{{.Node.ID}}.{{.Task.ID}}
+      - VERSION=v1.3.1
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      exec docker run -i --rm --network host --pid host --log-driver none \
+      --mount type=bind,src=/,dst=/host,ro,bind-propagation=rslave \
+      --name $${CHILD_NAME} \
+      --cpus ${NODE_EXPORTER_RESOURCES_LIMITS_CPUS} \
+      --memory ${NODE_EXPORTER_RESOURCES_LIMITS_MEMORY} \
+      quay.io/prometheus/node-exporter:$${VERSION} \
+      --path.rootfs=/host
+      
+  consul:
+    image: consul:1.12.2
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    networks:
+      - overlay
+    ports:
+      - target: 8500
+        published: 8500
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cortex.deployable == true'
+      resources:
+        limits:
+          cpus: ${CONSUL_RESOURCES_LIMITS_CPUS}
+          memory: ${CONSUL_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    configs:
+      - source: consul_sd_application
+        target: /consul/config/sd_application.json
+      - source: consul_sd_cadvisor
+        target: /consul/config/sd_cadvisor.json
+      - source: consul_sd_node_exporter
+        target: /consul/config/sd_node_exporter.json
+      - source: consul_sd_prometheus
+        target: /consul/config/sd_prometheus.json
+    volumes:
+      - consul:/consul/data
+    command:
+      # Runs a Consul agent
+      - agent
+      # Watches config files for changes and auto reloads the files when modified.
+      #- -auto-reload-config
+      # Sets the address to bind for client access. This includes RPC, DNS, HTTP, HTTPS and gRPC (if configured).
+      - -client=0.0.0.0
+      # Path to a file in JSON or HCL format with a matching file extension. Can be specified multiple times.
+      - -config-dir=/consul/config
+      # Path to a data directory to store agent state.
+      - -data-dir=/consul/data
+      # Starts the agent in development mode.
+      - -dev
+      # Enables health check scripts from configuration file.
+      - -enable-local-script-checks
+      # Log level of the agent.
+      - -log-level=${CONSUL_LOG_LEVEL}
+      
+  cassandra:
+    image: cassandra:3.11.11
+    networks:
+      - overlay
+    #ports:
+      #- '9042:9042'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.cassandra.deployable == true'
+      resources:
+        limits:
+          cpus: ${CASSANDRA_RESOURCES_LIMITS_CPUS}
+          memory: ${CASSANDRA_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    hostname: '{{.Node.Hostname}}'
+    configs:
+      - source: cassandra_init_shell
+        target: /cassandra-init.sh
+        mode: 0544
+    volumes:
+      - cassandra:/var/lib/cassandra
+    entrypoint: ["./cassandra-init.sh"]
+    
 networks:
   overlay:
     driver: overlay
@@ -299,31 +562,30 @@ volumes:
   prometheus:
   cassandra:
   grafana:
+  consul:
 
 configs:
   # cortex
   cortex_config:
-    file: ./cortex/microservices-mode-config.yml
+    file: ./cortex/cortex.yml
+    
   # cassandra
   cassandra_init_shell:
     file: ./cassandra/init.sh
+    
+  # consul
+  consul_sd_application:
+    file: ./consul/sd_application.json
+  consul_sd_cadvisor:
+    file: ./consul/sd_cadvisor.json
+  consul_sd_node_exporter:
+    file: ./consul/sd_node_exporter.json
+  consul_sd_prometheus:
+    file: ./consul/sd_prometheus.json
+    
   # prometheus
   prometheus_config:
     file: ./prometheus/prometheus.yml
-  prometheus_file_sd_cadvisor:
-    file: ./prometheus/sd_configs/file/cadvisor.yml
-  prometheus_file_sd_node_exporter:
-    file: ./prometheus/sd_configs/file/node_exporter.yml
-  prometheus_file_sd_prometheus:
-    file: ./prometheus/sd_configs/file/prometheus.yml
-  prometheus_file_sd_spring_actuator_https:
-    file: ./prometheus/sd_configs/file/spring_actuator_https.yml
-  prometheus_file_sd_spring_actuator_http:
-    file: ./prometheus/sd_configs/file/spring_actuator_http.yml
-  prometheus_file_sd_jmx_exporter_vangw-server:
-    file: ./prometheus/sd_configs/file/jmx_exporter_vangw-server.yml
-  prometheus_file_sd_jmx_exporter_tomcat:
-    file: ./prometheus/sd_configs/file/jmx_exporter_tomcat.yml
     
   # grafana
   grafana_config:
@@ -349,4 +611,4 @@ configs:
   grafana_cert:
     file: ./grafana/cert/pyoseyeol_co_kr.crt
   grafana_cert_key:
-    file: ./grafana/cert/pyoseyeol_co_kr.key
+    file: ./grafana/cert/danapyoseyeol_co_krl_co_kr.key

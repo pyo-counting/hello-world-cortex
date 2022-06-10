@@ -9,67 +9,59 @@ Cortex는 Prometheus를 위해 horizontally scalable, high available, multi-tena
 Prometheus와 관련된 기초는 [hello-world-prometheus](https://github.com/pyo-counting/hello-world-prometheus) 프로젝트를 참고한다.
 
 ## 1. Architecture overview
-이 프로젝트는 여러 node로 구성된 Docker Swarm cluster에서 동작한다. 단일 machine에서 배포할 경우 Cortex를 실행하는 방법은 [Getting started with chunks storage](https://cortexmetrics.io/docs/chunks-storage/getting-started-chunks-storage/) 페이지를 참고한다.
+이 프로젝트는 여러 노드로 구성된 Docker swarm 클러스터에서 동작한다. 단일 노드에서 배포할 경우 Cortex를 실행하는 방법은 [Getting started with chunks storage](https://cortexmetrics.io/docs/chunks-storage/getting-started-chunks-storage/) 페이지를 참고한다.
 ![](images/architecture_overview.png)
 
 - 위 그림에서는 실제 metric 수집을 담당하는 Node Exporter, Cadvisor에 대한 구성을 생략했다. 
-- Cassandra, Consul의 경우 Cortex 내부 구성요소로 판단해 위 그림에서 생략했다. Cortex의 상세 구조는 [Archituecture](https://cortexmetrics.io/docs/architecture/) 페이지를 참고한다.
+- Cassandra의 경우 Cortex 내부 구성요소로 판단해 위 그림에서 생략했다. Cortex의 상세 구조는 [Archituecture](https://cortexmetrics.io/docs/architecture/) 페이지를 참고한다.
 
 ### 1.1 Consideration
-- Cortex 인스턴스의 개수: Cortex는 cluster 내 여러 node에서 동작하며 실제로 Prometheus로부터 인입되는 시계열을 실시간으로 backend storage에 저장하지 않는다. 대신 ingester가 in-memory에 시계열을 저장하며, 주기적으로 backend storage에 flush한다. 이 때 ingester가 정상적으로 shutdown 되지 않을 경우를 in-memory 내 데이터가 유실될 수도 있기 때문에 Cortex는 WAL(Write-Ahead Log), replication 두 가지 기능을 제공한다. 해당 프로젝트에서는 replication 기능(replication factor=2이므로 적어도 2개의 Cortex ingester가 보장)을 사용한다.
-  - replication의 경우 in-memory 데이터 유실을 막기 위해 동일한 데이터를 다른 ingester에도 복제(replication)한다. 이는 Cortex 설정 파일에 설정 가능(ingester.lifecycler.ring.kvstore.replication_factor)하며, Cortex startup 시 적절한 Cortex ingester 개수가 없으면 오류가 발생할 수 있다.
-  - WAL의 경우 ingester가 데이터를 in-memory가 아닌 노드의 물리 저장 장치에 저장하기 때문에 ingester가 비정상 종료 시에도 데이터가 유실되지 않는다. 대신, 새로운 ingester가 해당 데이터를 사용할 수 있도록 마운트 될 수 있도록 보장해야 한다.
-- backend storage: 현재 Cortex에서 지원하는 storage는 chunks storage(deprecated), blcoks storage가 있다. blocks storage의 경우 모두 cloud 환경이기 때문에 이러한 환경이 제한된 경우에는 chunks storage를 사용해야 한다. 이 프로젝트에서도 기본적으로 chunks storage인 Cassandra를 사용한다.
+- Consul
+  - Consul은 Prometheus의 service discovery, Cortex각 구성 요소의 key-value store 역할을 한다. 사용자 환경에 맞게 Consul 외에 다른 프로젝트를 사용해도 무방하다.
+- Prometheus
+  - scrape_configs 내 모든 job이 공통적으로 Consul service discovery를 사용하며, Consul service에 등록된 metadata를 label로 relabelling한다. 추가 label이 필요할 경우 Consul의 service에 등록 및 scrape_configs 내 설정을 진행하면 된다.
+- Docker
+  - 프로젝트에서 사용한 docker config 중 중요 정보가 포함될 경우 docker secret을 사용하면 된다.
 
 ### 1.2 Limitation
-- Cadvisor, Node Exporter를 Docker Swarm에 배포 시 몇 가지 제한 사항이 있어 sidecar docker container를 실행 및 해당 container에서 다시 Cadvisor, Node Exporter standalone container를 실행하도록 구성했다([running sidecar container](https://github.com/google/cadvisor/issues/2150#issuecomment-797788353)). Cadvisor의 경우 일부 기능을 위해 호스트의 /dev 디렉토리에 접근해야 하지만 docker swarm 환경에서 이를 지원하지 않으며 Node Exporter의 경우 일부 기능을 위해 호스트의 PID namepsace를 사용해야 하지만 이 기능이 제한된다. 이러한 구조를 원치 않을 경우 따로 각 모니터링 대상 호스트에 Cadvisor, Node Exporter를 standalone container 환경에서 실행하도록 구성해도 무방하다.
+- Cadvisor
+- Node Exporter
+  - 두 exporter의 경우 Docker swarm에 배포 시 몇 가지 제한 사항이 있어 sidecar docker container를 실행 및 해당 container에서 다시 Cadvisor, Node Exporter standalone container를 실행하도록 구성했다([running sidecar container](https://github.com/google/cadvisor/issues/2150#issuecomment-797788353)). Cadvisor의 경우 일부 기능을 위해 호스트의 /dev 디렉토리에 접근해야 하지만 docker swarm 환경에서 이를 지원하지 않으며 Node Exporter의 경우 일부 기능을 위해 호스트의 PID namepsace를 사용해야 하지만 이 기능이 제한된다. 이러한 구조를 원치 않을 경우 따로 각 모니터링 대상 호스트에 Cadvisor, Node Exporter를 standalone container 환경에서 실행하도록 구성해도 무방하다.
+- Consul
+  - 해당 프로젝트에서는 단일 인스턴스로 실행하기 위해 -dev flag를 사용해 Consul을 실행한다. Consul에 새 service discovery 항목을 등록할 때 docker config를 변경할 경우, service 자체가 다시 배포되기 때문에 HA 구성이 필요하다. Consul에서 service discovery 등록 [HTTP API](https://learn.hashicorp.com/tutorials/consul/get-started-service-discovery?in=consul/getting-started#http-api)를 제공하기 때문에 이를 사용해도 된다.
+- Prometheus
+  - Prometheus는 설정 파일 내 환경변수 확장을 지원하지 않아 env.* 파일이 아닌 직접 prometheus.yml 파일을 수정해야 한다([--enable-feature=expand-external-labels](https://prometheus.io/docs/prometheus/latest/feature_flags/#expand-environment-variables-in-external-labels) experimental flag를 지원하지만 external_labels 값에 대해서만 지원한다).
+- Cortex
+  - ingester의 데이터 손실을 방지하기 위해 replication factor를 활성화했지만, wal(write ahead log)은 아래 제한으로 비활성화 했다. wal은 데이터 저장을 위해 파일 시스템 내 저장이 필요하다. Docker container 환경에서는 container가 종료되더라도 파일 시스템의 데이터 영속성(persistancy)을 위해 volme을 사용해야 한다. 즉, 여러 노드에서 실행되는 ingester 구성요소에 대해 동일한 volume을 제공해야 하는 제한이 있다.
+- Docker
+  - docker stack deploy 명렁어의 경우 compose 파일 내 대한 환경 변수 확장을 지원하지 않아 보통 아래와 같이 사용한다.
+   ```bash
+   docker stack deploy -c <(docker-compose -f <COMPOSE_FILE> config) <STACK_NAME>
+   ```
+  하지만 [Docker Engine 20.10.13 release](https://docs.docker.com/engine/release-notes/#201013)부터 지원하는 docker compose 서브커맨드 플러그인을 이용할 경우 몇 가지 버그가 있어 대신 docker-compose를 사용했다.
 
 ## 2. Configuration
 정상 설치 및 실행하기 위해 사용자 환경에 따라 기본적으로 변경되어야 하는 설정은 다음과 같다.
-
-- Prometheus:
-  - ./docker-stack.yml
-    - services.prometheus.deploy.replicas: service task 배포 개수 설정
-  - service task 배포 대상 swarm node 지정
-    - swarm node label 설정 필요(monitoring_stack.prometheus.deployable=true). label 설정 node의 개수 >= service task 배포 개수
-  - ./prometheus/sd_configs/file/*.yml
-    - scrape target 추가를 위한 endpoint(IP 및 PORT 정보) 설정 필요
-  - ./prometheus/prometheus.yml
-    - scrape_configs.remote_write.header.X-Scope-OrgID: tenant ID 설정 필요(grafana 설정 참고)
-    - global.external_labels.cluster: Prometheus HA cluster label 설정 필요
-- Grafana:
-  - service task 배포 대상 swarm node 지정
-    - swarm node label 설정 필요(monitoring_stack.grafana.deployable=true)
-  - ./grafana/cert/*
-    - HTTPS 인증서 및 키 파일 추가 필요
-  - ./grafana/grafana.ini
-    - server.domain: 도메인 설정 필요
-    - server.cert_file, server.cert_key: 인증서 관련 파일 경로 설정 필요
-    - security.admin_password: Grafana 관리자 계정 비밀번호 설정 필요
-  - ./grafana/provisioning/datasources/datasources.yml
-    - datasources.secureJsonData: tenant ID 설정 필요
-  - ./docker-stack.yml
-    - configs.grafana_cert.file, configs.grafana_cert_key.file: 인증서 관련 파일 경로 설정 필요
-    - services.grafana.configs: 인증서 관련 파일 경로 설정 필요
-- Cortex:
-  - ./docker-stack.yml
-    - services.cortex.deploy.replicas: service task 배포 개수 설정
-  - service task 배포 대상 swarm node 지정
-    - swarm node label 설정 필요(monitoring_stack.cortex.deployable=true). label 설정 node의 개수 >= service task 배포 개수
-  - ./cortex/microservices-mode-config.yml
-    - ingester.lifecycler.ring.kvstore.replication_factor: >= service task 배포 개수
-- Cassandra:
-  - service task 배포 대상 swarm node 지정
-    - swarm node label 설정 필요(monitoring_stack.cassandra.deployable=true)
+- docker-stack.yml
+  - 각 service는 배포에 대한 제한이 있다(cortex_stack.\*.deployable label이 true인 node에만 배포된다. node.labels.cortex_stack.\*.deployable == true). 서비스가 배포될 노드에 label 설정이 필요하다([docker node update](https://docs.docker.com/engine/reference/commandline/node_update/)).
+- env.prod
+  - docker-stack.yml 파일에서 사용되는 환경 변수 목록이다. 해당 파일에 설정된 환경 변수들은 docker swarm 환경에서 각 Loki 구성 요소에 대한 service 배포 시 실행된 replica 개수(LOKI_*_REPLICAS), container의 컴퓨팅 리소스 제한(\*\_RESOURCES_LIMITS\_\*) 등과 관련됐다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
+- grafana/env.prod
+  - grafana/grafana.ini, grafana/provisioning/datasources/* 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
+- grafana/cert/*
+  - 인증서, 인증서 key 저장 디렉토리다. 실행 환경에 맞게 인증서 파일을 관리하면 된다.
+- prometheus/env.prod
+  - prometheus/prometheus.yml 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
 
 ## 3. Installation
-Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker Swarm 환경에서 배포한다.
+Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker swarm 환경에서 배포한다.
 
 ### 3.1 Execution environment info
 해당 프로젝트는 아래 환경에서 정상 동작했음을 테스트했다.
 - OS: CentOS Linux release 7.8.2003 (Core)
 - Kernel version: 3.10.0-1127.18.2.el7.x86_64 #1 SMP Sun Jul 26 15:27:06 UTC 2020
-- Docker version: 20.10.5
+- Docker version: 20.10.17
+- Docker-compose version: 1.26.2
 
 ### 3.2 Software Version Info
 - Prometheus: [v2.32.0](https://github.com/prometheus/prometheus/releases/tag/v2.32.0)
@@ -80,9 +72,9 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 - SpringBoot (maven dependency):
     - spring-boot-starter-parent: [2.3.1.RELEASE](https://github.com/spring-projects/spring-boot/releases/tag/v2.3.1.RELEASE)
     - micrometer-registry-prometheus: [1.8.2](https://github.com/micrometer-metrics/micrometer/releases/tag/v1.8.2)
-- Cortex:1.11.0
-- Consul: 1.10.4
-- Cassandra: 3.11.11
+- Cortex: [1.11.0](https://github.com/cortexproject/cortex/releases/tag/v1.11.0)
+- Consul: [1.12.2](https://github.com/hashicorp/consul/releases/tag/v1.12.2)
+- Cassandra: [3.11.11](https://github.com/apache/cassandra/releases/tag/cassandra-3.11.11)
     
 ### 3.3 Step by step
 1. project clone하기
@@ -95,7 +87,7 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
    ```
 3. docker service 배포 및 확인
    ```bash
-   docker stack deploy -c docker-stack.yml monitoring_stack
+   ./run.sh prod
    docker stack ps monitoring_stack
    ```
 3. docker service down
@@ -120,3 +112,6 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 ## 5. Etc
 - Architecture overview은 [draw.io](https://www.draw.io)를 통해 작성
 - [hello-world-prometheus](https://github.com/pyo-counting/hello-world-prometheus) 프로젝트의 Alertmanager는 Grafana의 알람 기능으로 대체할 예정이다.
+
+## 6. Deprecated
+- Prometheus의 file service discovery를 위한 ./prometheus/sd_configs 디렉토리 내 파일이 존재하지만 사용하지 않는다.

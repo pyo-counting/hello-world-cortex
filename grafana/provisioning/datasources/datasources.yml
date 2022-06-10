@@ -5,7 +5,7 @@ datasources:
     type: prometheus
     access: proxy
     orgId: 1
-    url: http://monitoring_stack_cortex:9009/prometheus
+    url: ${url}
     uid: cortex_datasource
     isDefault: true
     jsonData:
@@ -13,5 +13,5 @@ datasources:
       httpMethod: POST
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:
-      httpHeaderValue1: 'fs-solution'
+      httpHeaderValue1: ${httpHeaderValue1}
     editable: false

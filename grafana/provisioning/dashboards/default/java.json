@@ -109,7 +109,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_start_time_seconds{instance=\"$instance\", application=\"$application\"} * 1000",
+          "expr": "process_start_time_seconds{hostname=\"$hostname\", application=\"$application\"} * 1000",
           "instant": true,
           "interval": "",
           "legendFormat": "Start time",
@@ -170,7 +170,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "timestamp(process_start_time_seconds{instance=\"$instance\", application=\"$application\"}) - process_start_time_seconds{instance=\"$instance\", application=\"$application\"}",
+          "expr": "timestamp(process_start_time_seconds{hostname=\"$hostname\", application=\"$application\"}) - process_start_time_seconds{hostname=\"$hostname\", application=\"$application\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "Uptime",
@@ -230,7 +230,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_max_fds{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_max_fds{hostname=\"$hostname\", application=\"$application\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "limit",
@@ -303,7 +303,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_info{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_info{hostname=\"$hostname\", application=\"$application\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "",
@@ -431,7 +431,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_classes_loaded{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_classes_loaded{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "loaded",
@@ -443,7 +443,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_classes_unloaded_total{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_classes_unloaded_total{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "unloaded",
@@ -504,7 +504,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_open_fds{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_open_fds{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -565,7 +565,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_virtual_memory_bytes{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_virtual_memory_bytes{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -626,7 +626,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "process_resident_memory_bytes{instance=\"$instance\", application=\"$application\"}",
+          "expr": "process_resident_memory_bytes{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -687,7 +687,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(process_cpu_seconds_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(process_cpu_seconds_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -748,7 +748,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "java_lang_operatingsystem_processcpuload{instance=\"$instance\", application=\"$application\"}",
+          "expr": "java_lang_operatingsystem_processcpuload{hostname=\"$hostname\", application=\"$application\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -815,7 +815,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_buffer_pool_used_buffers{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_buffer_pool_used_buffers{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "{{pool}}",
@@ -876,7 +876,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "sum(jvm_memory_bytes_used{instance=\"$instance\", application=\"$application\"})",
+          "expr": "sum(jvm_memory_bytes_used{hostname=\"$hostname\", application=\"$application\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "JVM",
@@ -888,7 +888,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": true,
-          "expr": "sum(jvm_buffer_pool_used_bytes{instance=\"$instance\", application=\"$application\"})",
+          "expr": "sum(jvm_buffer_pool_used_bytes{hostname=\"$hostname\", application=\"$application\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "non-JVM",
@@ -956,7 +956,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_collection_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_collection_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "{{gc}}",
@@ -1024,7 +1024,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_collection_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "interval": "",
           "legendFormat": "{{gc}}",
@@ -1132,7 +1132,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "expr": "rate(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval])",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -1145,7 +1145,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": true,
-              "expr": "rate(tomcat_errorcount_total {instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "expr": "rate(tomcat_errorcount_total {hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval])",
               "hide": false,
               "interval": "",
               "legendFormat": "error",
@@ -1256,7 +1256,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(tomcat_processingtime_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "expr": "rate(tomcat_processingtime_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval])",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -1269,7 +1269,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "tomcat_maxtime_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_maxtime_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "req duration (max)",
@@ -1367,7 +1367,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "rate(tomcat_bytessent_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}[$__rate_interval])",
+              "expr": "rate(tomcat_bytessent_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval]) / rate(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}[$__rate_interval])",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -1466,7 +1466,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "tomcat_threadpool_pollerthreadcount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_threadpool_pollerthreadcount{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -1479,7 +1479,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": true,
-              "expr": "tomcat_threadpool_currentthreadcount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_threadpool_currentthreadcount{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "total",
@@ -1491,7 +1491,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": true,
-              "expr": "tomcat_threadpool_currentthreadsbusy{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_threadpool_currentthreadsbusy{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "busy",
@@ -1589,7 +1589,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "tomcat_threadpool_connectioncount{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_threadpool_connectioncount{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -1602,7 +1602,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": true,
-              "expr": "tomcat_threadpool_currentthreadsbusy{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}",
+              "expr": "tomcat_threadpool_currentthreadsbusy{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "busy",
@@ -1718,7 +1718,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "java_lang_garbagecollector_lastgcinfo_duration{instance=\"$instance\", application=\"$application\"}",
+          "expr": "java_lang_garbagecollector_lastgcinfo_duration{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -1828,7 +1828,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_collection_seconds_sum{instance=\"$instance\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_collection_seconds_sum{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval]) / rate(jvm_gc_collection_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -1955,7 +1955,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(jvm_gc_collection_seconds_count{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(jvm_gc_collection_seconds_count{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -2067,7 +2067,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_memory_bytes_used{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_memory_bytes_used{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -2166,7 +2166,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool!~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
+          "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool!~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -2265,7 +2265,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
+          "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=~\"(Metaspace|Code Cache|Compressed Class Space)\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -2379,7 +2379,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_committed{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_committed{hostname=\"$hostname\", area=\"heap\", application=\"$application\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -2392,7 +2392,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_init{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_init{hostname=\"$hostname\", area=\"heap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -2404,7 +2404,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_used{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_used{hostname=\"$hostname\", area=\"heap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -2416,7 +2416,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_max{instance=\"$instance\", area=\"heap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_max{hostname=\"$hostname\", area=\"heap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2519,7 +2519,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_committed{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_committed{hostname=\"$hostname\", area=\"nonheap\", application=\"$application\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -2532,7 +2532,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_init{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_init{hostname=\"$hostname\", area=\"nonheap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -2544,7 +2544,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_used{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_used{hostname=\"$hostname\", area=\"nonheap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -2556,7 +2556,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_bytes_max{instance=\"$instance\", area=\"nonheap\", application=\"$application\"}",
+              "expr": "jvm_memory_bytes_max{hostname=\"$hostname\", area=\"nonheap\", application=\"$application\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2670,7 +2670,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Eden Space\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -2683,7 +2683,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "expr": "jvm_memory_pool_bytes_init{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Eden Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -2695,7 +2695,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Eden Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -2707,7 +2707,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Eden Space\"}",
+              "expr": "jvm_memory_pool_bytes_max{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Eden Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2810,7 +2810,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Survivor Space\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -2823,7 +2823,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "expr": "jvm_memory_pool_bytes_init{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Survivor Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -2835,7 +2835,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Survivor Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -2847,7 +2847,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Survivor Space\"}",
+              "expr": "jvm_memory_pool_bytes_max{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Survivor Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -2950,7 +2950,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Old Gen\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -2963,7 +2963,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "expr": "jvm_memory_pool_bytes_init{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Old Gen\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -2975,7 +2975,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Old Gen\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -2987,7 +2987,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"G1 Old Gen\"}",
+              "expr": "jvm_memory_pool_bytes_max{hostname=\"$hostname\", application=\"$application\", pool=\"G1 Old Gen\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3090,7 +3090,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -3103,7 +3103,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "expr": "jvm_memory_pool_bytes_init{hostname=\"$hostname\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -3115,7 +3115,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -3127,7 +3127,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
+              "expr": "jvm_memory_pool_bytes_max{hostname=\"$hostname\", application=\"$application\", pool=~\"(Metaspace|G1 Perm Gen)\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3230,7 +3230,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=\"Code Cache\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -3243,7 +3243,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_init{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "expr": "jvm_memory_pool_bytes_init{hostname=\"$hostname\", application=\"$application\", pool=\"Code Cache\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -3255,7 +3255,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_used{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "expr": "jvm_memory_pool_bytes_used{hostname=\"$hostname\", application=\"$application\", pool=\"Code Cache\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -3267,7 +3267,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_max{instance=\"$instance\", application=\"$application\", pool=\"Code Cache\"}",
+              "expr": "jvm_memory_pool_bytes_max{hostname=\"$hostname\", application=\"$application\", pool=\"Code Cache\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3370,7 +3370,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "jvm_memory_pool_bytes_committed{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "expr": "jvm_memory_pool_bytes_committed{hostname=\"$hostname\", application=\"$application\", pool=\"Compressed Class Space\"}",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -3383,7 +3383,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "java_lang_memorypool_usage_init{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "expr": "java_lang_memorypool_usage_init{hostname=\"$hostname\", application=\"$application\", pool=\"Compressed Class Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "init",
@@ -3395,7 +3395,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "java_lang_memorypool_usage_used{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "expr": "java_lang_memorypool_usage_used{hostname=\"$hostname\", application=\"$application\", pool=\"Compressed Class Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "used",
@@ -3407,7 +3407,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "java_lang_memorypool_usage_max{instance=\"$instance\", application=\"$application\", pool=\"Compressed Class Space\"}",
+              "expr": "java_lang_memorypool_usage_max{hostname=\"$hostname\", application=\"$application\", pool=\"Compressed Class Space\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "max",
@@ -3522,7 +3522,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_buffer_pool_used_bytes{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_buffer_pool_used_bytes{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3621,7 +3621,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_buffer_pool_used_buffers{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_buffer_pool_used_buffers{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3750,7 +3750,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(process_cpu_seconds_total{instance=\"$instance\", application=\"$application\"}[$__rate_interval])",
+          "expr": "rate(process_cpu_seconds_total{hostname=\"$hostname\", application=\"$application\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3850,7 +3850,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "java_lang_operatingsystem_systemcpuload{instance=\"$instance\", application=\"$application\"}",
+          "expr": "java_lang_operatingsystem_systemcpuload{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3863,7 +3863,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "java_lang_operatingsystem_processcpuload{instance=\"$instance\", application=\"$application\"}",
+          "expr": "java_lang_operatingsystem_processcpuload{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "JVM",
@@ -3972,7 +3972,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_current{instance=\"$instance\", application=\"$application\"} - jvm_threads_daemon{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_current{hostname=\"$hostname\", application=\"$application\"} - jvm_threads_daemon{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -3985,7 +3985,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_daemon{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_daemon{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "daemon",
@@ -3997,7 +3997,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_peak{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_peak{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "max",
@@ -4095,7 +4095,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_state{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_state{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4194,7 +4194,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_deadlocked_monitor{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_deadlocked_monitor{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -4207,7 +4207,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "jvm_threads_deadlocked{instance=\"$instance\", application=\"$application\"}",
+          "expr": "jvm_threads_deadlocked{hostname=\"$hostname\", application=\"$application\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "ownable synchronizers",
@@ -4233,15 +4233,15 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(up, instance)",
-        "description": "Host IP",
+        "definition": "label_values(up, hostname)",
+        "description": "Hostname",
         "hide": 0,
         "includeAll": false,
         "multi": false,
-        "name": "instance",
+        "name": "hostname",
         "options": [],
         "query": {
-          "query": "label_values(up, instance)",
+          "query": "label_values(up, hostname)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4256,7 +4256,7 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(jvm_info{instance=\"$instance\"}, application)",
+        "definition": "label_values(jvm_info{hostname=\"$hostname\"}, application)",
         "description": "application",
         "hide": 0,
         "includeAll": false,
@@ -4264,7 +4264,7 @@
         "name": "application",
         "options": [],
         "query": {
-          "query": "label_values(jvm_info{instance=\"$instance\"}, application)",
+          "query": "label_values(jvm_info{hostname=\"$hostname\"}, application)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4283,7 +4283,7 @@
             ""
           ]
         },
-        "definition": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\"}, exported_port)",
+        "definition": "label_values(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\"}, port)",
         "description": "Port",
         "hide": 0,
         "includeAll": true,
@@ -4291,7 +4291,7 @@
         "name": "port",
         "options": [],
         "query": {
-          "query": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\"}, exported_port)",
+          "query": "label_values(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\"}, port)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4307,7 +4307,7 @@
           "text": "None",
           "value": ""
         },
-        "definition": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}, protocol)",
+        "definition": "label_values(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}, protocol)",
         "description": "Protocol",
         "hide": 2,
         "includeAll": false,
@@ -4315,7 +4315,7 @@
         "name": "protocol",
         "options": [],
         "query": {
-          "query": "label_values(tomcat_requestcount_total{instance=\"$instance\", application=\"$application\", exported_port=\"$port\"}, protocol)",
+          "query": "label_values(tomcat_requestcount_total{hostname=\"$hostname\", application=\"$application\", port=\"$port\"}, protocol)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

@@ -101,7 +101,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "node_memory_MemTotal_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_MemTotal_bytes{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Total",
@@ -158,7 +158,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "node_memory_SwapTotal_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SwapTotal_bytes{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Total",
@@ -219,7 +219,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "node_memory_MemAvailable_bytes{instance=\"$instance\"} / node_memory_MemTotal_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_MemAvailable_bytes{hostname=\"$hostname\"} / node_memory_MemTotal_bytes{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Available",
@@ -280,7 +280,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "(node_memory_MemTotal_bytes{instance=\"$instance\"} - node_memory_MemFree_bytes{instance=\"$instance\"}) / node_memory_MemTotal_bytes{instance=\"$instance\"}",
+          "expr": "(node_memory_MemTotal_bytes{hostname=\"$hostname\"} - node_memory_MemFree_bytes{hostname=\"$hostname\"}) / node_memory_MemTotal_bytes{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -341,7 +341,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "1 - (node_memory_SwapFree_bytes{instance=\"$instance\"} / node_memory_SwapTotal_bytes{instance=\"$instance\"})",
+          "expr": "1 - (node_memory_SwapFree_bytes{hostname=\"$hostname\"} / node_memory_SwapTotal_bytes{hostname=\"$hostname\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -479,7 +479,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_MemTotal_bytes{instance=\"$instance\"} - node_memory_MemFree_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_MemTotal_bytes{hostname=\"$hostname\"} - node_memory_MemFree_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "used",
@@ -491,7 +491,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_Active_anon_bytes{instance=\"$instance\"} + node_memory_Inactive_anon_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_Active_anon_bytes{hostname=\"$hostname\"} + node_memory_Inactive_anon_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "aAnonymous",
@@ -586,7 +586,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_MemAvailable_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_MemAvailable_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "available",
@@ -598,7 +598,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_MemFree_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_MemFree_bytes{hostname=\"$hostname\"}",
           "interval": "",
           "legendFormat": "free",
           "refId": "B"
@@ -692,7 +692,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_Shmem_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_Shmem_bytes{hostname=\"$hostname\"}",
           "interval": "",
           "legendFormat": "shmem",
           "refId": "A"
@@ -802,7 +802,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_Slab_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_Slab_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "slab (Total)",
@@ -814,7 +814,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_SReclaimable_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SReclaimable_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "sRelclaimable",
@@ -826,7 +826,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_SUnreclaim_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SUnreclaim_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "sUnreclaim",
@@ -921,7 +921,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_Buffers_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_Buffers_bytes{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "buffers",
@@ -933,7 +933,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_Cached_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_Cached_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "cached",
@@ -1044,7 +1044,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_SwapTotal_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SwapTotal_bytes{hostname=\"$hostname\"}",
           "interval": "",
           "legendFormat": "total",
           "refId": "A"
@@ -1055,7 +1055,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_SwapTotal_bytes{instance=\"$instance\"} - node_memory_SwapFree_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SwapTotal_bytes{hostname=\"$hostname\"} - node_memory_SwapFree_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "used",
@@ -1067,7 +1067,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "node_memory_SwapFree_bytes{instance=\"$instance\"}",
+          "expr": "node_memory_SwapFree_bytes{hostname=\"$hostname\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "free",
@@ -1172,7 +1172,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "process_resident_memory_bytes{instance=\"$instance\", application=~\".+\"}",
+              "expr": "process_resident_memory_bytes{hostname=\"$hostname\", application=~\".+\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "{{application}}",
@@ -1266,7 +1266,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "instant": false,
               "interval": "",
               "legendFormat": "Limit",
@@ -1336,7 +1336,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_spec_memory_swap_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"} - container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_spec_memory_swap_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} - container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "instant": false,
               "interval": "",
               "legendFormat": "Swap Limit",
@@ -1411,7 +1411,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_usage_bytes{instance=\"$instance\", name=\"${container:raw}\"} / (container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"} > 0)",
+              "expr": "container_memory_usage_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} / (container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} > 0)",
               "instant": false,
               "interval": "",
               "legendFormat": "Used",
@@ -1483,7 +1483,7 @@
           "targets": [
             {
               "exemplar": false,
-              "expr": "(container_memory_swap{instance=\"$instance\", name=\"$container\"} / ((container_spec_memory_swap_limit_bytes{instance=\"$instance\", name=\"$container\"} > 0) - container_spec_memory_limit_bytes{instance=\"$instance\", name=\"$container\"}))",
+              "expr": "(container_memory_swap{hostname=\"$hostname\", name=\"$container\"} / ((container_spec_memory_swap_limit_bytes{hostname=\"$hostname\", name=\"$container\"} > 0) - container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"$container\"}))",
               "instant": false,
               "interval": "",
               "legendFormat": "Used",
@@ -1588,7 +1588,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_usage_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_memory_usage_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "interval": "",
               "legendFormat": "usage",
               "refId": "A"
@@ -1599,7 +1599,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_working_set_bytes{instance=\"$instance\",name=\"${container:raw}\"}",
+              "expr": "container_memory_working_set_bytes{hostname=\"$hostname\",name=\"${container:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "working set",
@@ -1611,7 +1611,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_rss{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_memory_rss{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "hide": false,
               "interval": "",
               "legendFormat": "rss",
@@ -1705,7 +1705,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_cache{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_memory_cache{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "interval": "",
               "legendFormat": "cache",
               "refId": "A"
@@ -1798,7 +1798,7 @@
                 "uid": "cortex_datasource"
               },
               "exemplar": false,
-              "expr": "container_memory_swap{instance=\"$instance\", name=\"${container:raw}\"}",
+              "expr": "container_memory_swap{hostname=\"$hostname\", name=\"${container:raw}\"}",
               "interval": "",
               "legendFormat": "used",
               "refId": "A"
@@ -1829,16 +1829,16 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(up{job=~\"(node_exporter||cadvisor)\"}, instance)",
-        "description": "Host IP",
+        "definition": "label_values(up{job=~\"(node_exporter||cadvisor)\"}, hostname)",
+        "description": "Hostname",
         "hide": 0,
         "includeAll": false,
         "label": "",
         "multi": false,
-        "name": "instance",
+        "name": "hostname",
         "options": [],
         "query": {
-          "query": "label_values(up{job=~\"(node_exporter||cadvisor)\"}, instance)",
+          "query": "label_values(up{job=~\"(node_exporter||cadvisor)\"}, hostname)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -1857,7 +1857,7 @@
             ""
           ]
         },
-        "definition": "label_values(container_cpu_load_average_10s{instance=\"$instance\"}, name)",
+        "definition": "label_values(container_cpu_load_average_10s{hostname=\"$hostname\"}, name)",
         "description": "container name",
         "hide": 0,
         "includeAll": true,
@@ -1865,7 +1865,7 @@
         "name": "container",
         "options": [],
         "query": {
-          "query": "label_values(container_cpu_load_average_10s{instance=\"$instance\"}, name)",
+          "query": "label_values(container_cpu_load_average_10s{hostname=\"$hostname\"}, name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

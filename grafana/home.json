@@ -157,11 +157,11 @@
         "showSearch": true,
         "showStarred": true,
         "tags": [
-          "spring"
+          "jvm"
         ]
       },
       "pluginVersion": "8.3.3",
-      "title": "SrpingFramework (java)",
+      "title": "JVM",
       "type": "dashlist"
     },
     {

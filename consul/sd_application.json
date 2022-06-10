@@ -1,0 +1,24 @@
+{
+  "services": [
+    {
+      "name": "application",
+      "id": "txstgfin/cca",
+      "address": "192.168.136.10",
+      "port": 9405,
+      "meta": {
+        "hostname": "txstgfin",
+        "application": "cca"
+      }
+    },
+    {
+      "name": "application",
+      "id": "txstgfin/obp",
+      "address": "192.168.136.10",
+      "port": 18443,
+      "meta": {
+        "hostname": "txstgfin",
+        "application": "obp"
+      }
+    }
+  ]
+}

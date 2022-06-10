@@ -104,7 +104,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_start_time_seconds{instance=\"$instance\", name=\"${container:raw}\"} * 1000",
+          "expr": "container_start_time_seconds{hostname=\"$hostname\", name=\"${container:raw}\"} * 1000",
           "instant": true,
           "interval": "",
           "legendFormat": "Start time",
@@ -164,7 +164,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "timestamp(container_start_time_seconds{instance=\"$instance\", name=\"${container:raw}\"}) - container_start_time_seconds{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "timestamp(container_start_time_seconds{hostname=\"$hostname\", name=\"${container:raw}\"}) - container_start_time_seconds{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Uptime",
@@ -264,7 +264,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_cpu_load_average_10s{instance=\"$instance\", name=\"${container:raw}\"} / 1000",
+          "expr": "container_cpu_load_average_10s{hostname=\"$hostname\", name=\"${container:raw}\"} / 1000",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -324,7 +324,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_tasks_state{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_tasks_state{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "{{state}}",
@@ -433,7 +433,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "avg (rate(container_cpu_usage_seconds_total{instance=\"$instance\", name=\"${container:raw}\"}[$__rate_interval]))",
+          "expr": "avg (rate(container_cpu_usage_seconds_total{hostname=\"$hostname\", name=\"${container:raw}\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "used",
           "refId": "A"
@@ -528,7 +528,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(container_cpu_system_seconds_total{instance=\"$instance\", name=\"${container:raw}\"}[$__rate_interval]) / scalar(machine_cpu_cores{instance=\"$instance\"})",
+          "expr": "rate(container_cpu_system_seconds_total{hostname=\"$hostname\", name=\"${container:raw}\"}[$__rate_interval]) / scalar(machine_cpu_cores{hostname=\"$hostname\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "user",
@@ -540,7 +540,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "rate(container_cpu_user_seconds_total{instance=\"$instance\", name=\"${container:raw}\"}[$__rate_interval]) / scalar(machine_cpu_cores{instance=\"$instance\"})",
+          "expr": "rate(container_cpu_user_seconds_total{hostname=\"$hostname\", name=\"${container:raw}\"}[$__rate_interval]) / scalar(machine_cpu_cores{hostname=\"$hostname\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "system",
@@ -624,7 +624,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Limit",
@@ -695,7 +695,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_spec_memory_swap_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"} - container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_spec_memory_swap_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} - container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "Swap Limit",
@@ -771,7 +771,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_usage_bytes{instance=\"$instance\", name=\"${container:raw}\"} / (container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"} > 0)",
+          "expr": "container_memory_usage_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} / (container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} > 0)",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -848,7 +848,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "(container_memory_swap{instance=\"$instance\", name=\"${container:raw}\"} / ((container_spec_memory_swap_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"} > 0) - container_spec_memory_limit_bytes{instance=\"$instance\", name=\"${container:raw}\"}))",
+          "expr": "(container_memory_swap{hostname=\"$hostname\", name=\"${container:raw}\"} / ((container_spec_memory_swap_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"} > 0) - container_spec_memory_limit_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}))",
           "instant": false,
           "interval": "",
           "legendFormat": "Used",
@@ -954,7 +954,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_usage_bytes{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_memory_usage_bytes{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "interval": "",
           "legendFormat": "usage",
           "refId": "A"
@@ -965,7 +965,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_working_set_bytes{instance=\"$instance\",name=\"${container:raw}\"}",
+          "expr": "container_memory_working_set_bytes{hostname=\"$hostname\",name=\"${container:raw}\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "working set",
@@ -977,7 +977,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_rss{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_memory_rss{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Rss",
@@ -1072,7 +1072,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_cache{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_memory_cache{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "interval": "",
           "legendFormat": "cache",
           "refId": "A"
@@ -1166,7 +1166,7 @@
             "uid": "cortex_datasource"
           },
           "exemplar": false,
-          "expr": "container_memory_swap{instance=\"$instance\", name=\"${container:raw}\"}",
+          "expr": "container_memory_swap{hostname=\"$hostname\", name=\"${container:raw}\"}",
           "interval": "",
           "legendFormat": "used",
           "refId": "A"
@@ -1216,15 +1216,15 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(up, instance)",
-        "description": "Host IP",
+        "definition": "label_values(up, hostname)",
+        "description": "Hostname",
         "hide": 0,
         "includeAll": false,
         "multi": false,
-        "name": "instance",
+        "name": "hostname",
         "options": [],
         "query": {
-          "query": "label_values(up, instance)",
+          "query": "label_values(up, hostname)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -1239,7 +1239,7 @@
           "text": "",
           "value": ""
         },
-        "definition": "label_values(container_cpu_load_average_10s{instance=\"$instance\"}, name)",
+        "definition": "label_values(container_cpu_load_average_10s{hostname=\"$hostname\"}, name)",
         "description": "container name",
         "hide": 0,
         "includeAll": false,
@@ -1247,7 +1247,7 @@
         "name": "container",
         "options": [],
         "query": {
-          "query": "label_values(container_cpu_load_average_10s{instance=\"$instance\"}, name)",
+          "query": "label_values(container_cpu_load_average_10s{hostname=\"$hostname\"}, name)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

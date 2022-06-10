@@ -5,6 +5,7 @@
       "id": "txstgfin/node-exporter",
       "address": "192.168.136.10",
       "port": 9100,
+      "tags": ["prometheus"],
       "meta": {
         "hostname": "txstgfin"
       }
@@ -14,6 +15,7 @@
       "id": "fs-store-repo/node-exporter",
       "address": "192.168.136.61",
       "port": 9100,
+      "tags": ["prometheus"],
       "meta": {
         "hostname": "fs-store-repo"
       }

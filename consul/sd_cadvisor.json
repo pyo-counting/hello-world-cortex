@@ -5,6 +5,7 @@
       "id": "txstgfin/cadvisor",
       "address": "192.168.136.10",
       "port": 8080,
+      "tags": ["prometheus"],
       "meta": {
         "hostname": "txstgfin"
       }
@@ -14,6 +15,7 @@
       "id": "fs-store-repo/cadvisor",
       "address": "192.168.136.61",
       "port": 8080,
+      "tags": ["prometheus"],
       "meta": {
         "hostname": "fs-store-repo"
       }

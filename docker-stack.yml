@@ -18,7 +18,7 @@ services:
           - 'node.labels.cortex_stack.cortex_distributor.deployable == true'
       resources:
         limits:
-          cpus: '0.2'
+          cpus: ${CORTEX_DISTRIBUTOR_RESOURCES_LIMITS_CPUS}
           memory: ${CORTEX_DISTRIBUTOR_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any

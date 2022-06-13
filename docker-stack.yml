@@ -476,7 +476,7 @@ services:
       placement:
         constraints:
           - 'node.platform.os == linux'
-          - 'node.labels.cortex_stack.cortex.deployable == true'
+          - 'node.labels.cortex_stack.consul.deployable == true'
       resources:
         limits:
           cpus: ${CONSUL_RESOURCES_LIMITS_CPUS}

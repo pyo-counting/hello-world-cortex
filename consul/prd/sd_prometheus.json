@@ -1,0 +1,24 @@
+{
+  "services": [
+	{
+      "name": "prometheus",
+      "id": "altaira/prometheus",
+      "address": "172.16.32.65",
+	  "port": 9090,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "altaira"
+	  }
+    },
+    {
+      "name": "prometheus",
+      "id": "siriusb/prometheus",
+      "address": "172.16.33.33",
+	  "port": 9090,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "siriusb"
+	  }
+    }
+  ]
+}

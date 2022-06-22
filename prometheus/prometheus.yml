@@ -105,12 +105,35 @@ scrape_configs:
 #   params:
 #      collect[]: ['cpu']
         
-  # application
-  - job_name: application
+  # http application
+  - job_name: application_http
     consul_sd_configs:
       - server: "cortex_stack_consul:8500"
         scheme: http
-        services: [application]
+        services: [application_http]
+        refresh_interval: 5m
+        follow_redirects: true
+    relabel_configs:
+      # add hostname label
+      - action:         replace
+        source_labels:  [__meta_consul_service_metadata_hostname]
+        target_label:   hostname
+        regex:          ^(.*)$
+        replacement:    ${1}
+      # add application label
+      - action:         replace
+        source_labels:  [__meta_consul_service_metadata_application]
+        target_label:   application
+        regex:          ^(.*)$
+        replacement:    ${1}
+        
+  # https application
+  - job_name: application_https
+    consul_sd_configs:
+      - server: "cortex_stack_consul:8500"
+        tls_config:
+          insecure_skip_verify: true
+        services: [application_https]
         refresh_interval: 5m
         follow_redirects: true
     relabel_configs:

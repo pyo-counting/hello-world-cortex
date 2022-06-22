@@ -6,9 +6,9 @@ cd $(dirname ${0})
 
 if [ -z "${1}" ]; then
 	echo ""
-	echo "Usage : run.sh ENVIRONMENT(prod, dev, ...)"
+	echo "Usage : run.sh ENVIRONMENT(prd, dev, ...)"
 	echo "Examples:"
-	echo "	run.sh prod"
+	echo "	run.sh prd"
 	echo "	run.sh dev"
 	echo ""
 	exit 1

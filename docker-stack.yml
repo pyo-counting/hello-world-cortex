@@ -30,7 +30,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -73,7 +73,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -116,7 +116,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -159,7 +159,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -202,7 +202,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -245,7 +245,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}.{{.Task.ID}}'
-    env_file: ./cortex/${ENV_FILE}
+    env_file: ./cortex/env.${ENV_FILE_EXT}
     configs:
       - source: cortex_config
         target: /etc/cortex/cortex.yml
@@ -289,7 +289,7 @@ services:
         max-size: '100m'
         max-file: '5'
     hostname: '{{.Node.Hostname}}'
-    env_file: ./prometheus/${ENV_FILE}
+    env_file: ./prometheus/env.${ENV_FILE_EXT}
     configs:
       - source: prometheus_config
         target: /etc/prometheus/prometheus.yml
@@ -337,6 +337,7 @@ services:
       options:
         max-size: '100m'
         max-file: '5'
+    hostname: '{{.Node.Hostname}}'
     environment:
       GF_INSTALL_PLUGINS: grafana-clock-panel,mxswat-separator-panel
       # default environment defined in image
@@ -346,8 +347,7 @@ services:
       GF_PATHS_LOGS: /var/log/grafana
       GF_PATHS_PLUGINS: /var/lib/grafana/plugins
       GF_PATHS_PROVISIONING: /etc/grafana/provisioning
-    hostname: '{{.Node.Hostname}}'
-    env_file: ./grafana/${ENV_FILE}
+    env_file: ./grafana/env.${ENV_FILE_EXT}
     configs:
       - source: grafana_config
         target: /etc/grafana/grafana.ini
@@ -421,7 +421,8 @@ services:
       --enable_load_reader=true \
       --logtostderr=true \
       --log_cadvisor_usage=true \
-      --v=0
+      --v=0 \
+      --port=9338
       
   node_exporter:
     image: docker:20.10.12
@@ -490,9 +491,12 @@ services:
       options:
         max-size: '100m'
         max-file: '5'
+    hostname: '{{.Node.Hostname}}'
     configs:
-      - source: consul_sd_application
-        target: /consul/config/sd_application.json
+      - source: consul_sd_application_http
+        target: /consul/config/sd_application_http.json
+      - source: consul_sd_application_https
+        target: /consul/config/sd_application_https.json
       - source: consul_sd_cadvisor
         target: /consul/config/sd_cadvisor.json
       - source: consul_sd_node_exporter
@@ -520,7 +524,7 @@ services:
       - -log-level=${CONSUL_LOG_LEVEL}
       
   cassandra:
-    image: cassandra:3.11.11
+    image: cassandra:4.0.4
     networks:
       - overlay
     #ports:
@@ -535,7 +539,8 @@ services:
       resources:
         limits:
           cpus: ${CASSANDRA_RESOURCES_LIMITS_CPUS}
-          memory: ${CASSANDRA_RESOURCES_LIMITS_MEMORY}
+          # replace with cassandra JVM option
+          #memory: ${CASSANDRA_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -549,7 +554,7 @@ services:
     configs:
       - source: cassandra_init_shell
         target: /cassandra-init.sh
-        mode: 0544
+        mode: 0555
     volumes:
       - cassandra:/var/lib/cassandra
     entrypoint: ["./cassandra-init.sh"]
@@ -574,14 +579,16 @@ configs:
     file: ./cassandra/init.sh
     
   # consul
-  consul_sd_application:
-    file: ./consul/sd_application.json
+  consul_sd_application_http:
+    file: ./consul/${ENV_FILE_EXT}/sd_application_http.json
+  consul_sd_application_https:
+    file: ./consul/${ENV_FILE_EXT}/sd_application_https.json
   consul_sd_cadvisor:
-    file: ./consul/sd_cadvisor.json
+    file: ./consul/${ENV_FILE_EXT}/sd_cadvisor.json
   consul_sd_node_exporter:
-    file: ./consul/sd_node_exporter.json
+    file: ./consul/${ENV_FILE_EXT}/sd_node_exporter.json
   consul_sd_prometheus:
-    file: ./consul/sd_prometheus.json
+    file: ./consul/${ENV_FILE_EXT}/sd_prometheus.json
     
   # prometheus
   prometheus_config:
@@ -611,4 +618,4 @@ configs:
   grafana_cert:
     file: ./grafana/cert/pyoseyeol_co_kr.crt
   grafana_cert_key:
-    file: ./grafana/cert/danapyoseyeol_co_krl_co_kr.key
+    file: ./grafana/cert/pyoseyeol_co_kr.key

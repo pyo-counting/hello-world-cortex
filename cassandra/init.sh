@@ -9,4 +9,4 @@ until cqlsh -f /init.cql; do
         sleep 5s
 done &
 
-exec /docker-entrypoint.sh "$@"
+exec docker-entrypoint.sh "$@"

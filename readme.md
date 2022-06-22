@@ -44,13 +44,13 @@ Prometheus와 관련된 기초는 [hello-world-prometheus](https://github.com/py
 정상 설치 및 실행하기 위해 사용자 환경에 따라 기본적으로 변경되어야 하는 설정은 다음과 같다.
 - docker-stack.yml
   - 각 service는 배포에 대한 제한이 있다(cortex_stack.\*.deployable label이 true인 node에만 배포된다. node.labels.cortex_stack.\*.deployable == true). 서비스가 배포될 노드에 label 설정이 필요하다([docker node update](https://docs.docker.com/engine/reference/commandline/node_update/)).
-- env.prod
+- env.prd
   - docker-stack.yml 파일에서 사용되는 환경 변수 목록이다. 해당 파일에 설정된 환경 변수들은 docker swarm 환경에서 각 Loki 구성 요소에 대한 service 배포 시 실행된 replica 개수(LOKI_*_REPLICAS), container의 컴퓨팅 리소스 제한(\*\_RESOURCES_LIMITS\_\*) 등과 관련됐다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
-- grafana/env.prod
+- grafana/env.prd
   - grafana/grafana.ini, grafana/provisioning/datasources/* 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
 - grafana/cert/*
   - 인증서, 인증서 key 저장 디렉토리다. 실행 환경에 맞게 인증서 파일을 관리하면 된다.
-- prometheus/env.prod
+- prometheus/env.prd
   - prometheus/prometheus.yml 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
 
 ## 3. Installation
@@ -74,7 +74,7 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
     - micrometer-registry-prometheus: [1.8.2](https://github.com/micrometer-metrics/micrometer/releases/tag/v1.8.2)
 - Cortex: [1.11.0](https://github.com/cortexproject/cortex/releases/tag/v1.11.0)
 - Consul: [1.12.2](https://github.com/hashicorp/consul/releases/tag/v1.12.2)
-- Cassandra: [3.11.11](https://github.com/apache/cassandra/releases/tag/cassandra-3.11.11)
+- Cassandra: [4.0.4](https://github.com/apache/cassandra/releases/tag/cassandra-4.0.4)
     
 ### 3.3 Step by step
 1. project clone하기

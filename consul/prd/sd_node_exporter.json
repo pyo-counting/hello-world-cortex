@@ -1,0 +1,74 @@
+{
+  "services": [
+	{
+      "name": "node-exporter",
+      "id": "altaira/node-exporter",
+      "address": "172.16.32.65",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "altaira"
+	  }
+    },
+	{
+      "name": "node-exporter",
+      "id": "siriusb/node-exporter",
+      "address": "172.16.33.33",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "siriusb"
+	  }
+    },
+	{
+      "name": "node-exporter",
+      "id": "siriusa/node-exporter",
+      "address": "172.16.32.33",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "siriusa"
+	  }
+    },
+    {
+      "name": "node-exporter",
+      "id": "pc-nti-xo01/node-exporter",
+      "address": "172.16.12.33",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pc-nti-xo01"
+	  }
+    },
+    {
+      "name": "node-exporter",
+      "id": "pc-nti-xo02/node-exporter",
+      "address": "172.16.13.33",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pc-nti-xo02"
+	  }
+    },
+    {
+      "name": "node-exporter",
+      "id": "pocari1/node-exporter",
+      "address": "172.19.25.2",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pocari1"
+	  }
+    },
+    {
+      "name": "node-exporter",
+      "id": "pocari2/node-exporter",
+      "address": "172.19.25.3",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pocari2"
+	  }
+    }
+  ]
+}

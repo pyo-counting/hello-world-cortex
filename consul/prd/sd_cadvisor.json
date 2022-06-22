@@ -1,0 +1,74 @@
+{
+  "services": [
+	{
+      "name": "cadvisor",
+      "id": "altaira/cadvisor",
+      "address": "172.16.32.65",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "altaira"
+	  }
+    },
+	{
+      "name": "cadvisor",
+      "id": "siriusb/cadvisor",
+      "address": "172.16.33.33",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "siriusb"
+	  }
+    },
+	{
+      "name": "cadvisor",
+      "id": "siriusa/cadvisor",
+      "address": "172.16.32.33",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "siriusa"
+	  }
+    },
+    {
+      "name": "cadvisor",
+      "id": "pc-nti-xo01/cadvisor",
+      "address": "172.16.12.33",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pc-nti-xo01"
+	  }
+    },
+    {
+      "name": "cadvisor",
+      "id": "pc-nti-xo02/cadvisor",
+      "address": "172.16.13.33",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pc-nti-xo02"
+	  }
+    },
+    {
+      "name": "cadvisor",
+      "id": "pocari1/cadvisor",
+      "address": "172.19.25.2",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pocari1"
+	  }
+    },
+    {
+      "name": "cadvisor",
+      "id": "pocari2/cadvisor",
+      "address": "172.19.25.3",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "pocari2"
+	  }
+    }
+  ]
+}

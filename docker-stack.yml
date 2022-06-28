@@ -148,6 +148,7 @@ services:
       resources:
         limits:
           cpus: ${CORTEX_QUERY_FRONTEND_RESOURCES_LIMITS_CPUS}
+          # Consider with Cortex in memory cache(./cortex/cortex.yml max_size_bytes)
           memory: ${CORTEX_QUERY_FRONTEND_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
@@ -296,6 +297,11 @@ services:
         # nobody(UID=65534), nobody(GID=65534)
         uid: '65534'
         gid: '65534'
+      - source: prometheus_rule_basic_config
+        target: /etc/prometheus/rule_files/recording/basic_rules.yml
+        # nobody(UID=65534), nobody(GID=65534)
+        uid: '65534'
+        gid: '65534'
     volumes:
       - prometheus:/prometheus
     command:
@@ -308,74 +314,7 @@ services:
       - --enable-feature=expand-external-labels
       # Only log messages with the given severity or above. One of: [debug, info, warn, error]
       - --log.level=${PROMETHEUS_LOG_LEVEL}
-      
-  grafana:
-    image: grafana/grafana-oss:8.3.3
-    networks:
-      - overlay
-    ports:
-      - target: 3000
-        published: 3000
-        mode: host
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - 'node.platform.os == linux'
-          - 'node.labels.cortex_stack.grafana.deployable == true'
-      resources:
-        limits:
-          cpus: ${GRAFANA_RESOURCES_LIMITS_CPUS}
-          memory: ${GRAFANA_RESOURCES_LIMITS_MEMORY}
-      restart_policy:
-        condition: any
-        delay: 30s
-        max_attempts: 5
-    logging:
-      driver: 'json-file'
-      options:
-        max-size: '100m'
-        max-file: '5'
-    hostname: '{{.Node.Hostname}}'
-    environment:
-      GF_INSTALL_PLUGINS: grafana-clock-panel,mxswat-separator-panel
-      # default environment defined in image
-      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
-      GF_PATHS_DATA: /var/lib/grafana
-      GF_PATHS_HOME: /usr/share/grafana
-      GF_PATHS_LOGS: /var/log/grafana
-      GF_PATHS_PLUGINS: /var/lib/grafana/plugins
-      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
-    env_file: ./grafana/env.${ENV_FILE_EXT}
-    configs:
-      - source: grafana_config
-        target: /etc/grafana/grafana.ini
-      - source: grafana_provisioning_dashboard_config
-        target: /etc/grafana/provisioning/dashboards/dashboards.yml
-      - source: grafana_provisioning_dashboard_container
-        target: /etc/grafana/provisioning/dashboards/default/container.json
-      - source: grafana_provisioning_dashboard_cpu
-        target: /etc/grafana/provisioning/dashboards/default/cpu.json
-      - source: grafana_provisioning_dashboard_memory
-        target: /etc/grafana/provisioning/dashboards/default/memory.json
-      - source: grafana_provisioning_dashboard_host
-        target: /etc/grafana/provisioning/dashboards/default/host.json
-      - source: grafana_provisioning_dashboard_java_spring
-        target: /etc/grafana/provisioning/dashboards/default/java_spring.json
-      - source: grafana_provisioning_dashboard_java_non_spring
-        target: /etc/grafana/provisioning/dashboards/default/java.json
-      - source: grafana_provisioning_dashboard_home
-        target: /usr/share/grafana/public/dashboards/home.json
-      - source: grafana_provisioning_datasource_config
-        target: /etc/grafana/provisioning/datasources/datasources.yml
-      - source: grafana_cert
-        target: /etc/grafana/cert/pyoseyeol_co_kr.crt
-      - source: grafana_cert_key
-        target: /etc/grafana/cert/pyoseyeol_co_kr.key
-    volumes:
-      - grafana:/var/lib/grafana
-      
+
   cadvisor:
     image: docker:20.10.12
     networks:
@@ -461,6 +400,73 @@ services:
       quay.io/prometheus/node-exporter:$${VERSION} \
       --path.rootfs=/host
       
+  grafana:
+    image: grafana/grafana-oss:8.3.3
+    networks:
+      - overlay
+    ports:
+      - target: 3000
+        published: 3000
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - 'node.platform.os == linux'
+          - 'node.labels.cortex_stack.grafana.deployable == true'
+      resources:
+        limits:
+          cpus: ${GRAFANA_RESOURCES_LIMITS_CPUS}
+          memory: ${GRAFANA_RESOURCES_LIMITS_MEMORY}
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 5
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '5'
+    hostname: '{{.Node.Hostname}}'
+    environment:
+      GF_INSTALL_PLUGINS: grafana-clock-panel,mxswat-separator-panel
+      # default environment defined in image
+      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+      GF_PATHS_DATA: /var/lib/grafana
+      GF_PATHS_HOME: /usr/share/grafana
+      GF_PATHS_LOGS: /var/log/grafana
+      GF_PATHS_PLUGINS: /var/lib/grafana/plugins
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+    env_file: ./grafana/env.${ENV_FILE_EXT}
+    configs:
+      - source: grafana_config
+        target: /etc/grafana/grafana.ini
+      - source: grafana_provisioning_dashboard_config
+        target: /etc/grafana/provisioning/dashboards/dashboards.yml
+      - source: grafana_provisioning_dashboard_container
+        target: /etc/grafana/provisioning/dashboards/default/container.json
+      - source: grafana_provisioning_dashboard_cpu
+        target: /etc/grafana/provisioning/dashboards/default/cpu.json
+      - source: grafana_provisioning_dashboard_memory
+        target: /etc/grafana/provisioning/dashboards/default/memory.json
+      - source: grafana_provisioning_dashboard_host
+        target: /etc/grafana/provisioning/dashboards/default/host.json
+      - source: grafana_provisioning_dashboard_java_spring
+        target: /etc/grafana/provisioning/dashboards/default/java_spring.json
+      - source: grafana_provisioning_dashboard_java_non_spring
+        target: /etc/grafana/provisioning/dashboards/default/java.json
+      - source: grafana_provisioning_dashboard_home
+        target: /usr/share/grafana/public/dashboards/home.json
+      - source: grafana_provisioning_datasource_config
+        target: /etc/grafana/provisioning/datasources/datasources.yml
+      - source: grafana_cert
+        target: /etc/grafana/cert/pyoseyeol_co_kr.crt
+      - source: grafana_cert_key
+        target: /etc/grafana/cert/pyoseyeol_co_kr.key
+    volumes:
+      - grafana:/var/lib/grafana
+
   consul:
     image: consul:1.12.2
     environment:
@@ -539,8 +545,8 @@ services:
       resources:
         limits:
           cpus: ${CASSANDRA_RESOURCES_LIMITS_CPUS}
-          # replace with cassandra JVM option
-          #memory: ${CASSANDRA_RESOURCES_LIMITS_MEMORY}
+          # Consider with Cassandra JVM Heap size(cassandra/jvm-server.options)
+          memory: ${CASSANDRA_RESOURCES_LIMITS_MEMORY}
       restart_policy:
         condition: any
         delay: 30s
@@ -555,6 +561,18 @@ services:
       - source: cassandra_init_shell
         target: /cassandra-init.sh
         mode: 0555
+        uid: '999'
+        gid: '999'
+      - source: cassandra_jvm_option
+        target: /etc/cassandra/jvm-server.options
+        mode: 0666
+        uid: '999'
+        gid: '999'
+      - source: cassandra_logback_config
+        target: /etc/cassandra/logback.xml
+        mode: 0666
+        uid: '999'
+        gid: '999'
     volumes:
       - cassandra:/var/lib/cassandra
     entrypoint: ["./cassandra-init.sh"]
@@ -577,6 +595,10 @@ configs:
   # cassandra
   cassandra_init_shell:
     file: ./cassandra/init.sh
+  cassandra_jvm_option:
+    file: ./cassandra/jvm-server.options
+  cassandra_logback_config:
+    file: ./cassandra/logback.xml
     
   # consul
   consul_sd_application_http:
@@ -593,6 +615,8 @@ configs:
   # prometheus
   prometheus_config:
     file: ./prometheus/prometheus.yml
+  prometheus_rule_basic_config:
+    file: ./prometheus/rule_files/recording/basic_rules.yml
     
   # grafana
   grafana_config:

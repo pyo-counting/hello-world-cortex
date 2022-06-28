@@ -1,0 +1,24 @@
+groups:
+  - name: node_exporter
+    rules:
+      - record: node:cpu_none_guest_usage:ratio40s
+        expr: sum by(hostname, instance, job, mode) (rate(node_cpu_seconds_total[40s]))/ ignoring(mode) group_left() (sum by(hostname, instance, job) (rate(node_cpu_seconds_total[40s])) + sum by(hostname, instance, job) (rate(node_cpu_guest_seconds_total[40s])))
+    # metrics list that contain CPU core label
+    # node_cpu_frequency_max_hertz
+    # node_cpu_frequency_min_hertz
+    # node_cpu_guest_seconds_total
+    # node_cpu_scaling_frequency_hertz
+    # node_cpu_scaling_frequency_max_hertz
+    # node_cpu_scaling_frequency_min_hertz
+    # node_cpu_seconds_total
+    # node_schedstat_running_seconds_total
+    # node_schedstat_timeslices_total
+    # node_schedstat_waiting_seconds_total
+    # node_softnet_dropped_total
+    # node_softnet_processed_total
+    # node_softnet_times_squeezed_total
+        
+  - name: casvisor
+    rules:
+      - record: container:cpu_seconds_total:avg
+        expr: avg by (hostname, name, instance, job) (container_cpu_usage_seconds_total)

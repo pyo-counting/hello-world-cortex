@@ -1,0 +1,44 @@
+{
+  "services": [
+	{
+      "name": "node-exporter",
+      "id": "txstgfin/node-exporter",
+      "address": "192.168.136.10",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "txstgfin"
+	  }
+    },
+	{
+      "name": "node-exporter",
+      "id": "webstgfin/node-exporter",
+      "address": "192.168.136.20",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "webstgfin"
+	  }
+    },
+	{
+      "name": "node-exporter",
+      "id": "fs-testbed-60/node-exporter",
+      "address": "192.168.136.60",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "fs-testbed-60"
+	  }
+    },
+    {
+      "name": "node-exporter",
+      "id": "fs-store-repo/node-exporter",
+      "address": "192.168.136.61",
+	  "port": 9100,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "fs-store-repo"
+	  }
+    }
+  ]
+}

@@ -101,7 +101,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "count(node_cpu_seconds_total{mode=\"idle\", hostname=\"$hostname\"})",
+          "expr": "machine_cpu_cores{hostname=\"$hostname\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "total",
@@ -391,14 +391,14 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "sum by (mode) (rate(node_cpu_seconds_total{hostname=\"$hostname\"}[$__rate_interval])) /\nscalar(sum(rate(node_cpu_seconds_total{hostname=\"$hostname\"}[$__rate_interval])) + sum(rate(node_cpu_guest_seconds_total{hostname=\"$hostname\"}[$__rate_interval])))",
+          "expr": "node:cpu_none_guest_usage:ratio40s{hostname=\"$hostname\"}",
           "interval": "",
           "legendFormat": "{{mode}}",
           "refId": "A"
         },
         {
           "exemplar": false,
-          "expr": "sum by (mode) (rate(node_cpu_guest_seconds_total{hostname=\"$hostname\"}[$__rate_interval])) /\nscalar(sum(rate(node_cpu_seconds_total{hostname=\"$hostname\"}[$__rate_interval])) + sum(rate(node_cpu_guest_seconds_total{hostname=\"$hostname\"}[$__rate_interval])))",
+          "expr": "1 - sum(node:cpu_none_guest_usage:ratio40s{hostname=\"$hostname\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "{{mode}}(guest)",

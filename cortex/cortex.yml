@@ -369,7 +369,7 @@ querier:
   
   # The timeout for a query.
   # CLI flag: -querier.timeout
-  timeout: 1m
+  timeout: 30s
   
   # Use iterators to execute query, as opposed to fully materialising the series
   # in memory.
@@ -858,7 +858,7 @@ storage:
     
     # Number of retries to perform on a request. Set to 0 to disable retries.
     # CLI flag: -cassandra.max-retries
-    max_retries: 10
+    max_retries: 3
     
     # Maximum time to wait before retrying a failed request.
     # CLI flag: -cassandra.retry-max-backoff
@@ -875,7 +875,7 @@ storage:
     
     # Number of TCP connections per host.
     # CLI flag: -cassandra.num-connections
-    num_connections: 2
+    num_connections: 5
     
     # Convict hosts of being down on failure.
     # CLI flag: -cassandra.convict-hosts-on-failure
@@ -1435,7 +1435,7 @@ frontend:
   # Log queries that are slower than the specified duration. Set to 0 to disable.
   # Set to < 0 to enable on all queries.
   # CLI flag: -frontend.log-queries-longer-than
-  log_queries_longer_than: 1m
+  log_queries_longer_than: 3s
   
   # Max body size for downstream prometheus.
   # CLI flag: -frontend.max-body-size
@@ -1561,7 +1561,7 @@ query_range:
   
   # Mutate incoming queries to align their start and end with their step.
   # CLI flag: -querier.align-querier-with-step
-  align_queries_with_step: false
+  align_queries_with_step: true
   
   results_cache:
     cache:

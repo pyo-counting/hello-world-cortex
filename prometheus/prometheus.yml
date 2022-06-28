@@ -4,12 +4,12 @@ global:
   external_labels:
     cluster: ${cluster}
     __replica__: ${HOSTNAME}
-#  evaluation_interval: 5s
+  evaluation_interval: 10s
 #  query_log_file: /prometheus/query.log
 
-#rule_files:
+rule_files:
 #  - rule_files/alerting/*.yml
-#  - rule_files/recording/*.yml
+  - rule_files/recording/*.yml
 
 scrape_configs:
   # prometheus

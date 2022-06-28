@@ -1,0 +1,26 @@
+{
+  "services": [
+	{
+      "name": "application_http",
+      "id": "txstgfin/vgw",
+      "address": "192.168.136.10",
+	  "port": 9404,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "txstgfin",
+		"application": "vgw"
+	  }
+    },
+	{
+      "name": "application_http",
+      "id": "txstgfin/cca",
+      "address": "192.168.136.10",
+	  "port": 9405,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "txstgfin",
+		"application": "cca"
+	  }
+    }
+  ]
+}

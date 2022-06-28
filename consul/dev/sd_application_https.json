@@ -1,0 +1,15 @@
+{
+  "services": [
+	{
+      "name": "application_https",
+      "id": "txstgfin/obp",
+      "address": "192.168.136.10",
+	  "port": 18443,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "txstgfin",
+		"application": "obp"
+	  }
+    }
+  ]
+}

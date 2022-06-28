@@ -1,0 +1,44 @@
+{
+  "services": [
+	{
+      "name": "cadvisor",
+      "id": "txstgfin/cadvisor",
+      "address": "192.168.136.10",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "txstgfin"
+	  }
+    },
+	{
+      "name": "cadvisor",
+      "id": "webstgfin/cadvisor",
+      "address": "192.168.136.20",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "webstgfin"
+	  }
+    },
+	{
+      "name": "cadvisor",
+      "id": "fs-testbed-60/cadvisor",
+      "address": "192.168.136.60",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "fs-testbed-60"
+	  }
+    },
+    {
+      "name": "cadvisor",
+      "id": "fs-store-repo/cadvisor",
+      "address": "192.168.136.61",
+	  "port": 9338,
+	  "tags": ["prometheus"],
+      "meta": {
+	    "hostname": "fs-store-repo"
+	  }
+    }
+  ]
+}

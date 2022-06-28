@@ -44,14 +44,16 @@ Prometheus와 관련된 기초는 [hello-world-prometheus](https://github.com/py
 정상 설치 및 실행하기 위해 사용자 환경에 따라 기본적으로 변경되어야 하는 설정은 다음과 같다.
 - docker-stack.yml
   - 각 service는 배포에 대한 제한이 있다(cortex_stack.\*.deployable label이 true인 node에만 배포된다. node.labels.cortex_stack.\*.deployable == true). 서비스가 배포될 노드에 label 설정이 필요하다([docker node update](https://docs.docker.com/engine/reference/commandline/node_update/)).
-- env.prd
+- env.(prd|dev)
   - docker-stack.yml 파일에서 사용되는 환경 변수 목록이다. 해당 파일에 설정된 환경 변수들은 docker swarm 환경에서 각 Loki 구성 요소에 대한 service 배포 시 실행된 replica 개수(LOKI_*_REPLICAS), container의 컴퓨팅 리소스 제한(\*\_RESOURCES_LIMITS\_\*) 등과 관련됐다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
-- grafana/env.prd
+- grafana/env.(prd|dev)
   - grafana/grafana.ini, grafana/provisioning/datasources/* 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
 - grafana/cert/*
   - 인증서, 인증서 key 저장 디렉토리다. 실행 환경에 맞게 인증서 파일을 관리하면 된다.
-- prometheus/env.prd
+- prometheus/env.(prd|dev)
   - prometheus/prometheus.yml 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
+- cortex/env.(prd|dev)
+  - cortex/cortex.yml 파일에서 사용되는 환경 변수 목록이다. 실행 환경에 맞게 환경 변수 값 설정이 필요하다.
 
 ## 3. Installation
 Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker swarm 환경에서 배포한다.
@@ -87,7 +89,7 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
    ```
 3. docker service 배포 및 확인
    ```bash
-   ./run.sh prod
+   ./run.sh prd
    docker stack ps monitoring_stack
    ```
 3. docker service down
@@ -114,4 +116,4 @@ Cortex는 여러 클러스터링 환경에서 운영되며, 이를 위해 Docker
 - [hello-world-prometheus](https://github.com/pyo-counting/hello-world-prometheus) 프로젝트의 Alertmanager는 Grafana의 알람 기능으로 대체할 예정이다.
 
 ## 6. Deprecated
-- Prometheus의 file service discovery를 위한 ./prometheus/sd_configs 디렉토리 내 파일이 존재하지만 사용하지 않는다.
+- Prometheus의 file service discovery를 위한 ./prometheus/sd_configs 디렉토리 내 파일이 존재하지만 사용하지 않는다(consul sd 대체).

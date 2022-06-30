@@ -1013,7 +1013,7 @@
       {
         "allValue": "",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "0"
           ],
@@ -1040,12 +1040,8 @@
       {
         "current": {
           "selected": true,
-          "text": [
-            ""
-          ],
-          "value": [
-            ""
-          ]
+          "text": [],
+          "value": []
         },
         "definition": "label_values(container_cpu_load_average_10s{hostname=\"$hostname\"}, name)",
         "description": "container name",

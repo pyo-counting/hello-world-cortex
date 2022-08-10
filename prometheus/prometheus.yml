@@ -129,10 +129,12 @@ scrape_configs:
         
   # https application
   - job_name: application_https
+    scheme: https
+    metrics_path: /actuator/prometheus
+    tls_config:
+      insecure_skip_verify: true
     consul_sd_configs:
       - server: "cortex_stack_consul:8500"
-        tls_config:
-          insecure_skip_verify: true
         services: [application_https]
         refresh_interval: 5m
         follow_redirects: true
